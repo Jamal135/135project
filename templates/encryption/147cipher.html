@@ -1,0 +1,154 @@
+{% extends "layout.html" %} {% block content %}
+<div class="row">
+    <div class="page-header center-content col-md-12 col-lg-6">
+        <h4 class="no-margin">147Cipher: Symmetric Encryption</h4>
+    </div>
+    <div class="col"></div>
+    <div class="btn-group col-md-12 col-lg-3">
+        <a class="btn btn-outline-primary" href="/encryption/147cipher/about">About
+        </a>
+        <a class="btn btn-outline-primary"
+            href="https://github.com/Jamal135/135Project/blob/main/functions/encryption/_147cipher_.py"
+            target="_blank">Source</a>
+    </div>
+</div>
+<br />
+<form method="POST">
+    {{ form.csrf_token }}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <label for="key">Input Key</label>
+                    {% if form == "submitted" %}
+                    <input type="text" class="form-control" name="key" value='{{ data["key"] }}' />
+                    {% else %}
+                    <input type="text" class="form-control" name="key" placeholder="Key Input" />
+                    {% endif %}
+                    {% if (form == "failed") and ('key' in errors) %}
+                    <small id="keyhelp" class="text-danger form-text">{{errors['key']}}</small>
+                    {% else %}
+                    <small id="keyhelp" class="form-text text-muted">Password for encryption and decryption.</small>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <label for="encoding">Encoding</label>
+                    <select class="selectpicker form-control" id="encoding" name="encoding">
+                        {% if (form == "submitted") and (data["encoding"] == "base85") %}
+                        <option value="base85" selected>Base85</option>
+                        {% else %}
+                        <option value="base85">Base85</option>
+                        {% endif %}
+                        {% if ((form == "submitted") and (data["encoding"] == "base64")) or (form == None)%}
+                        <option value="base64" selected>Base64</option>
+                        {% else %}
+                        <option value="base64">Base64</option>
+                        {% endif %}
+                        {% if (form == "submitted") and (data["encoding"] == "base32") %}
+                        <option value="base32" selected>Base32</option>
+                        {% else %}
+                        <option value="base32">Base32</option>
+                        {% endif %}
+                        {% if (form == "submitted") and (data["encoding"] == "base16") %}
+                        <option value="base16" selected>Base16</option>
+                        {% else %}
+                        <option value="base16">Base16</option>
+                        {% endif %}
+                    </select>
+                    {% if (form == "failed") and ('encoding' in errors) %}
+                    <small id="encodinghelp" class="text-danger form-text">{{errors['encoding']}}</small>
+                    {% else %}
+                    <small id="encodinghelp" class="form-text text-muted">Character Set.</small>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <label for="nounce">Nonce</label>
+                    <select class="selectpicker form-control" id="nonce" name="nonce">
+                        {% if (form == "submitted") and (data["nonce"] == "hybrid") %}
+                        <option value="hybrid" selected>Hybrid</option>
+                        {% else %}
+                        <option value="hybrid">Hybrid</option>
+                        {% endif %}
+                        {% if (form == "submitted") and (data["nonce"] == "random") %}
+                        <option value="random" selected>Random</option>
+                        {% else %}
+                        <option value="random">Random</option>
+                        {% endif %}
+                        {% if (form == "submitted") and (data["nonce"] == "time") %}
+                        <option value="time" selected>Time</option>
+                        {% else %}
+                        <option value="time">Time</option>
+                        {% endif %}
+                    </select>
+                    {% if (form == "failed") and ('nonce' in errors) %}
+                    <small id="noncehelp" class="text-danger form-text">{{errors['nonce']}}</small>
+                    {% else %}
+                    <small id="noncehelp" class="form-text text-muted">Creation method.</small>
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="inputtext">Input Text</label>
+                {% if form == "submitted" %}
+                <textarea class="form-control" id="inputtext" name="text" rows="6">{{data["text"]}}</textarea>
+                {% else %}
+                <textarea class="form-control" id="inputtext" name="text" rows="6"></textarea>
+                {% endif %}
+                <div class="row">
+                    {% if (form == "failed") and ('text' in errors) %}
+                    <small class="text-danger col-md-6 col-lg-6 form-text">{{errors['text']}}</small>
+                    {% else %}
+                    <small class="col-md-6 col-lg-6 form-text text-muted">The input text to be encrypted or
+                        decrypted.</small>
+                    {% endif %}
+                    <div class="col"></div>
+                    <div class="col-md-3 col-lg-3">
+                        <button class="float-right btn btn-light" type="button" value="Clear"
+                            onclick="javascript:eraseInputText(); this.blur();"><i class="bi bi-eraser"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" name="encrypt" class="btn-margin btn btn-primary" value="encrypt" />
+                    <input type="submit" name="decrypt" class="btn btn-primary" value="decrypt" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    {% if form == "submitted" %}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="outputtext">Output Text</label>
+                    {% if data["result"] == "Process Execution Failed" %}
+                    <textarea class="text-danger form-control" id="outputtext" name="result" rows="6"
+                        readonly>{{data["result"]}}</textarea>
+                    {% else %}
+                    <textarea class="form-control" id="outputtext" name="result" rows="6"
+                        readonly>{{data["result"]}}</textarea>
+                    {% endif %}
+                    <div class="row">
+                        <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output
+                            text.</small>
+                        <div class="col"></div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="float-right btn btn-light" type="button"
+                                onclick="javascript:copyToClipboard(); this.blur();"><i
+                                    class="bi bi-clipboard"></i></button>
+                            <button class="float-right btn btn-light" type="button" value="Clear"
+                                onclick="javascript:moveToInput(); this.blur();"><i
+                                    class="bi bi-box-arrow-up"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
+{% endblock content %}

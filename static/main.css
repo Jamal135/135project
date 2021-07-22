@@ -1,0 +1,173 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #fafafa;
+  color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+a {
+  color: #fa4664;
+}
+
+footer a {
+  color: #cbd5db
+}
+
+a:hover, a:focus, a:active {
+  color: #fa4664
+}
+
+footer {
+  background: #555555;
+  color: #ffffff;
+}
+
+.footer-copyright {
+  background: #444444;
+}
+
+.float-right {
+  float: right;
+}
+
+.text-danger {
+  color: red;
+} 
+
+@media (max-width: 991px) {
+  .page-header {
+    margin-bottom: 12px;
+  }
+}
+
+#outputtext, #inputtext {
+  text-align: justify;
+  text-justify: inter-word;
+  justify-content: space-evenly;
+}
+
+.form-control:focus {
+  border-color: #fa4664;
+  box-shadow: none;
+}
+
+.footer-links {
+  display: flex;
+  padding: 8px 0;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.content {
+  flex-grow: 1;
+  margin-top: 5rem;
+}
+
+.center-content {
+  align-self: center;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.btn-margin {
+  margin-right: 4px;
+}
+
+.nav-main-colour {
+  background-color: #585858;
+}
+
+.nav-second-colour {
+  background-color: #2e2e2e;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.navbar-nav>li {
+  float: left;
+  position: relative;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-light .navbar-nav .nav-item {
+  margin: 8px 0;
+}
+
+.bootstrap-select .btn:focus {
+  outline: none !important;
+}
+
+.navbar-light .navbar-nav .active {
+  border-top: 5px solid #fa4664;
+}
+
+.navbar-light .navbar-nav .active>a {
+  margin-top: 3px;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #ffffff;
+  background-color: #bd344b;
+}
+
+.show>.dropdown-menu {
+  max-height: 300px;
+  visibility: visible;
+}
+
+.nav-animation {
+  display: block;
+  max-height: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background-color: #fa4664;
+  border-color: #fa4664;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+  background-color: #bd344b !important;
+  border-color: #bd344b !important;
+}
+
+.btn-outline-primary {
+  border-color: #fa4664;
+  color: #fa4664;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:focus {
+  background-color: #bd344b !important;
+  border-color: #bd344b !important;
+  color: #cbd5db !important
+}

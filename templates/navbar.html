@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-md navbar-light navbar-dark nav-main-colour fixed-top">
+    <div class="container">
+        <a class="navbar-brand mr-6" href="/">135Project</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+            aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-tabs navbar-nav mr-auto" id="state">
+                {% if (request.endpoint=="home") or (request.endpoint=="disclaimer") or (request.endpoint=="privacy") %}
+                <li class="active">
+                    {% else %}
+                <li>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="/">Home</a>
+                </li>
+                {% if request.endpoint=="about" %}
+                <li class="active">
+                    {% else %}
+                <li>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="/about">About</a>
+                </li>
+                {% if "/encryption" in request.url %}
+                <li class="active dropdown">
+                    {% else %}
+                <li class="dropdown">
+                    {% endif %}
+                    <a class="nav-item nav-link dropdown-toggle" type="button" id="dropdown-encryption"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Encryption
+                    </a>
+                    <div class="dropdown-menu nav-animation" aria-labelledby="dropdown-encryption">
+                        <a class="dropdown-item" href="/encryption/viewall">View All</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/encryption/135cipher">135Cipher</a>
+                        <a class="dropdown-item" href="/encryption/147cipher">147Cipher</a>
+                    </div>
+                </li>
+                {% if "/steganography" in request.url %}
+                <li class="active dropdown">
+                    {% else %}
+                <li class="dropdown">
+                    {% endif %}
+                    <a class="nav-item nav-link dropdown-toggle" type="button" id="dropdown-steganography"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Steganography
+                    </a>
+                    <div class="dropdown-menu nav-animation" aria-labelledby="dropdown-steganography">
+                        <a class="dropdown-item" href="/steganography/viewall">View All</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/steganography/122Picture">122Picture</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
