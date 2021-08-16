@@ -5,7 +5,7 @@
 
 # Imported Tools.
 from os import path
-from PIL import Image
+from PIL import Image, ImageColor
 from pixelmatch.contrib.PIL import pixelmatch
 
 LOCATION = path.dirname(path.abspath(__file__)) + "\\temp_files\\%s"
@@ -16,17 +16,19 @@ def load_image(image_name):
     image_location = LOCATION % (image_name)
     try:
         image = Image.open(image_location)
+        return image
     except:
         raise ValueError("Image Read Failed")
-    return image
 
 # Function: image_compare
-def image_compare(image_name_1, image_name_2):
+def image_compare(image_name_1, image_name_2, alpha:int = 0.1, colour: str = "#FF0000"):
     ''' Returns: Image showing difference between images. '''
     image_1 = load_image(image_name_1)
     image_2 = load_image(image_name_2)
+    rgb_colour = ImageColor.getcolor(colour, "RGB")
     image_difference = Image.new("RGBA", image_1.size)
-    image_result = pixelmatch(image_1, image_2, image_difference, threshold=0.001, includeAA=True)
+    _ = pixelmatch(image_1, image_2, image_difference,
+                   threshold=0.001, includeAA=True, alpha=alpha, diff_color=rgb_colour)
     image_difference.save(LOCATION % "difference.png")
 
-image_compare("1.png","2.png")
+image_compare("1.png", "2.png", 0, "#FF0000")
