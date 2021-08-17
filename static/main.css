@@ -159,11 +159,15 @@ footer {
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
   background-color: #bd344b !important;
   border-color: #bd344b !important;
+  outline: #fa4664 !important;
+  box-shadow: none !important
 }
 
 .btn-outline-primary {
   border-color: #fa4664;
   color: #fa4664;
+  outline: #fa4664 !important;
+  box-shadow: none !important
 }
 
 .btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:focus {
