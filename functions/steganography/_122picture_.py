@@ -36,6 +36,24 @@ def gen_key(input_key, image, width, height, key_pixels):
     key = initial_key
     return key, data_positions
 
+# Function: gen_numbers
+def gen_numbers(key, min_value, max_value, number_values: int = 1):
+    """ Returns: Variable Length List of Random Numbers in Defined Range. """
+    seed(key)
+    if number_values == 1:
+        return randint(min_value, max_value)
+    else:
+        return [randint(min_value, max_value) for _ in range(number_values)]
+
+# Function: gen_colours
+def gen_colours(key, positions, colour_selection):
+    ''' Returns: Correct list of RGB positions based on argument. '''
+    if colour_selection == "random":
+        return gen_numbers(key, 0, 2, len(positions))
+    else:
+        colours = {"red": 0,"green": 1,"blue": 2,}
+        return [colours[colour_selection]] * len(positions)
+
 # Function: image_coordinates
 def image_coordinates(key, coordinates, height = None, width = None ):
     ''' Returns: Shuffled list of image coordinate tuples. '''
@@ -103,15 +121,6 @@ def end_point(positions, total_length, width_length, height_length):
     height_key = integer_conversion(
         end_position[1], "binary").zfill(height_length)
     return width_key, height_key
-
-# Function: gen_numbers
-def gen_numbers(key, min_value, max_value, number_values: int = 1):
-    """ Returns: Variable Length List of Random Numbers in Defined Range. """
-    seed(key)
-    if number_values == 1:
-        return randint(min_value, max_value)
-    else:
-        return [randint(min_value, max_value) for _ in range(number_values)]
 
 # Function: message_generator
 def message_generator(key, data, width, height, positions, noise, key_pixels):
@@ -200,16 +209,16 @@ def data_extract(image, positions, rgb_order, end_position, key_length, index):
 
 # Function: API_image_append
 # key: Shuffles Order of Image Locations.
-def API_image_append(image_name, indata, input_key: int = 999, index:int = 7, noise: bool = False, key_pixels:int = 9):
+def API_image_append(image_name, input_data, colour_selection: str = "random", input_key: int = 999, index: int = 7, noise: bool = False, key_pixels: int = 9):
     ''' Returns: Data Appended to Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
     # Create a unique key and position set from image and input key.
     key, positions = gen_key(input_key, image, width, height, key_pixels)
     # Generate list of which RGB value to modify at each pixel.
-    rgb_order = gen_numbers(key, 0, 2, len(positions))
+    rgb_order = gen_colours(key, positions, colour_selection)
     # Generate the binary data to attach to the provided image.
-    binary_indata = binary_conversion(indata, "binary")
+    binary_indata = binary_conversion(input_data, "binary")
     # Compile the complete message to be attached to the image.
     image_message, length, usage = message_generator(
         key, binary_indata, width, height, positions, noise, key_pixels)
@@ -226,14 +235,14 @@ def API_image_append(image_name, indata, input_key: int = 999, index:int = 7, no
     return usage, key_effectiveness
 
 # Function: API_image_extract
-def API_image_extract(image_name, input_key: int = 999, index:int = 7, key_pixels:int = 9):
+def API_image_extract(image_name, colour_selection: str = "random", input_key: int = 999, index:int = 7, key_pixels: int = 9):
     ''' Returns: Data Extracted from Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
     # Create a unique key from image and input key.
     key, positions = gen_key(input_key, image, width, height, key_pixels)
     # Generate list of which RGB value to modify at each pixel.
-    rgb_order = gen_numbers(key, 0, 2, len(positions))
+    rgb_order = gen_colours(key, positions, colour_selection)
     # Calculate end point key from image size.
     width_length, height_length = length_calculator(width, height, None)
     # Decipher end point from image data.
@@ -248,5 +257,6 @@ def API_image_extract(image_name, input_key: int = 999, index:int = 7, key_pixel
 data = "Please work for the love of god!"
 key = 9
 index = 0
-print(API_image_append("gate.png", data, key, index, True))
-print(API_image_extract("new_gate.png", key, index))
+colour = "blue"
+print(API_image_append("gate.png", data, colour, key, index, True))
+print(API_image_extract("new_gate.png", colour, key, index))
