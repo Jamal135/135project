@@ -123,7 +123,7 @@ def message_generator(key, data, width, height, positions, noise=False):
     return built_data, length, pixel_utilisation
 
 # Function: extract_values
-def extract_values(image, length, positions, rgb_order):
+def extract_values(image, length, positions, rgb_order, index):
     ''' Returns: Existing Binary Data to be Replaced. '''
     locations = [image.getpixel(
         (positions[point][1], positions[point][0])) for point in range(length)]
@@ -131,7 +131,7 @@ def extract_values(image, length, positions, rgb_order):
                     for point in range(length)]
     binary_values = [integer_conversion(
         exact_points[point], "binary").zfill(8) for point in range(length)]
-    return "".join([binary_values[point][7] for point in range(length)])
+    return "".join([binary_values[point][index] for point in range(length)])
 
 # Function: data_comparison
 def data_comparison(current_values, new_values, length):
@@ -149,16 +149,17 @@ def data_rebuild(locations, new_values, rgb_order, length):
     return [tuple(element) for element in input_list]
 
 # Function: attach_data
-def attach_data(image, length, positions, rgb_order, image_message):
+def attach_data(image, length, positions, rgb_order, image_message, index):
     ''' Returns: New Image Data with RGB colours Correctly Modified with Data. '''
     locations = [image.getpixel(
         (positions[point][1], positions[point][0])) for point in range(length)]
     exact_points = [locations[point][rgb_order[point]]
                     for point in range(length)]
-    binary_values = [integer_conversion(
-        exact_points[point], "binary").zfill(8) for point in range(length)]
-    new_binary_values = [binary_values[point][0:7] +
-                         image_message[point] for point in range(length)]
+    binary_values = [list(integer_conversion(
+        exact_points[point], "binary").zfill(8)) for point in range(length)]
+    for point in range(length):
+        binary_values[point][index] = image_message[point]
+    new_binary_values = ["".join(binary_values[point]) for point in range(length)]
     new_values = [integer_conversion(
         new_binary_values[point], "decimal") for point in range(length)]
     new_data = data_rebuild(locations, new_values, rgb_order, length)
@@ -170,26 +171,26 @@ def attach_data(image, length, positions, rgb_order, image_message):
     return image
 
 # Function: extract_key
-def extract_key(image, positions, rgb_order, width_length, height_length):
+def extract_key(image, positions, rgb_order, width_length, height_length, index):
     ''' Returns: Extracted Data End Point. '''
     key_length = width_length + height_length
-    key_data = extract_values(image, key_length, positions, rgb_order)
+    key_data = extract_values(image, key_length, positions, rgb_order, index)
     width_key = integer_conversion(key_data[:width_length], "decimal")
     height_key = integer_conversion(key_data[width_length:], "decimal")
     end_position = (width_key, height_key)
     return end_position, key_length
 
 # Function: data_extract
-def data_extract(image, positions, rgb_order, end_position, key_length):
+def data_extract(image, positions, rgb_order, end_position, key_length, index):
     ''' Returns: Extracted binary data from provided image. '''
     modified_positions = positions[key_length:]
     modified_rgb_order = rgb_order[key_length:]
     length = positions.index(end_position) - key_length
-    return extract_values(image, length, modified_positions, modified_rgb_order)
+    return extract_values(image, length, modified_positions, modified_rgb_order, index)
 
 # Function: API_image_append
 # key: Shuffles Order of Image Locations.
-def API_image_append(image_name, indata, input_key: int = 999, noise: bool = False):
+def API_image_append(image_name, indata, input_key: int = 999, index:int = 7, noise: bool = False):
     ''' Returns: Data Appended to Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
@@ -205,19 +206,19 @@ def API_image_append(image_name, indata, input_key: int = 999, noise: bool = Fal
     image_message, length, usage = message_generator(
         key, binary_indata, width, height, positions, noise)
     # Extract the existing values from the image that will be replaced.
-    existing_values = extract_values(image, length, positions, rgb_order)
+    existing_values = extract_values(image, length, positions, rgb_order, index)
     # Compare current and new data to determine key effectiveness.
     key_effectiveness = data_comparison(existing_values, image_message, length)
     # Produce new image by replacing current data with new message data.
     result_image = attach_data(
-        image, length, positions, rgb_order, image_message)
+        image, length, positions, rgb_order, image_message, index)
     # Build new image into an output file to view.
     result_image.save(LOCATION % "new_gate.png")
     # Return useful calculated metrics.
     return usage, key_effectiveness
 
 # Function: API_image_extract
-def API_image_extract(image_name, input_key: int = 999):
+def API_image_extract(image_name, input_key: int = 999, index:int = 7):
     ''' Returns: Data Extracted from Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
@@ -231,13 +232,15 @@ def API_image_extract(image_name, input_key: int = 999):
     width_length, height_length = length_calculator(width, height, None)
     # Decipher end point from image data.
     end_position, key_length = extract_key(
-        image, positions, rgb_order, width_length, height_length)
+        image, positions, rgb_order, width_length, height_length, index)
     # Extract remaining image data from image.
     binary_data = data_extract(
-        image, positions, rgb_order, end_position, key_length)
+        image, positions, rgb_order, end_position, key_length, index)
     # Convert extracted data from binary to plaintext.
     return binary_conversion(binary_data, "decimal")
 
-x = "Please work for the love of god!"
-print(API_image_append("gate.png", x, 9, False))
-print(API_image_extract("new_gate.png", 9))
+data = "Please work for the love of god!"
+key = 9
+index = 0
+print(API_image_append("gate.png", data, key, index, True))
+print(API_image_extract("new_gate.png", key, index))
