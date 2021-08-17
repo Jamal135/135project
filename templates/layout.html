@@ -44,6 +44,7 @@
     <!-- Build Navbar > Content > Footer -->
     <header class="site-header">
         {% include 'navbar.html' %}
+        {% block header %}{% endblock %}
     </header>
     <div class="container content">
         {% block content %}{% endblock %}

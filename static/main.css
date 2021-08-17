@@ -171,3 +171,16 @@ footer {
   border-color: #bd344b !important;
   color: #cbd5db !important
 }
+
+.carousel-inner {
+  height: 400px;  /* add this */
+  max-height: 400px;
+  min-height: 400px;
+  width: 100%;
+  margin: auto
+}
+
+.full-width {
+  width: 100%;
+}
+
