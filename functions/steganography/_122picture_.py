@@ -18,7 +18,7 @@ def load_image(image_name):
     try:
         image = Image.open(image_location)
     except:
-        raise ValueError("Image Read Failed")
+        raise ValueError("Image Read Failed.")
     width, height = image.size
     return image, width, height
 
@@ -28,8 +28,11 @@ def gen_key(input_key, image, width, height, key_pixels):
     initial_key = input_key + (abs(height + width) * abs(width - height))
     full_positions = image_coordinates(initial_key, None, height, width)
     key_positions = full_positions[:(key_pixels - 1)]
-    pixel_tuples = [image.getpixel(
-        (key_positions[point][1], key_positions[point][0])) for point in range(key_pixels - 1)]
+    try:
+        pixel_tuples = [image.getpixel(
+            (key_positions[point][1], key_positions[point][0])) for point in range(key_pixels - 1)]
+    except:
+        raise ValueError ("Failed to Grab Key Pixel Values.")
     pixel_integer = sum([int(''.join(map(str, idx))) for idx in pixel_tuples])
     key = initial_key + pixel_integer
     data_positions = image_coordinates(key, full_positions[key_pixels:])
@@ -51,11 +54,11 @@ def gen_colours(key, positions, colour_selection):
     if colour_selection == "random":
         return gen_numbers(key, 0, 2, len(positions))
     else:
-        colours = {"red": 0,"green": 1,"blue": 2,}
+        colours = {"red": 0, "green": 1, "blue": 2, }
         return [colours[colour_selection]] * len(positions)
 
 # Function: image_coordinates
-def image_coordinates(key, coordinates, height = None, width = None ):
+def image_coordinates(key, coordinates, height=None, width=None):
     ''' Returns: Shuffled list of image coordinate tuples. '''
     seed(key)
     if coordinates is None:
@@ -127,7 +130,8 @@ def message_generator(key, data, width, height, positions, noise, key_pixels):
     ''' Returns: Correctly Built Binary Data to Attach to Image. '''
     total_length, width_length, height_length = length_calculator(
         width, height, data)
-    pixel_utilisation = capacity_check(total_length, len(positions) + key_pixels)
+    pixel_utilisation = capacity_check(
+        total_length, len(positions) + key_pixels)
     width_key, height_key = end_point(
         positions, total_length, width_length, height_length)
     message_data = width_key + height_key + data
@@ -178,7 +182,8 @@ def attach_data(image, length, positions, rgb_order, image_message, index):
         exact_points[point], "binary").zfill(8)) for point in range(length)]
     for point in range(length):
         binary_values[point][index] = image_message[point]
-    new_binary_values = ["".join(binary_values[point]) for point in range(length)]
+    new_binary_values = ["".join(binary_values[point])
+                         for point in range(length)]
     new_values = [integer_conversion(
         new_binary_values[point], "decimal") for point in range(length)]
     new_data = data_rebuild(locations, new_values, rgb_order, length)
@@ -223,9 +228,11 @@ def API_image_append(image_name, input_data, colour_selection: str = "random", i
     image_message, length, usage = message_generator(
         key, binary_indata, width, height, positions, noise, key_pixels)
     # Extract the existing values from the image that will be replaced.
-    existing_values = extract_values(image, length, positions, rgb_order, index)
+    existing_values = extract_values(
+        image, length, positions, rgb_order, index)
     # Compare current and new data to determine key effectiveness.
-    key_effectiveness = data_comparison(existing_values, image_message, length, key_pixels)
+    key_effectiveness = data_comparison(
+        existing_values, image_message, length, key_pixels)
     # Produce new image by replacing current data with new message data.
     result_image = attach_data(
         image, length, positions, rgb_order, image_message, index)
@@ -235,7 +242,7 @@ def API_image_append(image_name, input_data, colour_selection: str = "random", i
     return usage, key_effectiveness
 
 # Function: API_image_extract
-def API_image_extract(image_name, colour_selection: str = "random", input_key: int = 999, index:int = 7, key_pixels: int = 9):
+def API_image_extract(image_name, colour_selection: str = "random", input_key: int = 999, index: int = 7, key_pixels: int = 9):
     ''' Returns: Data Extracted from Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
