@@ -200,6 +200,7 @@ footer {
 
 .image-card {
   position: absolute;
+  opacity: .95;
   top: calc(50% - 15px);
   left: calc(50% - 185px);
   width: 24rem;
