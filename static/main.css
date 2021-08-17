@@ -172,15 +172,18 @@ footer {
   color: #cbd5db !important
 }
 
-.carousel-inner {
-  height: 400px;  /* add this */
-  max-height: 400px;
-  min-height: 400px;
+.image-container-homepage {
   width: 100%;
-  margin: auto
+  height: 400px;
+  position: relative;
+  background-image: url(images/other/home_encryption.png);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.full-width {
-  width: 100%;
+.image-card {
+  position: absolute;
+  top: calc(50% - 15px);
+  left: calc(50% - 185px);
+  width: 24rem
 }
-

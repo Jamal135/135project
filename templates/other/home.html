@@ -1,22 +1,8 @@
 {% extends "layout.html" %}
 {% block header %}
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img class="d-block w-100 img-fluid"
-                src="{{url_for('static', filename='images/other/home_encryption.png')}}" alt="First slide">
-            <div class="container">
-                <div class="carousel-caption d-flex flex-column justify-content-center h-100">
-                    <div class="row justify-content-center">
-                        <div class="card position-fixed" style="width: 26rem;">
-                            <div class="card-body text-center">
-                                <h1>Data Manipulation</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="image-container-homepage">
+    <div class="card image-card justify-content-center">
+        <h1 class="text-center">Data Manipulation</h1>
     </div>
 </div>
 {% endblock header %}
