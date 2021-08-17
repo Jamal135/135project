@@ -6,7 +6,12 @@ body {
   color: #333333;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #444444;
 }
 
@@ -15,11 +20,13 @@ a {
 }
 
 footer a {
-  color: #cbd5db
+  color: #cbd5db;
 }
 
-a:hover, a:focus, a:active {
-  color: #fa4664
+a:hover,
+a:focus,
+a:active {
+  color: #fa4664;
 }
 
 footer {
@@ -37,7 +44,7 @@ footer {
 
 .text-danger {
   color: red;
-} 
+}
 
 @media (max-width: 991px) {
   .page-header {
@@ -45,7 +52,8 @@ footer {
   }
 }
 
-#outputtext, #inputtext {
+#outputtext,
+#inputtext {
   text-align: justify;
   text-justify: inter-word;
   justify-content: space-evenly;
@@ -108,7 +116,7 @@ footer {
   margin-bottom: 20px;
 }
 
-.navbar-nav>li {
+.navbar-nav > li {
   float: left;
   position: relative;
 }
@@ -129,16 +137,17 @@ footer {
   border-top: 5px solid #fa4664;
 }
 
-.navbar-light .navbar-nav .active>a {
+.navbar-light .navbar-nav .active > a {
   margin-top: 3px;
 }
 
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active,
+.dropdown-item:active {
   color: #ffffff;
   background-color: #bd344b;
 }
 
-.show>.dropdown-menu {
+.show > .dropdown-menu {
   max-height: 300px;
   visibility: visible;
 }
@@ -154,26 +163,30 @@ footer {
 .btn-primary {
   background-color: #fa4664;
   border-color: #fa4664;
+  outline: #fa4664 !important;
+  box-shadow: none !important;
 }
 
-.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
   background-color: #bd344b !important;
   border-color: #bd344b !important;
-  outline: #fa4664 !important;
-  box-shadow: none !important
 }
 
 .btn-outline-primary {
   border-color: #fa4664;
   color: #fa4664;
   outline: #fa4664 !important;
-  box-shadow: none !important
+  box-shadow: none !important;
 }
 
-.btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:focus {
+.btn-outline-primary:hover,
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
   background-color: #bd344b !important;
   border-color: #bd344b !important;
-  color: #cbd5db !important
+  color: #cbd5db !important;
 }
 
 .image-container-homepage {
@@ -189,5 +202,5 @@ footer {
   position: absolute;
   top: calc(50% - 15px);
   left: calc(50% - 185px);
-  width: 24rem
+  width: 24rem;
 }
