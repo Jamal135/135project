@@ -23,15 +23,25 @@ def load_image(image_name):
     return image, width, height
 
 # Function: gen_key
-def gen_key(key, image, width, height):
-    return key + (height * width)
+def gen_key(input_key, image, width, height, key_pixels):
+    ''' Returns: Unique key from image and input key, and shuffled position lists. '''
+    initial_key = input_key + (abs(height + width) * abs(width - height))
+    full_positions = image_coordinates(initial_key, None, height, width)
+    key_positions = full_positions[:(key_pixels - 1)]
+    pixel_tuples = [image.getpixel(
+        (key_positions[point][1], key_positions[point][0])) for point in range(key_pixels - 1)]
+    pixel_integer = sum([int(''.join(map(str, idx))) for idx in pixel_tuples])
+    key = initial_key + pixel_integer
+    data_positions = image_coordinates(key, full_positions[key_pixels:])
+    key = initial_key
+    return key, data_positions
 
 # Function: image_coordinates
-# Note: key must be remembered unless default is used.
-def image_coordinates(height, width, key):
+def image_coordinates(key, coordinates, height = None, width = None ):
     ''' Returns: Shuffled list of image coordinate tuples. '''
     seed(key)
-    coordinates = [*product(range(height), range(width))]
+    if coordinates is None:
+        coordinates = [*product(range(height), range(width))]
     return sample(coordinates, len(coordinates))
 
 # Function: binary_conversion
@@ -104,16 +114,16 @@ def gen_numbers(key, min_value, max_value, number_values: int = 1):
         return [randint(min_value, max_value) for _ in range(number_values)]
 
 # Function: message_generator
-def message_generator(key, data, width, height, positions, noise=False):
+def message_generator(key, data, width, height, positions, noise, key_pixels):
     ''' Returns: Correctly Built Binary Data to Attach to Image. '''
     total_length, width_length, height_length = length_calculator(
         width, height, data)
-    pixel_utilisation = capacity_check(total_length, len(positions))
+    pixel_utilisation = capacity_check(total_length, len(positions) + key_pixels)
     width_key, height_key = end_point(
         positions, total_length, width_length, height_length)
     message_data = width_key + height_key + data
     if noise:
-        remaining_space = (width * height) - len(message_data)
+        remaining_space = ((width * height) - 9) - len(message_data)
         noise_list = gen_numbers(key, 0, 1, remaining_space)
         noise_string = "".join(map(str, noise_list))
         built_data = message_data + noise_string
@@ -134,11 +144,11 @@ def extract_values(image, length, positions, rgb_order, index):
     return "".join([binary_values[point][index] for point in range(length)])
 
 # Function: data_comparison
-def data_comparison(current_values, new_values, length):
+def data_comparison(current_values, new_values, length, key_pixels):
     ''' Returns: Percentage Measure of how close two Binary Strings Match. '''
     matches = sum([1 for point in range(length)
                   if current_values[point] == new_values[point]])
-    return round((100/length) * matches, 2)
+    return round((100/length) * (matches + key_pixels), 2)
 
 # Function: data_rebuild
 def data_rebuild(locations, new_values, rgb_order, length):
@@ -190,25 +200,23 @@ def data_extract(image, positions, rgb_order, end_position, key_length, index):
 
 # Function: API_image_append
 # key: Shuffles Order of Image Locations.
-def API_image_append(image_name, indata, input_key: int = 999, index:int = 7, noise: bool = False):
+def API_image_append(image_name, indata, input_key: int = 999, index:int = 7, noise: bool = False, key_pixels:int = 9):
     ''' Returns: Data Appended to Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
-    # Create a unique key from image and input key.
-    key = gen_key(input_key, image, width, height)
-    # Generate list of image coordinates for data ordering.
-    positions = image_coordinates(height, width, key)
+    # Create a unique key and position set from image and input key.
+    key, positions = gen_key(input_key, image, width, height, key_pixels)
     # Generate list of which RGB value to modify at each pixel.
     rgb_order = gen_numbers(key, 0, 2, len(positions))
     # Generate the binary data to attach to the provided image.
     binary_indata = binary_conversion(indata, "binary")
     # Compile the complete message to be attached to the image.
     image_message, length, usage = message_generator(
-        key, binary_indata, width, height, positions, noise)
+        key, binary_indata, width, height, positions, noise, key_pixels)
     # Extract the existing values from the image that will be replaced.
     existing_values = extract_values(image, length, positions, rgb_order, index)
     # Compare current and new data to determine key effectiveness.
-    key_effectiveness = data_comparison(existing_values, image_message, length)
+    key_effectiveness = data_comparison(existing_values, image_message, length, key_pixels)
     # Produce new image by replacing current data with new message data.
     result_image = attach_data(
         image, length, positions, rgb_order, image_message, index)
@@ -218,14 +226,12 @@ def API_image_append(image_name, indata, input_key: int = 999, index:int = 7, no
     return usage, key_effectiveness
 
 # Function: API_image_extract
-def API_image_extract(image_name, input_key: int = 999, index:int = 7):
+def API_image_extract(image_name, input_key: int = 999, index:int = 7, key_pixels:int = 9):
     ''' Returns: Data Extracted from Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
     # Create a unique key from image and input key.
-    key = gen_key(input_key, image, width, height)
-    # Generate list of image coordinates for data ordering.
-    positions = image_coordinates(height, width, key)
+    key, positions = gen_key(input_key, image, width, height, key_pixels)
     # Generate list of which RGB value to modify at each pixel.
     rgb_order = gen_numbers(key, 0, 2, len(positions))
     # Calculate end point key from image size.
