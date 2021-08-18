@@ -123,6 +123,11 @@ def disclaimer():
 def privacy():
     return render_template('other/privacy.html', title="Privacy")
 
+# --Error handling--
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('other/home.html', title='Home'), 404
+
 # Debug mode.
 if __name__ == "__main__":
     app.run(debug=True)

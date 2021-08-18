@@ -48,7 +48,9 @@
     </header>
     <div class="container content">
         {% block content %}{% endblock %}
-        {% if self.content() %} {% include "other/soon.html" %} {% endif %}
+        {% if not self.content() | trim %} 
+        {% include "other/soon.html" %} 
+        {% endif %}
     </div>
     {% include 'footer.html' %}
 </body>
