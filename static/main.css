@@ -194,7 +194,7 @@ footer {
   width: 100%;
   height: 345px;
   position: relative;
-  background-image: url(images/other/home_encryption.png);
+  background-image: url(images/home_encryption.png);
   background-repeat: no-repeat;
   background-size: cover;
 }
