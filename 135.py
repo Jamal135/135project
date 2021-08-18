@@ -113,6 +113,22 @@ def picture122():
     return render_template('steganography/122Picture.html', title="122Picture")
 
 # --Tool pages--
+@app.route("/datatools")
+@app.route("/datatools/viewall")
+def datatools_viewall():
+    return render_template('datatools/viewall.html', title="Data Tools")
+
+@app.route("/datatools/basetool")
+def datatools_basetool():
+    return render_template('datatools/basetool.html', title="Base Tool")
+
+@app.route("/datatools/counttool")
+def datatools_counttool():
+    return render_template('datatools/counttool.html', title="Count Tool")
+
+@app.route("/datatools/imagetool")
+def datatools_imagetool():
+    return render_template('datatools/imagetool.html', title="Image Tool")
 
 # --Other pages--
 @app.route("/disclaimer")

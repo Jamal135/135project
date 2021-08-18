@@ -52,6 +52,23 @@
                         <a class="dropdown-item" href="/steganography/122Picture">122Picture</a>
                     </div>
                 </li>
+                {% if "/datatools" in request.url %}
+                <li class="active dropdown">
+                    {% else %}
+                <li class="dropdown">
+                    {% endif %}
+                    <a class="nav-item nav-link dropdown-toggle" type="button" id="dropdown-steganography"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Data Tools
+                    </a>
+                    <div class="dropdown-menu nav-animation" aria-labelledby="dropdown-steganography">
+                        <a class="dropdown-item" href="/datatools/viewall">View All</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/datatools/basetool">Base Tool</a>
+                        <a class="dropdown-item" href="/datatools/counttool">Count Tool</a>
+                        <a class="dropdown-item" href="/datatools/imagetool">Image Tool</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
