@@ -108,9 +108,16 @@ def cipher147_about():
 def steganography_viewall():
     return render_template('steganography/viewall.html', title="Steganography")
 
-@app.route("/steganography/122Picture")
+# 122Picture.
+from validation import Picture122Form
+@app.route("/steganography/122Picture", methods=['GET', 'POST'])
 def picture122():
-    return render_template('steganography/122Picture.html', title="122Picture")
+    form = Picture122Form()
+    return render_template('steganography/122Picture.html', title="122Picture", form=None)
+
+@app.route("/steganography/122picture/about")
+def Picture122_about():
+    return render_template('steganography/122picture-about.html', title="122Picture")
 
 # --Tool pages--
 @app.route("/datatools")

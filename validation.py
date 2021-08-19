@@ -25,3 +25,6 @@ class Cipher147Form(FlaskForm):
                         InputRequired()], choices=nonce_options)
     encoding = SelectField('encoding', validators=[
                            InputRequired()], choices=encoding_options)
+
+class Picture122Form(FlaskForm):
+    x = 1

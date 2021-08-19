@@ -33,7 +33,7 @@
                 </div>
                 <div class="col">
                     <label for="encoding">Encoding</label>
-                    <select class="selectpicker form-control" id="encoding" name="encoding">
+                    <select class="selectpicker border rounded form-control" id="encoding" name="encoding">
                         {% if (form == "submitted") and (data["encoding"] == "base85") %}
                         <option value="base85" selected>Base85</option>
                         {% else %}
@@ -63,7 +63,7 @@
                 </div>
                 <div class="col">
                     <label for="nounce">Nonce</label>
-                    <select class="selectpicker form-control" id="nonce" name="nonce">
+                    <select class="selectpicker border rounded form-control" id="nonce" name="nonce">
                         {% if (form == "submitted") and (data["nonce"] == "hybrid") %}
                         <option value="hybrid" selected>Hybrid</option>
                         {% else %}

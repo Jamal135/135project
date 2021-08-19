@@ -189,6 +189,21 @@ footer {
   color: #cbd5db !important;
 }
 
+.btn-outline-secondary {
+  border-color: #dfdfdf;
+  color: #6c757e;
+  outline: #dfdfdf !important;
+  box-shadow: none !important;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:active,
+.btn-outline-secondary:focus {
+  background-color: #555555 !important;
+  border-color: #555555 !important;
+  color: #cbd5db !important;
+}
+
 .image-container-homepage {
   margin-top: 55px;
   width: 100%;
@@ -215,4 +230,29 @@ footer {
 
 .card-text {
   text-align: center
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block
+}
+
+#img-upload{
+  width: 100%
 }
