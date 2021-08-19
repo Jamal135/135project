@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-md-0 col-lg"></div>
                 <div class="col-md-6 col-lg-4">
-                    <label for="position">Data Position</label>
+                    <label for="position">Data Positions</label>
                     <div class="row col">
                         <div class="btn-group btn-group-toggle" data-toggle="buttons" id="position">
                             <label class="btn btn-outline-secondary active">
@@ -65,7 +65,7 @@
                     {% if (form == "failed") and ('position' in errors) %}
                     <small id="positionhelp" class="text-danger form-text">{{errors['position']}}</small>
                     {% else %}
-                    <small id="positionhelp" class="form-text text-muted">Character Set.</small>
+                    <small id="positionhelp" class="form-text text-muted">Binary changed.</small>
                     {% endif %}
                 </div>
                 <div class="col-md col-lg-0"></div>
@@ -104,7 +104,7 @@
                     {% if (form == "failed") and ('RGB' in errors) %}
                     <small id="rgbhelp" class="text-danger form-text">{{errors['RGB']}}</small>
                     {% else %}
-                    <small id="rgbhelp" class="form-text text-muted">Data Location.</small>
+                    <small id="rgbhelp" class="form-text text-muted">Colours changed.</small>
                     {% endif %}
                 </div>
             </div>
@@ -131,8 +131,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <input type="submit" name="encrypt" class="btn-margin btn btn-primary" value="encrypt" />
-                    <input type="submit" name="decrypt" class="btn btn-primary" value="decrypt" />
+                    <input type="submit" name="process" class="btn-margin btn btn-primary" value="Process" />
                 </div>
             </div>
         </div>
