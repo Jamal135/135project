@@ -159,8 +159,8 @@ def extract_values(image, length, positions, rgb_order, index_list):
         exact_points[point], "binary").zfill(8) for point in range(length)]
     extracted_values = ""
     index_count = len(index_list)
-    for point in range(length):
-        index_values = "".join([binary_values[point][index] for index in range(index_count)])
+    for index in range(index_count):
+        index_values = "".join([binary_values[point][index] for point in range(length)])
         extracted_values = extracted_values + index_values
     return extracted_values
 
@@ -208,7 +208,6 @@ def attach_data(image, length, positions, rgb_order, image_message, index_list):
 def extract_key(image, positions, rgb_order, width_length, height_length, index_list):
     ''' Returns: Extracted Data End Point. '''
     key_length = width_length + height_length
-    key_length = 10
     key_data = extract_values(image, key_length, positions, rgb_order, index_list)
     print(f"howdy {key_data}")
     width_key = integer_conversion(key_data[:width_length], "decimal")
@@ -227,7 +226,7 @@ def data_extract(image, positions, rgb_order, end_position, key_length, index):
 
 # Function: API_image_append
 # key: Shuffles Order of Image Locations.
-def API_image_append(image_name, input_data, colour_selection: str = "random", input_key: int = 999, index: int = 7, noise: bool = False, key_pixels: int = 9):
+def API_image_append(image_name, input_data, colour_selection: str = "random", input_key: int = 999, index_list: int = 7, noise: bool = False, key_pixels: int = 9):
     ''' Returns: Data Appended to Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
@@ -242,20 +241,20 @@ def API_image_append(image_name, input_data, colour_selection: str = "random", i
         key, binary_indata, width, height, positions, noise, key_pixels)
     # Extract the existing values from the image that will be replaced.
     existing_values = extract_values(
-        image, length, positions, rgb_order, index)
+        image, length, positions, rgb_order, index_list)
     # Compare current and new data to determine key effectiveness.
     key_effectiveness = data_comparison(
         existing_values, image_message, length, key_pixels)
     # Produce new image by replacing current data with new message data.
     result_image = attach_data(
-        image, length, positions, rgb_order, image_message, index)
+        image, length, positions, rgb_order, image_message, index_list)
     # Build new image into an output file to view.
     result_image.save(LOCATION % "new_gate.png")
     # Return useful calculated metrics.
     return usage, key_effectiveness
 
 # Function: API_image_extract
-def API_image_extract(image_name, colour_selection: str = "random", input_key: int = 999, index: int = 7, key_pixels: int = 9):
+def API_image_extract(image_name, colour_selection: str = "random", input_key: int = 999, index_list: int = 7, key_pixels: int = 9):
     ''' Returns: Data Extracted from Image if Possible. '''
     # Load the appropriate image file for processing.
     image, width, height = load_image(image_name)
@@ -267,16 +266,16 @@ def API_image_extract(image_name, colour_selection: str = "random", input_key: i
     width_length, height_length = length_calculator(width, height, None)
     # Decipher end point from image data.
     end_position, key_length = extract_key(
-        image, positions, rgb_order, width_length, height_length, index)
+        image, positions, rgb_order, width_length, height_length, index_list)
     # Extract remaining image data from image.
     binary_data = data_extract(
-        image, positions, rgb_order, end_position, key_length, index)
+        image, positions, rgb_order, end_position, key_length, index_list)
     # Convert extracted data from binary to plaintext.
     return binary_conversion(binary_data, "decimal")
 
 data = "Please work for the love of god!"
 key = 9
-index = [0,1]
+index = [0,1,2,3,4,5,6,7]
 colour = "green"
 print(API_image_append("gate.png", data, colour, key, index, True))
 print(API_image_extract("new_gate.png", colour, key, index))
