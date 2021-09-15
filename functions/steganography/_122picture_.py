@@ -128,7 +128,7 @@ def end_point(positions, total_length, width_length, height_length):
     return width_key, height_key
 
 # Function: message_generator
-def message_generator(key, data, width, height, positions, noise, key_pixels):
+def message_generator(key, data, width, height, positions, noise, key_pixels, index_list):
     ''' Returns: Correctly Built Binary Data to Attach to Image. '''
     total_length, width_length, height_length = length_calculator(
         width, height, data)
@@ -138,6 +138,7 @@ def message_generator(key, data, width, height, positions, noise, key_pixels):
         positions, total_length, width_length, height_length)
     print(width_key + height_key)
     message_data = width_key + height_key + data
+    print(f"Message data: {message_data}")
     if noise:
         remaining_space = ((width * height) - 9) - len(message_data)
         noise_list = gen_numbers(key, 0, 1, remaining_space)
@@ -158,10 +159,13 @@ def extract_values(image, length, positions, rgb_order, index_list):
     binary_values = [integer_conversion(
         exact_points[point], "binary").zfill(8) for point in range(length)]
     extracted_values = ""
+    index_values = []
     index_count = len(index_list)
+    index_length = int(length/index_count)
     for index in range(index_count):
-        index_values = "".join([binary_values[point][index] for point in range(length)])
-        extracted_values = extracted_values + index_values
+        for point in range(index_length):
+            index_values.append(binary_values[point + (index_length * index)][index_list[index]])
+        extracted_values = extracted_values + "".join(index_values)
     return extracted_values
 
 # Function: data_comparison
@@ -189,9 +193,10 @@ def attach_data(image, length, positions, rgb_order, image_message, index_list):
     binary_values = [list(integer_conversion(
         exact_points[point], "binary").zfill(8)) for point in range(length)]
     index_count = len(index_list)
+    index_length = int(length/index_count)
     for index in range(index_count):
-        for point in range(length):
-            binary_values[point][index_list[index]] = image_message[point]
+        for point in range(index_length):
+            binary_values[point][index_list[index]] = image_message[point + (index_length * index)]
     new_binary_values = ["".join(binary_values[point])
                          for point in range(length)]
     new_values = [integer_conversion(
@@ -208,6 +213,7 @@ def attach_data(image, length, positions, rgb_order, image_message, index_list):
 def extract_key(image, positions, rgb_order, width_length, height_length, index_list):
     ''' Returns: Extracted Data End Point. '''
     key_length = width_length + height_length
+    print(f"Key length out {key_length}")
     key_data = extract_values(image, key_length, positions, rgb_order, index_list)
     print(f"howdy {key_data}")
     width_key = integer_conversion(key_data[:width_length], "decimal")
@@ -217,12 +223,12 @@ def extract_key(image, positions, rgb_order, width_length, height_length, index_
     return end_position, key_length
 
 # Function: data_extract
-def data_extract(image, positions, rgb_order, end_position, key_length, index):
+def data_extract(image, positions, rgb_order, end_position, key_length, index_list):
     ''' Returns: Extracted binary data from provided image. '''
     modified_positions = positions[key_length:]
     modified_rgb_order = rgb_order[key_length:]
     length = positions.index(end_position) - key_length
-    return extract_values(image, length, modified_positions, modified_rgb_order, index)
+    return extract_values(image, length, modified_positions, modified_rgb_order, index_list)
 
 # Function: API_image_append
 # key: Shuffles Order of Image Locations.
@@ -238,7 +244,7 @@ def API_image_append(image_name, input_data, colour_selection: str = "random", i
     binary_indata = binary_conversion(input_data, "binary")
     # Compile the complete message to be attached to the image.
     image_message, length, usage = message_generator(
-        key, binary_indata, width, height, positions, noise, key_pixels)
+        key, binary_indata, width, height, positions, noise, key_pixels, index_list)
     # Extract the existing values from the image that will be replaced.
     existing_values = extract_values(
         image, length, positions, rgb_order, index_list)
@@ -274,7 +280,7 @@ def API_image_extract(image_name, colour_selection: str = "random", input_key: i
     return binary_conversion(binary_data, "decimal")
 
 data = "Please work for the love of god!"
-key = 9
+key = 10
 index = [7]
 colour = "green"
 print(API_image_append("gate.png", data, colour, key, index, False))
