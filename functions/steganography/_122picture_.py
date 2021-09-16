@@ -277,7 +277,7 @@ def API_image_extract(image_name, colour_selection: str = "random", input_key: i
 
 data = "Please work for the love of god!"
 key = 10
-index = [0,1,2]
+index = [0,1]
 colour = "random"
 print(API_image_append("gate.png", data, colour, key, index, True))
 print(API_image_extract("new_gate.png", colour, key, index))
