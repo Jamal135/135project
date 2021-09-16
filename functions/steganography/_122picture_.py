@@ -96,11 +96,11 @@ def key_conversion(width, height):
     return width_length, height_length
 
 # Function: length_calculator
-def length_calculator(width, height, data):
+def length_calculator(width, height, index_length, data):
     ''' Returns: Length Calculations of Data Components. '''
     width_length, height_length = key_conversion(width, height)
     data_length = len(data)
-    total_length = width_length + height_length + data_length
+    total_length = width_length + height_length + index_length + data_length 
     return total_length, width_length, height_length
 
 # Function: capacity_check
@@ -123,17 +123,21 @@ def end_point(positions, total_length, width_length, height_length):
     return width_key, height_key
 
 # Function: message_generator
-def message_generator(key, data, width, height, positions, noise, key_pixels):
+def message_generator(key, data, width, height, positions, noise, key_pixels, index_list):
     ''' Returns: Correctly Built Binary Data to Attach to Image. '''
     total_length, width_length, height_length = length_calculator(
-        width, height, data)
+        width, height, 3 ,data)
     pixel_utilisation = capacity_check(
         total_length, len(positions) + key_pixels)
     width_key, height_key = end_point(
         positions, total_length, width_length, height_length)
+    index_key = total_length % len(index_list)
+    print(index_key)
+    index_binary = integer_conversion(index_key, "binary").zfill(3)
+    print(index_binary)
     print(width_key + height_key)
-    message_data = width_key + height_key + data
-    print(f"Message data: {message_data}")
+    message_data = width_key + height_key + index_binary + data
+    print(len(message_data))
     if noise:
         remaining_space = ((width * height) - 9) - len(message_data)
         noise_list = gen_numbers(key, 0, 1, remaining_space)
@@ -142,10 +146,10 @@ def message_generator(key, data, width, height, positions, noise, key_pixels):
     else:
         built_data = message_data
     length = len(built_data)
-    return built_data, length, pixel_utilisation
+    return built_data, length, pixel_utilisation, index_key
 
 # Function: extract_values
-def extract_values(image, length, positions, rgb_order, index_list):
+def extract_values(image, length, positions, rgb_order, index_list, index_key):
     ''' Returns: Existing Binary Data to be Replaced. '''
     locations = [image.getpixel(
         (positions[point][1], positions[point][0])) for point in range(length)]
@@ -155,13 +159,14 @@ def extract_values(image, length, positions, rgb_order, index_list):
         exact_points[point], "binary").zfill(8) for point in range(length)]
     extracted_values = ""
     index_count = len(index_list)
-    index_length = int(ceil(length/index_count))
+    index_length = int(ceil(length / index_count))
     for point in range(index_length):
         index_values = []
         for index in range(index_count):
             index_values.append(binary_values[point][index_list[index]])
         extracted_values = extracted_values + "".join(index_values)
-    return extracted_values
+    print(len(extracted_values[:-(8 - index_key)]))
+    return extracted_values[:-(8 - index_key)]
 
 # Function: data_comparison
 def data_comparison(current_values, new_values, length, key_pixels):
@@ -210,16 +215,18 @@ def attach_data(image, length, positions, rgb_order, image_message, index_list):
 # Function: extract_key
 def extract_key(image, positions, rgb_order, width_length, height_length, index_list):
     ''' Returns: Extracted Data End Point. '''
-    key_length = width_length + height_length
+    key_length = width_length + height_length + 3
     key_data = extract_values(image, key_length, positions, rgb_order, index_list)
     adjusted_key = key_data[:key_length]
     width_key = integer_conversion(adjusted_key[:width_length], "decimal")
-    height_key = integer_conversion(adjusted_key[width_length:], "decimal")
+    height_key = integer_conversion(adjusted_key[width_length:-3], "decimal")
+    index_key = integer_conversion((adjusted_key[-3:]) + 1, "decimal")
+    print(index_key)
     end_position = (width_key, height_key)
-    return end_position, key_length
+    return end_position, key_length, index_key
 
 # Function: data_extract
-def data_extract(image, positions, rgb_order, end_position, key_length, index_list):
+def data_extract(image, positions, rgb_order, end_position, key_length, index_list, index_key):
     ''' Returns: Extracted binary data from provided image. '''
     index_count = len(index_list)
     index_length = int(ceil(key_length/index_count))
@@ -243,11 +250,11 @@ def API_image_append(image_name, input_data, colour_selection: str = "random", i
     # Generate the binary data to attach to the provided image.
     binary_indata = binary_conversion(input_data, "binary")
     # Compile the complete message to be attached to the image.
-    image_message, length, usage = message_generator(
-        key, binary_indata, width, height, positions, noise, key_pixels)
+    image_message, length, usage, index_key = message_generator(
+        key, binary_indata, width, height, positions, noise, key_pixels, index_list)
     # Extract the existing values from the image that will be replaced.
     existing_values = extract_values(
-        image, length, positions, rgb_order, index_list)
+        image, length, positions, rgb_order, index_list, index_key)
     # Compare current and new data to determine key effectiveness.
     key_effectiveness = data_comparison(
         existing_values, image_message, length, key_pixels)
@@ -271,17 +278,17 @@ def API_image_extract(image_name, colour_selection: str = "random", input_key: i
     # Calculate end point key from image size.
     width_length, height_length = key_conversion(width, height)
     # Decipher end point from image data.
-    end_position, key_length = extract_key(
+    end_position, key_length, index_key = extract_key(
         image, positions, rgb_order, width_length, height_length, index_list)
     # Extract remaining image data from image.
     binary_data = data_extract(
-        image, positions, rgb_order, end_position, key_length, index_list)
+        image, positions, rgb_order, end_position, key_length, index_list, index_key)
     # Convert extracted data from binary to plaintext.
     return binary_conversion(binary_data, "decimal")
 
 data = "Please work for the love of god!"
 key = 10
-index = [0,1,2,3,4,5,6]
+index = [0,1,2,3,4,5,6,7]
 colour = "blue"
-print(API_image_append("gate.png", data, colour, key, index, True))
+print(API_image_append("gate.png", data, colour, key, index, False))
 print(API_image_extract("new_gate.png", colour, key, index))
