@@ -110,6 +110,27 @@
             </div>
             <br />
             <div class="form-group">
+                <label for="inputtext">Input Text</label>
+                {% if form == "submitted" %}
+                <textarea class="form-control" id="inputtext" name="text" rows="6">{{data["text"]}}</textarea>
+                {% else %}
+                <textarea class="form-control" id="inputtext" name="text" rows="6"></textarea>
+                {% endif %}
+                <div class="row">
+                    {% if (form == "failed") and ('text' in errors) %}
+                    <small class="text-danger col-md-6 col-lg-6 form-text">{{errors['text']}}</small>
+                    {% else %}
+                    <small class="col-md-6 col-lg-6 form-text text-muted">The input text data to attach to
+                        image.</small>
+                    {% endif %}
+                    <div class="col"></div>
+                    <div class="col-md-3 col-lg-3">
+                        <button class="float-right btn btn-light" type="button" value="Clear"
+                            onclick="javascript:eraseInputText(); this.blur();"><i class="bi bi-eraser"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="inputtext">Input Image</label>
                 <div class="input-group">
                     <span class="input-group-btn">
@@ -118,15 +139,19 @@
                         </span>
                     </span>
                     <input type="text" class="form-control" readonly>
+                    <img id='img-upload' />
                 </div>
-                <img id='img-upload' />
                 <div class="row">
                     {% if (form == "failed") and ('text' in errors) %}
                     <small class="text-danger col-md-6 col-lg-6 form-text">{{errors['text']}}</small>
                     {% else %}
-                    <small class="col-md-6 col-lg-6 form-text text-muted">The image to attach or extract data
-                        from.</small>
+                    <small class="col-md-6 col-lg-6 form-text text-muted">The image to store data inside.</small>
                     {% endif %}
+                    <div class="col"></div>
+                    <div class="col-md-3 col-lg-3">
+                        <button class="float-right btn btn-light" type="button" value="Clear"
+                            onclick="javascript:removeImage(); this.blur();"><i class="bi bi-eraser"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="row">

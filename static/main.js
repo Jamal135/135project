@@ -56,5 +56,13 @@ $(document).ready(function () {
 
   $("#imgInp").change(function () {
     readURL(this);
+    $("#removeImage").toggle(); // show remove link
+  });
+
+  $("#removeImage").click(function (e) {
+    e.preventDefault(); // prevent default action of link
+    $("#blah").attr("src", ""); //clear image src
+    $("#imgInp").val(""); // clear image input value
+    $("#removeImage").toggle(); // hide remove link.
   });
 });

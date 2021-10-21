@@ -6,10 +6,11 @@ from flask_wtf import FlaskForm
 class Cipher135Form(FlaskForm):
     encrypt = SubmitField('encrypt', validators=[Optional()])
     decrypt = SubmitField('decrypt', validators=[Optional()])
-    key = StringField('key', validators=[InputRequired(), Regexp('^[1-9]\d*$', 
+    key = StringField('key', validators=[InputRequired(), Regexp('^[1-9]\d*$',
                                          message="Field must be a positive integer."),
                                          length(max=135, message="Field cannot be longer than 135 digits")])
-    text = TextAreaField('text', validators=[InputRequired(), length(max=10000)])
+    text = TextAreaField('text', validators=[
+                         InputRequired(), length(max=10000)])
     random = BooleanField('random')
 
 # 147Cipher.
@@ -25,6 +26,17 @@ class Cipher147Form(FlaskForm):
                         InputRequired()], choices=nonce_options)
     encoding = SelectField('encoding', validators=[
                            InputRequired()], choices=encoding_options)
+
+# 1010Cipher.
+class Cipher101Form(FlaskForm):
+    encrypt = SubmitField('encrypt', validators=[Optional()])
+    decrypt = SubmitField('decrypt', validators=[Optional()])
+    key = StringField('key', validators=[InputRequired(), Regexp('^[1-9]\d*$',
+                                         message="Field must be a positive integer."),
+                                         length(max=101, message="Field cannot be longer than 101 digits")])
+    number = StringField('number', validators=[InputRequired(), Regexp('^[1-9]\d*$',
+                                                                     message="Field must be a positive integer."),
+                                             length(max=135, message="Field cannot be longer than 135 digits")])
 
 class Picture122Form(FlaskForm):
     x = 1

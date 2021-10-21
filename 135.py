@@ -1,6 +1,7 @@
 # python 135.py
 from functions.encryption._147cipher_ import encrypt_147, decrypt_147
 from functions.encryption._135cipher_ import encrypt_135, decrypt_135
+from functions.encryption._101cipher_ import encrypt_101, decrypt_101
 from flask import Flask, render_template, send_from_directory, request
 from flask_wtf.csrf import CSRFProtect
 from os import path, getenv
@@ -101,6 +102,36 @@ def cipher147():
 @app.route("/encryption/147cipher/about")
 def cipher147_about():
     return render_template('encryption/147cipher-about.html', title="147Cipher")
+
+# 101Cipher.
+from validation import Cipher101Form
+@app.route("/encryption/101cipher", methods=['GET', 'POST'])
+def cipher101():
+    form = Cipher101Form()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            key = form.key.data
+            number = form.number.data
+            try:
+                if form.encrypt.data:
+                    result = encrypt_101(key, number)
+                elif form.decrypt.data:
+                    result = decrypt_101(key, number)
+            except:
+                result = "Process Execution Failed"
+            data = {"key": key, "number": number, "result": result}
+            return render_template('encryption/101cipher.html', title="101Cipher", form="submitted", data=data)
+        else:
+            errors = form.errors
+            for form_value in errors:
+                errors[form_value] = errors[form_value][0]
+            return render_template('encryption/101cipher.html', title="101Cipher", form="failed", errors=errors)
+    else:
+        return render_template('encryption/101cipher.html', title="101Cipher", form=None)
+
+@app.route("/encryption/101cipher/about")
+def cipher101_about():
+    return render_template('encryption/101cipher-about.html', title="101Cipher")
 
 # --Steganography pages--
 @app.route("/steganography")

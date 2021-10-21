@@ -1,3 +1,45 @@
 {% extends "layout.html" %}
 {% block content %}
+<h1 class="text-center">Data Encryption</h1>
+<br>
+<div class="text-center">
+
+</div>
+<br>
+<div class="row">
+    <div class="col-sm-6 col-md-4 mb-3">
+        <div class="card text-center border-white">
+            <div class="card-header">135Cipher</div>
+            <div class="card-body">
+                <p class="card-text">This is a simple substitution based cipher with variable shift values and character
+                    sequences by character.</p>
+                <a class="btn btn-outline-primary" href="/encryption/135cipher">View
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4 mb-3">
+        <div class="card text-center border-white">
+            <div class="card-header">147Cipher</div>
+            <div class="card-body">
+                <p class="card-text">This is a more advanced substitution cipher which builds upon 135Cipher and adds
+                    nonce generation per use.</p>
+                <a class="btn btn-outline-primary" href="/encryption/147cipher">View
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4 mb-3">
+        <div class="card text-center border-white">
+            <div class="card-header">101Cipher</div>
+            <div class="card-body">
+                <p class="card-text">This is a rudimentry integer substitutation cipher purely designed to quickly
+                    scramble numbers efficiently.</p>
+                <a class="btn btn-outline-primary" href="/encryption/101cipher">View
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
 {% endblock content %}
