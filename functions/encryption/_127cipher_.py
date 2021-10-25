@@ -29,5 +29,5 @@ def encrypt_127(text):
     transposed_string = "".join(transposed_list)
     return(transposed_string)
 
-test = "hello world I am testing that this hopefully works nicely for me!"
+test = "hello world I am testing that this hopefully works nicely for me so that I can be happy and not so tired"
 print(encrypt_127(test))
