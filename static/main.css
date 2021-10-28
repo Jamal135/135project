@@ -120,6 +120,14 @@ footer {
   margin-bottom: 20px;
 }
 
+.card-height {
+  height: 100%;
+}
+
+.card-button {
+  margin-bottom: 10px;
+}
+
 .navbar-nav > li {
   float: left;
   position: relative;
