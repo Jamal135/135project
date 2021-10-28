@@ -27,7 +27,7 @@ class Cipher147Form(FlaskForm):
     encoding = SelectField('encoding', validators=[
                            InputRequired()], choices=encoding_options)
 
-# 1010Cipher.
+# 101Cipher.
 class Cipher101Form(FlaskForm):
     encrypt = SubmitField('encrypt', validators=[Optional()])
     decrypt = SubmitField('decrypt', validators=[Optional()])
