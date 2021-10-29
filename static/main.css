@@ -6,13 +6,20 @@ body {
   color: #333333;
 }
 
-h1,
+h1 {
+  color: #444444;
+}
+
 h2,
 h3,
 h4,
 h5,
 h6 {
   color: #444444;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
 a {
