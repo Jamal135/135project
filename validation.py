@@ -38,5 +38,5 @@ class Cipher101Form(FlaskForm):
                                                                      message="Field must be a positive integer."),
                                              length(max=135, message="Field cannot be longer than 135 digits")])
 
-class Picture122Form(FlaskForm):
+class Stego122Form(FlaskForm):
     x = 1

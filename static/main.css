@@ -239,6 +239,12 @@ footer {
   margin-top: 45px;
 }
 
+.image-steganography-viewall {
+  background-image: url(images/steganography_viewall.png);
+  height: 300px;
+  margin-top: 45px;
+}
+
 .image-card {
   position: absolute;
   opacity: .95;

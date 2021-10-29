@@ -140,15 +140,15 @@ def steganography_viewall():
     return render_template('steganography/viewall.html', title="Steganography")
 
 # 122Picture.
-from validation import Picture122Form
-@app.route("/steganography/122Picture", methods=['GET', 'POST'])
-def picture122():
-    form = Picture122Form()
-    return render_template('steganography/122Picture.html', title="122Picture", form=None)
+from validation import Stego122Form
+@app.route("/steganography/122stego", methods=['GET', 'POST'])
+def stego122():
+    form = Stego122Form()
+    return render_template('steganography/122stego.html', title="122Stego", form=None)
 
-@app.route("/steganography/122picture/about")
-def Picture122_about():
-    return render_template('steganography/122picture-about.html', title="122Picture")
+@app.route("/steganography/122stego/about")
+def Stego122_about():
+    return render_template('steganography/122stego-about.html', title="122Stego")
 
 # --Tool pages--
 @app.route("/datatools")
