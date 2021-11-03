@@ -1,3 +1,9 @@
+:root {
+  --primary: #fa4664;
+  --secondary: #bb0523;
+  --homeimage: url(images/home_pink.png);
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -23,7 +29,7 @@ h6 {
 }
 
 a {
-  color: #fa4664;
+  color: var(--primary);
 }
 
 footer a {
@@ -33,7 +39,7 @@ footer a {
 a:hover,
 a:focus,
 a:active {
-  color: #fa4664;
+  color: var(--primary);
 }
 
 footer {
@@ -67,7 +73,7 @@ footer {
 }
 
 .form-control:focus {
-  border-color: #fa4664;
+  border-color: var(--primary);
   box-shadow: none;
 }
 
@@ -153,7 +159,7 @@ footer {
 }
 
 .navbar-light .navbar-nav .active {
-  border-top: 5px solid #fa4664;
+  border-top: 5px solid var(--primary);
 }
 
 .navbar-light .navbar-nav .active > a {
@@ -163,7 +169,7 @@ footer {
 .dropdown-item.active,
 .dropdown-item:active {
   color: #ffffff;
-  background-color: #bd344b;
+  background-color: var(--secondary);
 }
 
 .show > .dropdown-menu {
@@ -180,31 +186,31 @@ footer {
 }
 
 .btn-primary {
-  background-color: #fa4664;
-  border-color: #fa4664;
-  outline: #fa4664 !important;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  outline: var(--primary) !important;
   box-shadow: none !important;
 }
 
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary:focus {
-  background-color: #bd344b !important;
-  border-color: #bd344b !important;
+  background-color: var(--secondary) !important;
+  border-color: var(--secondary) !important;
 }
 
 .btn-outline-primary {
-  border-color: #fa4664;
-  color: #fa4664;
-  outline: #fa4664 !important;
+  border-color: var(--primary);
+  color: var(--primary);
+  outline: var(--primary) !important;
   box-shadow: none !important;
 }
 
 .btn-outline-primary:hover,
 .btn-outline-primary:active,
 .btn-outline-primary:focus {
-  background-color: #bd344b !important;
-  border-color: #bd344b !important;
+  background-color: var(--secondary) !important;
+  border-color: var(--secondary) !important;
   color: #cbd5db !important;
 }
 
@@ -235,19 +241,19 @@ footer {
 }
 
 .image-homepage {
-  background-image: url(images/home_encryption.png);
+  background-image: var(--homeimage);
   height: 345px;
   margin-top: 55px;
 }
 
 .image-encryption-viewall {
-  background-image: url(images/encryption_viewall.png);
+  background-image: url(images/viewall_encryption.png);
   height: 300px;
   margin-top: 45px;
 }
 
 .image-steganography-viewall {
-  background-image: url(images/steganography_viewall.png);
+  background-image: url(images/viewall_steganography.png);
   height: 300px;
   margin-top: 45px;
 }

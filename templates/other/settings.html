@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="page-header center-content col-md-4 col-lg-4">
+        <h4 class="no-margin">Website Settings</h4>
+    </div>
+    <div class="col"></div>
+    <div class="btn-group col-md-3 col-lg-2">
+        <a class="btn btn-outline-primary" href="/home">Return Home
+        </a>
+    </div>
+</div>
+<br>
+<div class="card">
+    <br>
+    <div class="col">
+        <label for="theme">Theme Colour</label>
+        <select class="selectpicker border rounded form-control" id="theme" name="theme">
+            <option value="purple">Purple</option>
+            <option value="orange">Orange</option>
+            <option value="yellow">Yellow</option>
+            <option value="brown">Brown</option>
+            <option value="black">Black</option>
+            <option value="green">Green</option>
+            <option value="pink">Pink</option>
+            <option value="blue">Blue</option>
+            <option value="red">Red</option>
+        </select>
+        <small id="encodinghelp" class="form-text text-muted">Website Accent Selection.</small>
+    </div>
+    <br>
+</div>
+{% endblock content %}

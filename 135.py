@@ -29,6 +29,10 @@ def home():
 def about():
     return render_template('other/about.html', title="About")
 
+@app.route("/settings")
+def settings():
+    return render_template('other/settings.html', title="Settings")
+
 # --Encryption pages--
 @app.route("/encryption")
 @app.route("/encryption/viewall")
