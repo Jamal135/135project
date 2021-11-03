@@ -16,6 +16,26 @@ h1 {
   color: #444444;
 }
 
+.box-padding {
+  padding-top: 8px;
+}
+
+.box {
+  float: left;
+  height: 40px;
+  width: 40px;
+  margin: 5px;
+  border: 1px solid #fafafa;
+}
+
+.primary-color {
+  background: var(--primary);
+}
+
+.secondary-color {
+  background: var(--secondary);
+}
+
 h2,
 h3,
 h4,
