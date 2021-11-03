@@ -29,10 +29,6 @@ def home():
 def about():
     return render_template('other/about.html', title="About")
 
-@app.route("/settings")
-def settings():
-    return render_template('other/settings.html', title="Settings")
-
 # --Encryption pages--
 @app.route("/encryption")
 @app.route("/encryption/viewall")
@@ -176,6 +172,10 @@ def datatools_imagetool():
 @app.route("/disclaimer")
 def disclaimer():
     return render_template('other/disclaimer.html', title="Disclaimer")
+
+@app.route("/settings")
+def settings():
+    return render_template('other/settings.html', title="Settings")
 
 @app.route("/privacy")
 def privacy():
