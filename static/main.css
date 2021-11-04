@@ -113,6 +113,20 @@ footer {
   align-self: center;
 }
 
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.small-image {
+  max-height: 250px;
+  max-width: 250px;
+  height: auto;
+  width: auto;
+}
+
 .no-margin {
   margin: 0;
 }
