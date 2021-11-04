@@ -46,12 +46,10 @@
         {% include 'navbar.html' %}
         {% block header %}{% endblock %}
     </header>
-    <div class="container content">
-        {% block content %}{% endblock %}
-        {% if not self.content() | trim %} 
-        {% include "other/soon.html" %} 
-        {% endif %}
-    </div>
+    {% block content %}{% endblock %}
+    {% if not self.content() | trim and not self.header() | trim %} 
+    {% include "other/soon.html" %} 
+    {% endif %}
     {% include 'footer.html' %}
 </body>
 
