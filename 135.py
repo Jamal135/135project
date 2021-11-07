@@ -107,7 +107,7 @@ def cipher147_about():
 def cipher101():
     return render_template('encryption/101cipher.html', title="101Cipher")
 
-@app.route("/encryption/101cipher/result", methods=['GET', 'POST'])
+@app.route("/encryption/101cipher/result", methods=['POST'])
 def cipher101result():
     form = validation.Cipher101Form()
     if form.validate_on_submit():
