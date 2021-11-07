@@ -18,40 +18,23 @@
         </div>
     </div>
     <br />
-    <form method="POST">
-        {{ form.csrf_token }}
+    <form id="101cipher" action="101cipher/result">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
                         <label for="key">Input Key</label>
-                        {% if form == "submitted" %}
-                        <input type="text" class="form-control" name="key" value='{{ data["key"] }}' />
-                        {% else %}
                         <input type="text" class="form-control" name="key" placeholder="Key Input" />
-                        {% endif %}
-                        {% if (form == "failed") and ('key' in errors) %}
-                        <small id="keyhelp" class="text-danger form-text">{{errors['key']}}</small>
-                        {% else %}
                         <small id="keyhelp" class="form-text text-muted">Password for encryption and decryption.</small>
-                        {% endif %}
                     </div>
                 </div>
                 <br />
                 <div class="form-group">
                     <label for="inputnumber">Input Integer</label>
-                    {% if form == "submitted" %}
-                    <textarea class="form-control" id="inputtext" name="number" rows="6">{{data["number"]}}</textarea>
-                    {% else %}
                     <textarea class="form-control" id="inputtext" name="number" rows="6"></textarea>
-                    {% endif %}
                     <div class="row">
-                        {% if (form == "failed") and ('number' in errors) %}
-                        <small class="text-danger col-md-6 col-lg-6 form-text">{{errors['number']}}</small>
-                        {% else %}
                         <small class="col-md-6 col-lg-6 form-text text-muted">The input integer to be encrypted or
                             decrypted.</small>
-                        {% endif %}
                         <div class="col"></div>
                         <div class="col-md-3 col-lg-3">
                             <button class="float-right btn btn-light" type="button" value="Clear"
@@ -62,26 +45,21 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary" value="Encrypt" />
-                        <input type="submit" name="decrypt" class="btn btn-primary" value="Decrypt" />
+                        <input type="hidden" name="secret" class="actiontype" value="secret"/>
+                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary submitbutton" value="Encrypt" />
+                        <input type="submit" name="decrypt" class="btn btn-primary submitbutton" value="Decrypt" />
                     </div>
                 </div>
             </div>
         </div>
         <br />
-        {% if form == "submitted" %}
-        <div class="card">
+        <div class="card resultcard" style="display: none;">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
                         <label for="outputnumber">Output Integer</label>
-                        {% if data["result"] == "Process Execution Failed" %}
-                        <textarea class="text-danger form-control" id="outputtext" name="result" rows="6"
-                            readonly>{{data["result"]}}</textarea>
-                        {% else %}
                         <textarea class="form-control" id="outputtext" name="result" rows="6"
-                            readonly>{{data["result"]}}</textarea>
-                        {% endif %}
+                            readonly></textarea>
                         <div class="row">
                             <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output
                                 integer.</small>
@@ -99,7 +77,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>
 </div>

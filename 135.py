@@ -1,15 +1,16 @@
 # python 135.py
+import validation
 from functions.encryption._147cipher_ import encrypt_147, decrypt_147
 from functions.encryption._135cipher_ import encrypt_135, decrypt_135
 from functions.encryption._101cipher_ import encrypt_101, decrypt_101
-from flask import Flask, render_template, send_from_directory, request
+from flask import Flask, render_template, send_from_directory, request, jsonify
 from flask_wtf.csrf import CSRFProtect
-from os import path, getenv
+from os import path, urandom
 
 # Set up CSRF protection.
 csrf = CSRFProtect()
 app = Flask(__name__)
-app.config['SECRET_KEY'] = getenv('CSRF_KEY')
+app.config['SECRET_KEY'] = urandom(32)
 app.config['WTF_CSRF_TIME_LIMIT'] = None
 csrf.init_app(app)
 
@@ -36,10 +37,9 @@ def encryption_viewall():
     return render_template('encryption/viewall.html', title="Encryption")
 
 # 135Cipher.
-from validation import Cipher135Form
 @app.route("/encryption/135cipher", methods=['GET', 'POST'])
 def cipher135():
-    form = Cipher135Form()
+    form = validation.Cipher135Form()
     if request.method == 'POST':
         if form.validate_on_submit():
             key = form.key.data
@@ -71,10 +71,9 @@ def cipher135_about():
     return render_template('encryption/135cipher-about.html', title="135Cipher")
 
 # 147Cipher.
-from validation import Cipher147Form
 @app.route("/encryption/147cipher", methods=['GET', 'POST'])
 def cipher147():
-    form = Cipher147Form()
+    form = validation.Cipher147Form()
     if request.method == 'POST':
         if form.validate_on_submit():
             key = form.key.data
@@ -104,30 +103,28 @@ def cipher147_about():
     return render_template('encryption/147cipher-about.html', title="147Cipher")
 
 # 101Cipher.
-from validation import Cipher101Form
-@app.route("/encryption/101cipher", methods=['GET', 'POST'])
+@app.route("/encryption/101cipher", methods=['GET'])
 def cipher101():
-    form = Cipher101Form()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            key = form.key.data
-            number = form.number.data
-            try:
-                if form.encrypt.data:
-                    result = encrypt_101(key, number)
-                elif form.decrypt.data:
-                    result = decrypt_101(key, number)
-            except:
-                result = "Process Execution Failed"
-            data = {"key": key, "number": number, "result": result}
-            return render_template('encryption/101cipher.html', title="101Cipher", form="submitted", data=data)
-        else:
-            errors = form.errors
-            for form_value in errors:
-                errors[form_value] = errors[form_value][0]
-            return render_template('encryption/101cipher.html', title="101Cipher", form="failed", errors=errors)
+    return render_template('encryption/101cipher.html', title="101Cipher")
+
+@app.route("/encryption/101cipher/result", methods=['GET', 'POST'])
+def cipher101result():
+    form = validation.Cipher101Form()
+    if form.validate_on_submit():
+        key = form.key.data
+        number = form.number.data
+        try:
+            if form.encrypt.data:
+                return jsonify(encrypt_101(key, number))
+            elif form.decrypt.data:
+                return jsonify(decrypt_101(key, number))
+        except:
+            return jsonify("Process Execution Failed")
     else:
-        return render_template('encryption/101cipher.html', title="101Cipher", form=None)
+        errors = form.errors
+        for form_value in errors:
+            errors[form_value] = errors[form_value][0]
+        return jsonify(errors)
 
 @app.route("/encryption/101cipher/about")
 def cipher101_about():
@@ -140,10 +137,9 @@ def steganography_viewall():
     return render_template('steganography/viewall.html', title="Steganography")
 
 # 122Picture.
-from validation import Stego122Form
 @app.route("/steganography/122stego", methods=['GET', 'POST'])
 def stego122():
-    form = Stego122Form()
+    form = validation.Stego122Form()
     return render_template('steganography/122stego.html', title="122Stego", form=None)
 
 @app.route("/steganography/122stego/about")

@@ -31,10 +31,10 @@ class Cipher147Form(FlaskForm):
 class Cipher101Form(FlaskForm):
     encrypt = SubmitField('encrypt', validators=[Optional()])
     decrypt = SubmitField('decrypt', validators=[Optional()])
-    key = StringField('key', validators=[InputRequired(), Regexp('^[1-9]\d*$',
+    key = StringField('key', validators=[InputRequired(), Regexp('^[0-9]\d*$',
                                          message="Field must be a positive integer."),
                                          length(max=101, message="Field cannot be longer than 101 digits")])
-    number = StringField('number', validators=[InputRequired(), Regexp('^[1-9]\d*$',
+    number = StringField('number', validators=[InputRequired(), Regexp('^[0-9]\d*$',
                                                                      message="Field must be a positive integer."),
                                              length(max=135, message="Field cannot be longer than 135 digits")])
 
