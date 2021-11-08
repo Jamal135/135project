@@ -1,3 +1,109 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="container headerless-content">
+    <div class="row">
+        <div class="page-header center-content col-md-12 col-lg-6">
+            <div class="row no-margin">
+                <a class="float-right btn btn-light" type="button" href="/encryption/viewall">
+                    <i class="bi bi-arrow-left"></i></a>
+                <h4>Data Tool: Base Conversion</h4>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="btn-group col-md-12 col-lg-3">
+            <a class="btn btn-outline-primary" href="/datatools/basetool/about">About
+            </a>
+            <a class="btn btn-outline-primary"
+                href="https://github.com/Jamal135/135Project/blob/main/functions/datatools/_basetool_.py"
+                target="_blank" onclick="this.blur();">Source </a>
+        </div>
+    </div>
+    <br />
+    <form id="calculationform" action="basetool/result">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4">
+                        <label for="inbase">Input Base</label>
+                        <input type="text" class="form-control" name="inbase" placeholder="Input Base" />
+                        <small id="inbasehelp" class="form-text text-muted">Base converted from.</small>
+                        <small id="inbaseerror" class="form-text text-danger" style="display: none;"></small>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <label for="insequence">Input Sequence</label>
+                        <input type="text" class="form-control" name="insequence" style="font-size: 12px; height: 38px"
+                            value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/~!@#$%^&amp;*;=?&lt;&gt;[]:&quot;{},`" />
+                        <small id="insequencehelp" class="form-text text-muted">Input value positions.</small>
+                        <small id="insequenceerror" class="form-text text-danger" style="display: none;"></small>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4">
+                        <label for="outbase">Output Base</label>
+                        <input type="text" class="form-control" name="outbase" placeholder="Output Base" />
+                        <small id="outbasehelp" class="form-text text-muted">Base converted too.</small>
+                        <small id="outbaseerror" class="form-text text-danger" style="display: none;"></small>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <label for="outsequence">Output Sequence</label>
+                        <input type="text" class="form-control" name="outsequence" style="font-size: 12px; height: 38px"
+                            value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/~!@#$%^&amp;*;=?&lt;&gt;[]:&quot;{},`" />
+                        <small id="outsequencehelp" class="form-text text-muted">Output value positions.</small>
+                        <small id="outsequenceerror" class="form-text text-danger" style="display: none;"></small>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="inputnumber">Input Number</label>
+                    <textarea class="form-control" id="inputtext" name="number" rows="6"></textarea>
+                    <div class="row">
+                        <small id="numberhelp" class="hidden col-md-6 col-lg-6 form-text text-muted">The input number to
+                            be base converted.</small>
+                        <small id="numbererror" class="col-md-6 col-lg-6 form-text text-danger"
+                            style="display: none"></small>
+                        <div class="col"></div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="float-right btn btn-light" type="button" value="Clear"
+                                onclick="javascript:eraseInputText(); this.blur();"><i
+                                    class="bi bi-eraser"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="secret" class="actiontype" value="secret" />
+                        <input type="submit" name="process" class="btn btn-primary submitbutton" value="Process"
+                            onclick="this.blur();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="card resultcard" style="display: none;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label for="outputnumber">Output Number</label>
+                        <textarea class="form-control" id="outputtext" name="result" rows="6" readonly></textarea>
+                        <div class="row">
+                            <small class="col-md-6 col-lg-6 form-text text-muted">Input number converted from input base
+                                to output base.</small>
+                            <div class="col"></div>
+                            <div class="col-md-3 col-lg-3">
+                                <button class="float-right btn btn-light" type="button"
+                                    onclick="javascript:copyToClipboard(); this.blur();"><i
+                                        class="bi bi-clipboard"></i></button>
+                                <button class="float-right btn btn-light" type="button" value="Clear"
+                                    onclick="javascript:moveToInput(); this.blur();"><i
+                                        class="bi bi-box-arrow-up"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    </form>
+</div>
 {% endblock content %}

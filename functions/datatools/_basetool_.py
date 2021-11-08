@@ -2,8 +2,6 @@
 # Tool to convert int/float numbers between bases 0-86 with any given character sets.
 # Creation date: 05/01/2021
 
-# 135code.com API Category Definition.
-category = "tools"
 
 # Imported Tools.
 from re import search
@@ -105,13 +103,13 @@ def output_format(string, frac_places, out_cut_set, frac_input, sign):
     if sign: return "-" + frac_string
     return frac_string
 
-# Function: API_convert
+# Function: base_convert
 # in_base: The Base that the Input will be Interpreted as.
 # out_base: The Base for the Input String to be Converted into.
 # input_set: The Set of Characters to Reference for Interpreting the Input.
 # output_set: The Set of Characters to Reference for Substituting the Output.
 # frac_places: The Number of Decimal Places to Calculate for Output.
-def API_convert(input_string: str, in_base: str, out_base: str = "10",
+def base_convert(input_string: str, in_base: str, out_base: str = "10",
                 input_set: str = char_set, output_set: str = char_set, frac_places: str = "5"):
     ''' Returns: Input String at Input Base Converted to Output Base Representation Using Provided Sets. '''
     # Check integer Argument Inputs are Integers.

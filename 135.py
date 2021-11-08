@@ -3,6 +3,7 @@ import validation
 from functions.encryption._147cipher_ import encrypt_147, decrypt_147
 from functions.encryption._135cipher_ import encrypt_135, decrypt_135
 from functions.encryption._101cipher_ import encrypt_101, decrypt_101
+from functions.datatools._basetool_ import base_convert
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask_wtf.csrf import CSRFProtect
 from os import path, urandom
@@ -42,7 +43,7 @@ def cipher135():
     return render_template('encryption/135cipher.html', title="135Cipher")
 
 @app.route("/encryption/135cipher/result", methods=['POST'])
-def cipher135result():
+def cipher135_result():
     form = validation.Cipher135Form()
     if form.validate_on_submit():
         key = form.key.data
@@ -75,7 +76,7 @@ def cipher147():
     return render_template('encryption/147cipher.html', title="147Cipher")
 
 @app.route("/encryption/147cipher/result", methods=['POST'])
-def cipher147result():
+def cipher147_result():
     form = validation.Cipher147Form()
     if form.validate_on_submit():
         key = form.key.data
@@ -100,12 +101,12 @@ def cipher147_about():
     return render_template('encryption/147cipher-about.html', title="147Cipher")
 
 # 101Cipher.
-@app.route("/encryption/101cipher", methods=['GET'])
+@app.route("/encryption/101cipher")
 def cipher101():
     return render_template('encryption/101cipher.html', title="101Cipher")
 
 @app.route("/encryption/101cipher/result", methods=['POST'])
-def cipher101result():
+def cipher101_result():
     form = validation.Cipher101Form()
     if form.validate_on_submit():
         key = form.key.data
@@ -140,7 +141,7 @@ def stego122():
     return render_template('steganography/122stego.html', title="122Stego", form=None)
 
 @app.route("/steganography/122stego/about")
-def Stego122_about():
+def stego122_about():
     return render_template('steganography/122stego-about.html', title="122Stego")
 
 # --Tool pages--
@@ -149,16 +150,35 @@ def Stego122_about():
 def datatools_viewall():
     return render_template('datatools/viewall.html', title="Data Tools")
 
-@app.route("/datatools/basetool")
-def datatools_basetool():
+@app.route("/datatools/basetool", methods=["GET"])
+def basetool():
     return render_template('datatools/basetool.html', title="Base Tool")
 
+@app.route("/datatools/basetool/result", methods=["POST"])
+def basetool_result():
+    form = validation.BasetoolForm()
+    if form.validate_on_submit():
+        inbase = form.inbase.data
+        outbase = form.outbase.data
+        number = form.number.data
+        insequence = form.insequence.data
+        outsequence = form.outsequence.data
+        try:
+            return jsonify(base_convert(number, inbase, outbase, insequence, outsequence))
+        except:
+            return jsonify("Process Execution Failed")
+    else:
+        errors = form.errors
+        for form_value in errors:
+            errors[form_value] = errors[form_value][0]
+        return jsonify(errors)
+
 @app.route("/datatools/counttool")
-def datatools_counttool():
+def counttool():
     return render_template('datatools/counttool.html', title="Count Tool")
 
 @app.route("/datatools/imagetool")
-def datatools_imagetool():
+def imagetool():
     return render_template('datatools/imagetool.html', title="Image Tool")
 
 # --Other pages--

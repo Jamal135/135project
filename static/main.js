@@ -104,7 +104,7 @@ $(document).ready(function () {
   $(".submitbutton").click(function () {
     buttonpressed = $(this).attr("name");
   });
-  $("#encryptionform").submit(function (e) {
+  $("#calculationform").submit(function (e) {
     e.preventDefault();
     var type = $(".actiontype");
     type.attr("name", buttonpressed);
