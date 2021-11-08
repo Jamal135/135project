@@ -3,7 +3,7 @@ import validation
 from functions.encryption._147cipher_ import encrypt_147, decrypt_147
 from functions.encryption._135cipher_ import encrypt_135, decrypt_135
 from functions.encryption._101cipher_ import encrypt_101, decrypt_101
-from flask import Flask, render_template, send_from_directory, request, jsonify
+from flask import Flask, render_template, send_from_directory, jsonify
 from flask_wtf.csrf import CSRFProtect
 from os import path, urandom
 

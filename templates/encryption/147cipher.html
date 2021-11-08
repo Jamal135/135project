@@ -14,7 +14,7 @@
             </a>
             <a class="btn btn-outline-primary"
                 href="https://github.com/Jamal135/135Project/blob/main/functions/encryption/_147cipher_.py"
-                target="_blank">Source</a>
+                target="_blank" onclick="this.blur();">Source</a>
         </div>
     </div>
     <br />
@@ -55,9 +55,11 @@
                     <label for="inputtext">Input Text</label>
                     <textarea class="form-control" id="inputtext" name="text" rows="6"></textarea>
                     <div class="row">
-                        <small id="texthelp" class="col-md-6 col-lg-6 form-text text-muted">The input text to be encrypted or
+                        <small id="texthelp" class="col-md-6 col-lg-6 form-text text-muted">The input text to be
+                            encrypted or
                             decrypted.</small>
-                        <small id="texterror" class="col-md-6 col-lg-6 form-text text-danger" style="display: none;"></small>
+                        <small id="texterror" class="col-md-6 col-lg-6 form-text text-danger"
+                            style="display: none;"></small>
                         <div class="col"></div>
                         <div class="col-md-3 col-lg-3">
                             <button class="float-right btn btn-light" type="button" value="Clear"
@@ -68,9 +70,11 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="hidden" name="secret" class="actiontype" value="secret"/>
-                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary submitbutton" value="Encrypt" />
-                        <input type="submit" name="decrypt" class="btn btn-primary submitbutton" value="Decrypt" />
+                        <input type="hidden" name="secret" class="actiontype" value="secret" />
+                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary submitbutton"
+                            value="Encrypt" onclick="this.blur();" />
+                        <input type="submit" name="decrypt" class="btn btn-primary submitbutton" value="Decrypt"
+                            onclick="this.blur();" />
                     </div>
                 </div>
             </div>
@@ -81,8 +85,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="outputtext">Output Text</label>
-                        <textarea class="form-control" id="outputtext" name="result" rows="6"
-                            readonly></textarea>
+                        <textarea class="form-control" id="outputtext" name="result" rows="6" readonly></textarea>
                         <div class="row">
                             <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output
                                 text.</small>
