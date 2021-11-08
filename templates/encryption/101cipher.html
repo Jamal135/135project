@@ -34,15 +34,13 @@
                     <label for="inputnumber">Input Integer</label>
                     <textarea class="form-control" id="inputtext" name="number" rows="6"></textarea>
                     <div class="row">
-                        <small id="numberhelp" class="hidden col-md-6 col-lg-6 form-text text-muted">The input integer
-                            to be encrypted or
-                            decrypted.</small>
-                        <small id="numbererror" class="col-md-6 col-lg-6 form-text text-danger"
+                        <small id="numberhelp" class="hidden col form-text text-muted">The input integer
+                            to be encrypted or decrypted.</small>
+                        <small id="numbererror" class="col form-text text-danger"
                             style="display: none"></small>
-                        <div class="col"></div>
-                        <div class="col-md-3 col-lg-3">
+                        <div class="col-auto">
                             <button class="float-right btn btn-light" type="button" value="Clear"
-                                onclick="javascript:eraseInputText(); this.blur();"><i
+                                onclick="javascript:eraseInputText('inputtext'); this.blur();"><i
                                     class="bi bi-eraser"></i></button>
                         </div>
                     </div>

@@ -25,32 +25,60 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
                         <label for="inbase">Input Base</label>
-                        <input type="text" class="form-control" name="inbase" placeholder="Input Base" />
+                        <input type="text" class="form-control" name="inbase" id="inbase" placeholder="Input Base" />
                         <small id="inbasehelp" class="form-text text-muted">Base converted from.</small>
                         <small id="inbaseerror" class="form-text text-danger" style="display: none;"></small>
                     </div>
                     <div class="col-lg-8 col-md-8">
-                        <label for="insequence">Input Sequence</label>
-                        <input type="text" class="form-control" name="insequence" style="font-size: 12px; height: 38px"
-                            value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/~!@#$%^&amp;*;=?&lt;&gt;[]:&quot;{},`" />
-                        <small id="insequencehelp" class="form-text text-muted">Input value positions.</small>
-                        <small id="insequenceerror" class="form-text text-danger" style="display: none;"></small>
+                        <div class="row">
+                            <div class="col">
+                                <label for="insequence">Input Sequence</label>
+                                <input type="text" class="form-control" name="insequence" id="insequence"
+                                    style="font-size: 12px; height: 38px"
+                                    value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/~!@#$%^&amp;*;=?&lt;&gt;[]:&quot;{},`" />
+                                <small id="insequencehelp" class="form-text text-muted">Input value positions.</small>
+                                <small id="insequenceerror" class="form-text text-danger"
+                                    style="display: none;"></small>
+                            </div>
+                            <div class="row center-content box-padding" style="margin-right: 15px">
+                                <button class="btn btn-light" type="button" value="Clear"
+                                    onclick="javascript:switchInputFields( ['inbase', 'insequence'], ['outbase', 'outsequence']); this.blur();"><i
+                                        class="bi bi-arrow-down-up"></i></button>
+                                <button class="btn btn-light" type="button" value="Clear"
+                                    onclick="javascript:eraseInputText('insequence'); this.blur();"><i
+                                        class="bi bi-eraser"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
                         <label for="outbase">Output Base</label>
-                        <input type="text" class="form-control" name="outbase" placeholder="Output Base" />
+                        <input type="text" class="form-control" name="outbase" id="outbase" placeholder="Output Base" />
                         <small id="outbasehelp" class="form-text text-muted">Base converted too.</small>
                         <small id="outbaseerror" class="form-text text-danger" style="display: none;"></small>
                     </div>
                     <div class="col-lg-8 col-md-8">
-                        <label for="outsequence">Output Sequence</label>
-                        <input type="text" class="form-control" name="outsequence" style="font-size: 12px; height: 38px"
-                            value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/~!@#$%^&amp;*;=?&lt;&gt;[]:&quot;{},`" />
-                        <small id="outsequencehelp" class="form-text text-muted">Output value positions.</small>
-                        <small id="outsequenceerror" class="form-text text-danger" style="display: none;"></small>
+                        <div class="row">
+                            <div class="col">
+                                <label for="outsequence">Output Sequence</label>
+                                <input type="text" class="form-control" name="outsequence" id="outsequence"
+                                    style="font-size: 12px; height: 38px"
+                                    value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/~!@#$%^&amp;*;=?&lt;&gt;[]:&quot;{},`" />
+                                <small id="outsequencehelp" class="form-text text-muted">Output value positions.</small>
+                                <small id="outsequenceerror" class="form-text text-danger"
+                                    style="display: none;"></small>
+                            </div>
+                            <div class="row center-content box-padding" style="margin-right: 15px">
+                                <button class="btn btn-light" type="button" value="Clear"
+                                    onclick="javascript:switchInputFields(['outbase', 'outsequence'], ['inbase', 'insequence']); this.blur();"><i
+                                        class="bi bi-arrow-down-up"></i></button>
+                                <button class="btn btn-light" type="button" value="Clear"
+                                    onclick="javascript:eraseInputText('outsequence'); this.blur();"><i
+                                        class="bi bi-eraser"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -58,14 +86,12 @@
                     <label for="inputnumber">Input Number</label>
                     <textarea class="form-control" id="inputtext" name="number" rows="6"></textarea>
                     <div class="row">
-                        <small id="numberhelp" class="hidden col-md-6 col-lg-6 form-text text-muted">The input number to
-                            be base converted.</small>
-                        <small id="numbererror" class="col-md-6 col-lg-6 form-text text-danger"
-                            style="display: none"></small>
-                        <div class="col"></div>
-                        <div class="col-md-3 col-lg-3">
+                        <small id="numberhelp" class="hidden col form-text text-muted">The input
+                            number to be base converted.</small>
+                        <small id="numbererror" class="col form-text text-danger" style="display: none"></small>
+                        <div class="col-auto">
                             <button class="float-right btn btn-light" type="button" value="Clear"
-                                onclick="javascript:eraseInputText(); this.blur();"><i
+                                onclick="javascript:eraseInputText('inputtext'); this.blur();"><i
                                     class="bi bi-eraser"></i></button>
                         </div>
                     </div>
@@ -87,7 +113,8 @@
                         <label for="outputnumber">Output Number</label>
                         <textarea class="form-control" id="outputtext" name="result" rows="6" readonly></textarea>
                         <div class="row">
-                            <small class="col-md-6 col-lg-6 form-text text-muted">Input number converted from input base
+                            <small class="col-md-6 col-lg-6 form-text text-muted">Input number converted from input
+                                base
                                 to output base.</small>
                             <div class="col"></div>
                             <div class="col-md-3 col-lg-3">

@@ -53,19 +53,23 @@ class BasetoolForm(FlaskForm):
     def validate_insequence(form, field):
         if not len(set(field.data[:int(form.inbase.data)])) == len(field.data[:int(form.inbase.data)]):
             raise ValidationError("Sequence must be unique characters.")
+        if len(form.insequence.data) < int(form.inbase.data):
+            raise ValidationError("Must be in base or more unique characters.")
     outsequence = StringField('outsequence', validators=[InputRequired(), length(
         max=99, message="Field cannot exceed 99 characters")])
     def validate_outsequence(form, field):
-        if not len(set(field.data[:int(form.inbase.data)])) == len(field.data[:int(form.inbase.data)]):
+        if not len(set(field.data[:int(form.outbase.data)])) == len(field.data[:int(form.outbase.data)]):
             raise ValidationError("Sequence must be unique characters.")
-    inbase = StringField('inbase', validators=[InputRequired(), Regexp('^[0-9]\d*$',
-                                                                       message="Field must be a positive integer."),
-                                               length(max=2, message="Field cannot exceed two digits.")])
-    outbase = StringField('outbase', validators=[InputRequired(), Regexp('^[0-9]\d*$',
-                                                                         message="Field must be a positive integer."),
-                                                 length(max=2, message="Field cannot exceed two digits.")])
+        if len(form.outsequence.data) < int(form.outbase.data):
+            raise ValidationError("Must be out base or more unique characters.")
+    inbase = StringField('inbase', validators=[InputRequired(), Regexp('^0*(?:[2-9]|[1-9]\d\d*)$',
+                                                                       message="Must be two or greater integer."),
+                                               length(max=2, message="Field cannot exceed 99.")])
+    outbase = StringField('outbase', validators=[InputRequired(), Regexp('^0*(?:[2-9]|[1-9]\d\d*)$',
+                                                                         message="Must be two or greater integer."),
+                                                 length(max=2, message="Field cannot exceed 99.")])
     number = StringField('number', validators=([InputRequired()]))
     def validate_number(form, field):
         for character in field.data:
             if character not in form.insequence.data[:int(form.inbase.data)]:
-                raise ValidationError("Characters outside specified base in input.")
+                raise ValidationError("Characters outside specified base input.")

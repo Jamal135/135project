@@ -80,8 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Form JS Buttons
-function eraseInputText() {
-  document.getElementById("inputtext").value = "";
+function eraseInputText(targetelement) {
+  document.getElementById( targetelement ).value = "";
 }
 
 function moveToInput() {
@@ -96,6 +96,15 @@ function copyToClipboard() {
   $temp.val($(element).text()).select();
   document.execCommand("copy");
   $temp.remove();
+}
+
+function switchInputFields(setA, setB) {
+  for (const [i] of setA.entries()) {
+    const fielda = document.getElementById(setA[i]).value
+    const fieldb = document.getElementById(setB[i]).value;
+    document.getElementById(setA[i]).value = fieldb
+    document.getElementById(setB[i]).value = fielda
+  }
 }
 
 // Form Result Control

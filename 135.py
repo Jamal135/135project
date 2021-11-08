@@ -173,6 +173,10 @@ def basetool_result():
             errors[form_value] = errors[form_value][0]
         return jsonify(errors)
 
+@app.route("/datatools/basetool/about", methods=["GET"])
+def basetool_about():
+    return render_template('datatools/basetool-about.html', title="Base Tool")
+
 @app.route("/datatools/counttool")
 def counttool():
     return render_template('datatools/counttool.html', title="Count Tool")

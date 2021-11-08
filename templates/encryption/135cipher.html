@@ -22,14 +22,13 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12 col-lg-6">
+                    <div class="col">
                         <label for="key">Input Key</label>
                         <input type="text" class="form-control" name="key" placeholder="Key Input" />
                         <small id="keyhelp" class="form-text text-muted">Password for encryption and decryption.</small>
                         <small id="keyerror" class="form-text text-danger" style="display: none;"></small>
                     </div>
-                    <div class="col"></div>
-                    <div class="col-md-12 col-lg-2">
+                    <div class="col-auto">
                         <label for="random">Random Noise</label>
                         <div class="form-check pl-0">
                             <input id="random" name="random" class="form-check-input" data-on="Enabled"
@@ -44,15 +43,13 @@
                     <label for="inputtext">Input Text</label>
                     <textarea class="form-control" id="inputtext" name="text" rows="6"></textarea>
                     <div class="row">
-                        <small id="texthelp" class="col-md-6 col-lg-6 form-text text-muted">The input text to be
-                            encrypted or
-                            decrypted.</small>
-                        <small id="texterror" class="col-md-6 col-lg-6 form-text text-danger"
+                        <small id="texthelp" class="col form-text text-muted">The input text to be
+                            encrypted or decrypted.</small>
+                        <small id="texterror" class="col form-text text-danger"
                             style="display: none;"></small>
-                        <div class="col"></div>
-                        <div class="col-md-3 col-lg-3">
+                        <div class="col-auto">
                             <button class="float-right btn btn-light" type="button" value="Clear"
-                                onclick="javascript:eraseInputText(); this.blur();"><i
+                                onclick="javascript:eraseInputText('inputtext'); this.blur();"><i
                                     class="bi bi-eraser"></i></button>
                         </div>
                     </div>
