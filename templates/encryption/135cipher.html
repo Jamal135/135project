@@ -18,58 +18,35 @@
         </div>
     </div>
     <br>
-    <form method="POST">
-        {{ form.csrf_token }}
+    <form id="encryptionform" action="135cipher/result">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 col-lg-6">
                         <label for="key">Input Key</label>
-                        {% if form == "submitted" %}
-                        <input type="text" class="form-control" name="key" value='{{ data["key"] }}' />
-                        {% else %}
                         <input type="text" class="form-control" name="key" placeholder="Key Input" />
-                        {% endif %}
-                        {% if (form == "failed") and ('key' in errors) %}
-                        <small id="keyhelp" class="text-danger form-text">{{errors['key']}}</small>
-                        {% else %}
                         <small id="keyhelp" class="form-text text-muted">Password for encryption and decryption.</small>
-                        {% endif %}
+                        <small id="keyerror" class="form-text text-danger" style="display: none;"></small>
                     </div>
                     <div class="col"></div>
                     <div class="col-md-12 col-lg-2">
                         <label for="random">Random Noise</label>
                         <div class="form-check pl-0">
-                            {% if (form == "submitted") and (data['random'] == True) %}
-                            <input id="random" name="random" class="form-check-input" data-on="Enabled"
-                                data-off="Disabled" type="checkbox" data-toggle="toggle" checked>
-                            {% else %}
                             <input id="random" name="random" class="form-check-input" data-on="Enabled"
                                 data-off="Disabled" type="checkbox" data-toggle="toggle">
-                            {% endif %}
                         </div>
-                        {% if (form == "failed") and ('random' in errors) %}
-                        <small id="randomhelp" class="text-danger form-text">{{errors['random']}}</small>
-                        {% else %}
                         <small id="randomhelp" class="form-text text-muted"> Add encrypt noise.</small>
-                        {% endif %}
+                        <small id="randomerror" class="form-text text-danger" style="display: none;"></small>
                     </div>
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="inputtext">Input Text</label>
-                    {% if form == "submitted" %}
-                    <textarea class="form-control" id="inputtext" name="text" rows="6">{{data["text"]}}</textarea>
-                    {% else %}
                     <textarea class="form-control" id="inputtext" name="text" rows="6"></textarea>
-                    {% endif %}
                     <div class="row">
-                        {% if (form == "failed") and ('text' in errors) %}
-                        <small class="text-danger col-md-6 col-lg-6 form-text">{{errors['text']}}</small>
-                        {% else %}
-                        <small class="col-md-6 col-lg-6 form-text text-muted">The input text to be encrypted or
+                        <small id="texthelp" class="col-md-6 col-lg-6 form-text text-muted">The input text to be encrypted or
                             decrypted.</small>
-                        {% endif %}
+                        <small id="texterror" class="col-md-6 col-lg-6 form-text text-danger" style="display: none;"></small>
                         <div class="col"></div>
                         <div class="col-md-3 col-lg-3">
                             <button class="float-right btn btn-light" type="button" value="Clear"
@@ -80,26 +57,21 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary" value="Encrypt" />
-                        <input type="submit" name="decrypt" class="btn btn-primary" value="Decrypt" />
+                        <input type="hidden" name="secret" class="actiontype" value="secret"/>
+                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary submitbutton" value="Encrypt" />
+                        <input type="submit" name="decrypt" class="btn btn-primary submitbutton" value="Decrypt" />
                     </div>
                 </div>
             </div>
         </div>
         <br>
-        {% if form == "submitted" %}
-        <div class="card">
+        <div class="card resultcard" style="display: none;">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
                         <label for="outputtext">Output Text</label>
-                        {% if data["result"] == "Process Execution Failed" %}
-                        <textarea class="text-danger form-control" id="outputtext" name="result" rows="6"
-                            readonly>{{data["result"]}}</textarea>
-                        {% else %}
                         <textarea class="form-control" id="outputtext" name="result" rows="6"
-                            readonly>{{data["result"]}}</textarea>
-                        {% endif %}
+                            readonly></textarea>
                         <div class="row">
                             <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output
                                 text.</small>
@@ -117,7 +89,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>
 </div>

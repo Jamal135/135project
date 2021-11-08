@@ -98,16 +98,16 @@ function copyToClipboard() {
   $temp.remove();
 }
 
-// Form Image Controls
+// Form Result Control
 $(document).ready(function () {
   var buttonpressed;
-  $('.submitbutton').click(function() {
-    buttonpressed = $(this).attr('name')
-  })
-  $("#101cipher").submit(function (e) {
+  $(".submitbutton").click(function () {
+    buttonpressed = $(this).attr("name");
+  });
+  $("#encryptionform").submit(function (e) {
     e.preventDefault();
-    var type = $(".actiontype")
-    type.attr("name", buttonpressed)
+    var type = $(".actiontype");
+    type.attr("name", buttonpressed);
     var form = $(this);
     var url = form.attr("action");
     $.ajax({
@@ -115,55 +115,29 @@ $(document).ready(function () {
       url: url,
       data: form.serialize(),
       success: function (data) {
-        var outputtext = $("#outputtext")
-        outputtext.val(data)
-        outputtext.removeClass("text-danger")
-        if (data === "Process Execution Failed") {
-          outputtext.addClass("text-danger")
+        var resultcard = $(".resultcard");
+        $("[id*='help']").removeAttr("style", "display: none;");
+        $("[id*='error']").attr("style", "display: none;");
+        if (data.constructor == Object) {
+          resultcard.attr("style", "display: none;");
+          for (const property in data) {
+            document
+              .getElementById(`${property}help`)
+              .setAttribute("style", "display: none;");
+            const errorelement = document.getElementById(`${property}error`);
+            errorelement.removeAttribute("style", "display: none;");
+            errorelement.textContent = data[property];
+          }
+        } else {
+          var outputtext = $("#outputtext");
+          outputtext.val(data);
+          outputtext.removeClass("text-danger");
+          if (data === "Process Execution Failed") {
+            outputtext.addClass("text-danger");
+          }
+          resultcard.removeAttr("style");
         }
-        var resultcard = $(".resultcard")
-        resultcard.removeAttr("style")
       },
     });
   });
 });
-//   $(document).on("change", ".btn-file :file", function () {
-//     var input = $(this),
-//       label = input.val().replace(/\\/g, "/").replace(/.*\//, "");
-//     input.trigger("fileselect", [label]);
-//   });
-
-//   $(".btn-file :file").on("fileselect", function (event, label) {
-//     var input = $(this).parents(".input-group").find(":text"),
-//       log = label;
-
-//     if (input.length) {
-//       input.val(log);
-//     } else {
-//       if (log) alert(log);
-//     }
-//   });
-//   function readURL(input) {
-//     if (input.files && input.files[0]) {
-//       var reader = new FileReader();
-
-//       reader.onload = function (e) {
-//         $("#img-upload").attr("src", e.target.result);
-//       };
-
-//       reader.readAsDataURL(input.files[0]);
-//     }
-//   }
-
-//   $("#imgInp").change(function () {
-//     readURL(this);
-//     $("#removeImage").toggle(); // show remove link
-//   });
-
-//   $("#removeImage").click(function (e) {
-//     e.preventDefault(); // prevent default action of link
-//     $("#blah").attr("src", ""); //clear image src
-//     $("#imgInp").val(""); // clear image input value
-//     $("#removeImage").toggle(); // hide remove link.
-//   });
-// });

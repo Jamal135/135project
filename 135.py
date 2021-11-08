@@ -37,66 +37,63 @@ def encryption_viewall():
     return render_template('encryption/viewall.html', title="Encryption")
 
 # 135Cipher.
-@app.route("/encryption/135cipher", methods=['GET', 'POST'])
+@app.route("/encryption/135cipher", methods=['GET'])
 def cipher135():
+    return render_template('encryption/135cipher.html', title="135Cipher")
+
+@app.route("/encryption/135cipher/result", methods=['POST'])
+def cipher135result():
     form = validation.Cipher135Form()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            key = form.key.data
-            text = form.text.data
-            random = form.random.data
-            if random == True:
-                random_input = "+"
-            elif random == False:
-                random_input = "-"
-            try:
-                if form.encrypt.data:
-                    result = encrypt_135(key, text, random_input)
-                elif form.decrypt.data:
-                    result = decrypt_135(key, text)
-            except:
-                result = "Process Execution Failed"
-            data = {"key": key, "text": text,
-                    "random": random, "result": result}
-            return render_template('encryption/135cipher.html', title="135Cipher", form="submitted", data=data)
-        else:
-            errors = form.errors
-            for form_value in errors:
-                errors[form_value] = errors[form_value][0]
-            return render_template('encryption/135cipher.html', title="135Cipher", form="failed", errors=errors)
-    return render_template('encryption/135cipher.html', title="135Cipher", form=None)
+    if form.validate_on_submit():
+        key = form.key.data
+        text = form.text.data
+        random = form.random.data
+        if random == True:
+            random_input = "+"
+        elif random == False:
+            random_input = "-"
+        try:
+            if form.encrypt.data:
+                    return jsonify(encrypt_135(key, text, random_input))
+            elif form.decrypt.data:
+                    return jsonify(decrypt_135(key, text))
+        except:
+            return jsonify("Process Execution Failed")
+    else:
+        errors = form.errors
+        for form_value in errors:
+            errors[form_value] = errors[form_value][0]
+        return jsonify(errors)
 
 @app.route("/encryption/135cipher/about")
 def cipher135_about():
     return render_template('encryption/135cipher-about.html', title="135Cipher")
 
 # 147Cipher.
-@app.route("/encryption/147cipher", methods=['GET', 'POST'])
+@app.route("/encryption/147cipher", methods=['GET'])
 def cipher147():
+    return render_template('encryption/147cipher.html', title="147Cipher")
+
+@app.route("/encryption/147cipher/result", methods=['POST'])
+def cipher147result():
     form = validation.Cipher147Form()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            key = form.key.data
-            text = form.text.data
-            nonce = form.nonce.data
-            encoding = form.encoding.data
-            try:
-                if form.encrypt.data:
-                    result = encrypt_147(key, text, encoding, nonce)
-                elif form.decrypt.data:
-                    result = decrypt_147(key, text, encoding)
-            except:
-                result = "Process Execution Failed"
-            data = {"key": key, "text": text, "encoding": encoding,
-                    "nonce": nonce, "result": result}
-            return render_template('encryption/147cipher.html', title="147Cipher", form="submitted", data=data)
-        else:
-            errors = form.errors
-            for form_value in errors:
-                errors[form_value] = errors[form_value][0]
-            return render_template('encryption/147cipher.html', title="147Cipher", form="failed", errors=errors)
+    if form.validate_on_submit():
+        key = form.key.data
+        text = form.text.data
+        nonce = form.nonce.data
+        encoding = form.encoding.data
+        try:
+            if form.encrypt.data:
+                return jsonify(encrypt_147(key, text, encoding, nonce))
+            elif form.decrypt.data:
+                return jsonify(decrypt_147(key, text, encoding))
+        except:
+            return jsonify("Process Execution Failed")
     else:
-        return render_template('encryption/147cipher.html', title="147Cipher", form=None)
+        errors = form.errors
+        for form_value in errors:
+            errors[form_value] = errors[form_value][0]
+        return jsonify(errors)
 
 @app.route("/encryption/147cipher/about")
 def cipher147_about():
