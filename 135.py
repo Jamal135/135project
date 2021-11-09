@@ -4,6 +4,7 @@ from functions.encryption._147cipher_ import encrypt_147, decrypt_147
 from functions.encryption._135cipher_ import encrypt_135, decrypt_135
 from functions.encryption._101cipher_ import encrypt_101, decrypt_101
 from functions.datatools._basetool_ import base_convert
+from functions.datatools._counttool_ import count_analysis
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask_wtf.csrf import CSRFProtect
 from os import path, urandom
@@ -22,18 +23,18 @@ def favicon():
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # --Main pages--
-@app.route("/")
-@app.route("/home")
+@app.route("/", methods=["GET"])
+@app.route("/home", methods=["GET"])
 def home():
     return render_template('other/home.html', title='Home')
 
-@app.route("/about")
+@app.route("/about", methods=["GET"])
 def about():
     return render_template('other/about.html', title="About")
 
 # --Encryption pages--
-@app.route("/encryption")
-@app.route("/encryption/viewall")
+@app.route("/encryption", methods=["GET"])
+@app.route("/encryption/viewall", methods=["GET"])
 def encryption_viewall():
     return render_template('encryption/viewall.html', title="Encryption")
 
@@ -66,7 +67,7 @@ def cipher135_result():
             errors[form_value] = errors[form_value][0]
         return jsonify(errors)
 
-@app.route("/encryption/135cipher/about")
+@app.route("/encryption/135cipher/about", methods=["GET"])
 def cipher135_about():
     return render_template('encryption/135cipher-about.html', title="135Cipher")
 
@@ -96,12 +97,12 @@ def cipher147_result():
             errors[form_value] = errors[form_value][0]
         return jsonify(errors)
 
-@app.route("/encryption/147cipher/about")
+@app.route("/encryption/147cipher/about", methods=["GET"])
 def cipher147_about():
     return render_template('encryption/147cipher-about.html', title="147Cipher")
 
 # 101Cipher.
-@app.route("/encryption/101cipher")
+@app.route("/encryption/101cipher", methods=["GET"])
 def cipher101():
     return render_template('encryption/101cipher.html', title="101Cipher")
 
@@ -124,13 +125,13 @@ def cipher101_result():
             errors[form_value] = errors[form_value][0]
         return jsonify(errors)
 
-@app.route("/encryption/101cipher/about")
+@app.route("/encryption/101cipher/about", methods=["GET"])
 def cipher101_about():
     return render_template('encryption/101cipher-about.html', title="101Cipher")
 
 # --Steganography pages--
-@app.route("/steganography")
-@app.route("/steganography/viewall")
+@app.route("/steganography", methods=["GET"])
+@app.route("/steganography/viewall", methods=["GET"])
 def steganography_viewall():
     return render_template('steganography/viewall.html', title="Steganography")
 
@@ -140,16 +141,17 @@ def stego122():
     form = validation.Stego122Form()
     return render_template('steganography/122stego.html', title="122Stego", form=None)
 
-@app.route("/steganography/122stego/about")
+@app.route("/steganography/122stego/about", methods=["GET"])
 def stego122_about():
     return render_template('steganography/122stego-about.html', title="122Stego")
 
 # --Tool pages--
-@app.route("/datatools")
-@app.route("/datatools/viewall")
+@app.route("/datatools", methods=["GET"])
+@app.route("/datatools/viewall", methods=["GET"])
 def datatools_viewall():
     return render_template('datatools/viewall.html', title="Data Tools")
 
+# Base tool.
 @app.route("/datatools/basetool", methods=["GET"])
 def basetool():
     return render_template('datatools/basetool.html', title="Base Tool")
@@ -177,24 +179,46 @@ def basetool_result():
 def basetool_about():
     return render_template('datatools/basetool-about.html', title="Base Tool")
 
-@app.route("/datatools/counttool")
+# Count tool.
+@app.route("/datatools/counttool", methods=["GET"])
 def counttool():
     return render_template('datatools/counttool.html', title="Count Tool")
 
-@app.route("/datatools/imagetool")
+@app.route("/datatools/counttool/result", methods=["POST"])
+def counttool_result():
+    form = validation.CounttoolForm()
+    if form.validate_on_submit():
+        text = form.text.data
+        spaces = form.spaces.data
+        capitals = form.capitals.data
+        try:
+            return jsonify(count_analysis(text, spaces, capitals))
+        except:
+            return jsonify("Process Execution Failed")
+    else:
+        errors = form.errors
+        for form_value in errors:
+            errors[form_value] = errors[form_value][0]
+        return jsonify(errors)
+
+@app.route("/datatools/counttool/about", methods=["GET"])
+def counttool_about():
+    return render_template('datatools/counttool-about.html', title="Count Tool")
+
+@app.route("/datatools/imagetool", methods=["GET"])
 def imagetool():
     return render_template('datatools/imagetool.html', title="Image Tool")
 
 # --Other pages--
-@app.route("/disclaimer")
+@app.route("/disclaimer", methods=["GET"])
 def disclaimer():
     return render_template('other/disclaimer.html', title="Disclaimer")
 
-@app.route("/settings")
+@app.route("/settings", methods=["GET"])
 def settings():
     return render_template('other/settings.html', title="Settings")
 
-@app.route("/privacy")
+@app.route("/privacy", methods=["GET"])
 def privacy():
     return render_template('other/privacy.html', title="Privacy")
 

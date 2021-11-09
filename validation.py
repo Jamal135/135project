@@ -77,3 +77,10 @@ class BasetoolForm(FlaskForm):
         for character in field.data:
             if character not in form.insequence.data[:int(form.inbase.data)]:
                 raise ValidationError("Characters outside specified base input.")
+
+# Counttool.
+class CounttoolForm(FlaskForm):
+    text = TextAreaField('text', validators=[
+                         InputRequired(), length(max=1000, message="Field cannot exceed 1000 characters.")])
+    spaces = BooleanField('spaces')
+    capitals = BooleanField('capitals')
