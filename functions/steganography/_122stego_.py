@@ -181,11 +181,6 @@ def data_rebuild(locations, new_values, rgb_order, length):
 # Function: attach_data
 def attach_data(image, length, positions, rgb_order, image_message, index_list):
     ''' Returns: New Image Data with RGB colours Correctly Modified with Data. '''
-    print(length)
-    print(positions)
-    print(rgb_order)
-    print(index_list)
-    print(image_message)
     locations = [image.getpixel(
         (positions[point][1], positions[point][0])) for point in range(length)]
     exact_points = [locations[point][rgb_order[point]]
