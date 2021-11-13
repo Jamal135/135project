@@ -121,13 +121,22 @@ def gen_message(width, height, data, positions, method, colours, indexes, noise_
 
 def attach_data(image, positions, colours, indexes, message):
     ''' Returns: Image data with new values attached. '''
-    length = len(message) # adjust against capacity
-    pixels = [image.getpixel((positions[point][0], positions[point][1])) 
+    length = len(message)  # adjust against capacity
+    pixels = [image.getpixel((positions[point][0], positions[point][1]))
               for point in range(length)]
-    data = []
+    print(len(message))
+    print(len(pixels))
     for index, pixel in enumerate(pixels):
-        data.extend([pixel[colour] for colour in colours[index]])
-    print(data)
+        for colour in colours[index]:
+            data = pixel[colour]
+            binary_data = list(integer_conversion(data, "binary").zfill(8))
+            for bit in indexes[index]:
+                binary_data[bit] = message[0]
+                message = message[1:]
+            new_value = integer_conversion("".join(binary_data), "integer")
+            pixels[index] = (pixel[:colour] + (new_value,) + pixel[colour + 1:])
+    # Need to adjust for data per pixel, cut pixels to only required amount
+
 
 def image_attach(image: str, key: int, data: str, method: str, colour_list: list, index_list: list, key_pixels: int, noise: bool):
     ''' Returns: Image file with data attached.'''
@@ -143,11 +152,13 @@ def image_attach(image: str, key: int, data: str, method: str, colour_list: list
     steg_image = attach_data(image_data, positions, colours, indexes, message)
     steg_image.save(LOCATION % "122Steg.png")
 
+
 data = "Please work for the love of god!"
 key = 10
-index = [6,7]
+index = [6, 7]
 colour = [1]
 print(image_attach("gate.png", key, data, "random", colour, index, 8, False))
+
 
 def image_extract():
     pass
