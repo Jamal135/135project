@@ -14,7 +14,7 @@ env:
   REGISTRY_USERNAME: ${{ secrets.REGISTRY_USER }}
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
   URL: ${{ secrets.URL }}
-  PORT: ${{ secrets.PORT }}
+  TRAEFIK_PORT: ${{ secrets.PORT }}
 
 jobs:
   cd:
@@ -31,10 +31,8 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-#          key: ${{ secrets.SSH_KEY }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          debug: true
-          envs: CONTAINER_NAME,IMAGE,REGISTRY_HOST,REGISTRY_USERNAME,REGISTRY_PASSWORD,URL,PORT
+          key: ${{ secrets.SSH_KEY }}
+          envs: CONTAINER_NAME,IMAGE,REGISTRY_HOST,REGISTRY_USERNAME,REGISTRY_PASSWORD,URL,TRAEFIK_PORT
           script: |
             # Log into repository
             echo $REGISTRY_PASSWORD | docker login $REGISTRY_HOST -u $REGISTRY_USERNAME --password-stdin
@@ -50,7 +48,7 @@ jobs:
             -l 'traefik.http.routers.schematic-viewer.entrypoints'=web \
             -l 'traefik.http.routers.schematic-viewer.middlewares'='redirect@file' \
             -l 'traefik.http.routers.schematic-viewer.rule'="HOST(\`$URL\`)" \
-            -l 'traefik.http.services.sb-status-api.loadbalancer.server.port'="$PORT" \
+            -l 'traefik.http.services.sb-status-api.loadbalancer.server.port'="$TRAEFIK_PORT" \
             --name "$CONTAINER_NAME" "$IMAGE"
             docker network connect web "$CONTAINER_NAME"
             docker start "$CONTAINER_NAME"
