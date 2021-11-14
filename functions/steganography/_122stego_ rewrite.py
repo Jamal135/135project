@@ -3,6 +3,7 @@
 # Imported Tools.
 from os import path
 from PIL import Image
+from math import ceil
 from itertools import product
 from secrets import token_hex
 from random import seed, sample, randint
@@ -103,13 +104,12 @@ def gen_numbers(min_value, max_value, number_values):
     return "".join([str(randint(min_value, max_value)) for _ in range(number_values)])
 
 
-def gen_message(width, height, data, positions, method, colours, indexes, noise_setting):
+def gen_message(width, height, data, positions, method, colours, indexes, capacity, noise_setting):
     ''' Returns: Built message to attach to image. '''
     binary_width = len(integer_conversion(width, "binary"))
     binary_height = len(integer_conversion(height, "binary"))
     header = gen_header(method, colours, indexes)
     message_length = binary_width + binary_height + len(header) + len(data)
-    capacity = calculate_pixel_capacity(method, colours, indexes)
     noise = ""
     if noise_setting:
         noise = gen_numbers(0, 1, (len(positions) * capacity) - message_length)
@@ -119,23 +119,26 @@ def gen_message(width, height, data, positions, method, colours, indexes, noise_
     return width + height + header + data + noise
 
 
-def attach_data(image, positions, colours, indexes, message):
+def attach_data(image, positions, colours, indexes, capacity, message):
     ''' Returns: Image data with new values attached. '''
-    length = len(message)  # adjust against capacity
+    length = ceil(len(message) / capacity)
     pixels = [image.getpixel((positions[point][0], positions[point][1]))
               for point in range(length)]
-    print(len(message))
-    print(len(pixels))
+    position = 0
     for index, pixel in enumerate(pixels):
+        pixel_list = list(pixel)
         for colour in colours[index]:
             data = pixel[colour]
             binary_data = list(integer_conversion(data, "binary").zfill(8))
             for bit in indexes[index]:
-                binary_data[bit] = message[0]
-                message = message[1:]
+                binary_data[bit] = message[position]
+                position = position + 1
             new_value = integer_conversion("".join(binary_data), "integer")
-            pixels[index] = (pixel[:colour] + (new_value,) + pixel[colour + 1:])
-    # Need to adjust for data per pixel, cut pixels to only required amount
+            pixel_list[colour] = new_value
+        pixels[index] = tuple(pixel_list)
+    [image.putpixel((positions[point][0], positions[point][1]), pixels[point])
+     for point in range(length)]
+    return image
 
 
 def image_attach(image: str, key: int, data: str, method: str, colour_list: list, index_list: list, key_pixels: int, noise: bool):
@@ -146,18 +149,20 @@ def image_attach(image: str, key: int, data: str, method: str, colour_list: list
     length = len(positions)
     colours = gen_colours(image_key + 122, method, colour_list, length)
     indexes = gen_indexes(image_key + 9, index_list, length)
+    capacity = calculate_pixel_capacity(method, colour_list, index_list)
     binary_data = binary_conversion(data, "binary")
-    message = gen_message(width, height, binary_data,
-                          positions, method, colour_list, index_list, noise)
-    steg_image = attach_data(image_data, positions, colours, indexes, message)
+    message = gen_message(width, height, binary_data, positions,
+                          method, colour_list, index_list, capacity, noise)
+    steg_image = attach_data(image_data, positions,
+                             colours, indexes, capacity, message)
     steg_image.save(LOCATION % "122Steg.png")
 
 
-data = "Please work for the love of god!"
-key = 10
-index = [6, 7]
-colour = [1]
-print(image_attach("gate.png", key, data, "random", colour, index, 8, False))
+data = "Work!"
+key = 11
+index = [0, 1, 2, 3, 4, 5, 6, 7]
+colour = [0, 1, 2]
+print(image_attach("gate.png", key, data, "random", colour, index, 8, True))
 
 
 def image_extract():
