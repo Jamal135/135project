@@ -31,7 +31,8 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+#          key: ${{ secrets.SSH_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           debug: true
           envs: CONTAINER_NAME,IMAGE,REGISTRY_HOST,REGISTRY_USERNAME,REGISTRY_PASSWORD,URL,PORT
           script: |
