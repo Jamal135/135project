@@ -1,12 +1,18 @@
 FROM python:3.8-slim-buster
 
-WORKDIR /app
+COPY . /srv/flask_app
+WORKDIR /srv/flask_app
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN apt-get clean \
+    && apt-get -y update
 
-COPY . .
+RUN apt-get -y install nginx \
+    && apt-get -y install python3-dev \
+    && apt-get -y install build-essential
 
-ENV FLASK_APP=135.py
+RUN pip install -r requirements.txt --src /usr/local/src
+RUN pip install -Iv uWSGI==2.0.17.1 --src /usr/local/src
 
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+COPY nginx.conf /etc/nginx
+RUN chmod +x ./start.sh
+CMD ["./start.sh"]
