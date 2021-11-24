@@ -90,13 +90,10 @@ function moveToInput() {
 }
 
 function copyToClipboard() {
-  var element = document.getElementById("outputtext");
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val($(element).text()).select();
+  let textarea = document.getElementById("outputtext");
+  textarea.select();
   document.execCommand("copy");
-  $temp.remove();
-}
+} 
 
 function switchInputFields(setA, setB) {
   for (const [i] of setA.entries()) {
