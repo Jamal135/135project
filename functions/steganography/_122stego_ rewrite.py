@@ -172,9 +172,9 @@ def image_extract(image: str, key: int, key_pixels: int):
 
 data = "Work!"
 key = 11
-index = [0, 1, 2, 3, 4, 5, 6, 7]
+index = [0]
 colour = [0, 1, 2]
-print(image_attach("gate.png", key, data, "random", colour, index, 8, True))
+print(image_attach("gate.png", key, data, "all", colour, index, 8, True))
 
 
 def image_extract():

@@ -1,18 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container headerless-content">
-    <div class="row">
-        <div class="page-header center-content col-md-12 col-lg-6">
-            <div class="row no-margin">
-                <a class="float-right btn btn-light" type="button" href="/datatools/viewall">
-                    <i class="bi bi-arrow-left"></i></a>
-                <h4>Data Tool: Count Frequency</h4>
-            </div>
+    <div class="row page-header center-content">
+        <div class="row no-margin col">
+            <a class="float-right btn btn-light" type="button" href="/datatools/viewall">
+                <i class="bi bi-arrow-left"></i></a>
+            <h4>Count Frequency</h4>
         </div>
-        <div class="col"></div>
-        <div class="btn-group col-md-12 col-lg-3">
-            <a class="btn btn-outline-primary" href="/datatools/counttool/about">About
-            </a>
+        <div class="btn-group float-right col-auto header-btn">
             <a class="btn btn-outline-primary"
                 href="https://github.com/Jamal135/135Project/blob/main/functions/datatools/_counttool_.py"
                 target="_blank" onclick="this.blur();">Source </a>

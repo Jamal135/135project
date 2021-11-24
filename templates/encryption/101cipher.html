@@ -1,17 +1,12 @@
 {% extends "layout.html" %} {% block content %}
 <div class="container headerless-content">
-    <div class="row">
-        <div class="page-header center-content col-md-12 col-lg-6">
-            <div class="row no-margin">
-                <a class="float-right btn btn-light" type="button" href="/encryption/viewall">
-                    <i class="bi bi-arrow-left"></i></a>
-                <h4>101Cipher: Symmetric Encryption</h4>
-            </div>
+    <div class="row page-header center-content">
+        <div class="row no-margin col">
+            <a class="float-right btn btn-light" type="button" href="/encryption/viewall">
+                <i class="bi bi-arrow-left"></i></a>
+            <h4>101Cipher</h4>
         </div>
-        <div class="col"></div>
-        <div class="btn-group col-md-12 col-lg-3">
-            <a class="btn btn-outline-primary" href="/encryption/101cipher/about">About
-            </a>
+        <div class="btn-group float-right col-auto header-btn">
             <a class="btn btn-outline-primary"
                 href="https://github.com/Jamal135/135Project/blob/main/functions/encryption/_101cipher_.py"
                 target="_blank" onclick="this.blur();">Source </a>
@@ -36,8 +31,7 @@
                     <div class="row">
                         <small id="numberhelp" class="hidden col form-text text-muted">The input integer
                             to be encrypted or decrypted.</small>
-                        <small id="numbererror" class="col form-text text-danger"
-                            style="display: none"></small>
+                        <small id="numbererror" class="col form-text text-danger" style="display: none"></small>
                         <div class="col-auto">
                             <button class="float-right btn btn-light" type="button" value="Clear"
                                 onclick="javascript:eraseInputText('inputtext'); this.blur();"><i
