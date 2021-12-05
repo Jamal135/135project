@@ -67,6 +67,7 @@ a:active {
 }
 
 footer {
+  margin-top: 32pt;
   background: #555555;
   color: #ffffff;
 }

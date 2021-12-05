@@ -65,6 +65,7 @@ def cipher135_result():
         errors = form.errors
         for form_value in errors:
             errors[form_value] = errors[form_value][0]
+        errors["error"] = True
         return jsonify(errors)
 
 @app.route("/encryption/135cipher/about", methods=["GET"])
@@ -95,6 +96,7 @@ def cipher147_result():
         errors = form.errors
         for form_value in errors:
             errors[form_value] = errors[form_value][0]
+        errors["error"] = True
         return jsonify(errors)
 
 @app.route("/encryption/147cipher/about", methods=["GET"])
@@ -123,6 +125,7 @@ def cipher101_result():
         errors = form.errors
         for form_value in errors:
             errors[form_value] = errors[form_value][0]
+        errors["error"] = True
         return jsonify(errors)
 
 @app.route("/encryption/101cipher/about", methods=["GET"])
@@ -173,6 +176,7 @@ def basetool_result():
         errors = form.errors
         for form_value in errors:
             errors[form_value] = errors[form_value][0]
+        errors["error"] = True
         return jsonify(errors)
 
 @app.route("/datatools/basetool/about", methods=["GET"])
@@ -199,6 +203,7 @@ def counttool_result():
         errors = form.errors
         for form_value in errors:
             errors[form_value] = errors[form_value][0]
+        errors["error"] = True
         return jsonify(errors)
 
 @app.route("/datatools/counttool/about", methods=["GET"])

@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "target": "ES3",
+        "rootDir": "ts",
+        "outDir": "static",
+        "sourceMap": true,
+        "inlineSources": true,
+        "lib": [
+            "DOM",
+            "ESNext"
+        ]
+    },
+    "compileOnSave": true,
+    "watchOptions": {
+        "excludeDirectories": [
+            "static"
+        ]
+    },
+}
