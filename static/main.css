@@ -187,6 +187,36 @@ footer {
   margin-bottom: 20px;
 }
 
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 5px auto;
+  height: 8px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  background-color: #e9ecef;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #fa4664;
+  background-color: var(--primary);
+  overflow: visible;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #fa4664;
+  background: var(--primary);
+  cursor: pointer;
+}
+
 .card-height {
   height: 100%;
 }

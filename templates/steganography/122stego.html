@@ -25,17 +25,9 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-4">
                         <label for="key">Input Key</label>
-                        {% if form == "submitted" %}
-                        <input type="text" class="form-control" name="key" value='{{ data["key"] }}' />
-                        {% else %}
                         <input type="text" class="form-control" name="key" placeholder="Key Input" />
-                        {% endif %}
-                        {% if (form == "failed") and ('key' in errors) %}
-                        <small id="keyhelp" class="text-danger form-text">{{errors['key']}}</small>
-                        {% else %}
                         <small id="keyhelp" class="form-text text-muted">Password for positions data is
                             attached.</small>
-                        {% endif %}
                     </div>
                     <div class="col-md-0 col-lg"></div>
                     <div class="col-md-6 col-lg-4">
@@ -68,11 +60,7 @@
                                 </label>
                             </div>
                         </div>
-                        {% if (form == "failed") and ('position' in errors) %}
-                        <small id="positionhelp" class="text-danger form-text">{{errors['position']}}</small>
-                        {% else %}
                         <small id="positionhelp" class="form-text text-muted">Binary changed.</small>
-                        {% endif %}
                     </div>
                     <div class="col-md col-lg-0"></div>
                     <div class="col-md-5 col-lg-3">
@@ -80,21 +68,9 @@
                         <div class="row col">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons" id="RGB">
                                 <select class="selectpicker border rounded form-control" id="quantity" name="quantity">
-                                    {% if ((form == "submitted") and (data["quantity"] == "1") or (form == None)) %}
                                     <option value="1" selected>1</option>
-                                    {% else %}
-                                    <option value="1">1</option>
-                                    {% endif %}
-                                    {% if (form == "submitted") and (data["quantity"] == "2") %}
                                     <option value="2" selected>2</option>
-                                    {% else %}
-                                    <option value="2">2</option>
-                                    {% endif %}
-                                    {% if (form == "submitted") and (data["quantity"] == "3") %}
                                     <option value="3" selected>3</option>
-                                    {% else %}
-                                    <option value="3">3</option>
-                                    {% endif %}
                                 </select>
                                 <label class="btn btn-outline-secondary active">
                                     <input type="checkbox" name="options" id="red" autocomplete="off" checked> R
@@ -107,28 +83,16 @@
                                 </label>
                             </div>
                         </div>
-                        {% if (form == "failed") and ('RGB' in errors) %}
-                        <small id="rgbhelp" class="text-danger form-text">{{errors['RGB']}}</small>
-                        {% else %}
                         <small id="rgbhelp" class="form-text text-muted">Colours changed.</small>
-                        {% endif %}
                     </div>
                 </div>
                 <br />
                 <div class="form-group">
                     <label for="inputtext">Input Text</label>
-                    {% if form == "submitted" %}
-                    <textarea class="form-control" id="inputtext" name="text" rows="6">{{data["text"]}}</textarea>
-                    {% else %}
                     <textarea class="form-control" id="inputtext" name="text" rows="6"></textarea>
-                    {% endif %}
                     <div class="row">
-                        {% if (form == "failed") and ('text' in errors) %}
-                        <small class="text-danger col-md-6 col-lg-6 form-text">{{errors['text']}}</small>
-                        {% else %}
                         <small class="col-md-6 col-lg-6 form-text text-muted">The input text data to attach to
                             image.</small>
-                        {% endif %}
                         <div class="col"></div>
                         <div class="col-md-3 col-lg-3">
                             <button class="float-right btn btn-light" type="button" value="Clear"
@@ -149,11 +113,7 @@
                         <img id='img-upload' />
                     </div>
                     <div class="row">
-                        {% if (form == "failed") and ('text' in errors) %}
-                        <small class="text-danger col-md-6 col-lg-6 form-text">{{errors['text']}}</small>
-                        {% else %}
                         <small class="col-md-6 col-lg-6 form-text text-muted">The image to store data inside.</small>
-                        {% endif %}
                         <div class="col"></div>
                         <div class="col-md-3 col-lg-3">
                             <button class="float-right btn btn-light" type="button" value="Clear"
@@ -169,19 +129,13 @@
             </div>
         </div>
         <br />
-        {% if form == "submitted" %}
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
                         <label for="outputtext">Output Text</label>
-                        {% if data["result"] == "Process Execution Failed" %}
-                        <textarea class="text-danger form-control" id="outputtext" name="result" rows="6"
-                            readonly>{{data["result"]}}</textarea>
-                        {% else %}
                         <textarea class="form-control" id="outputtext" name="result" rows="6"
-                            readonly>{{data["result"]}}</textarea>
-                        {% endif %}
+                            readonly></textarea>
                         <div class="row">
                             <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output
                                 text.</small>
@@ -199,7 +153,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>
 </div>

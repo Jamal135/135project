@@ -1,3 +1,100 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="container headerless-content">
+    <div class="row page-header center-content">
+        <div class="row no-margin col">
+            <a class="float-right btn btn-light" type="button" href="/datatools/viewall">
+                <i class="bi bi-arrow-left"></i></a>
+            <h4>Image Compare</h4>
+        </div>
+        <div class="btn-group float-right col-auto header-btn">
+            <a class="btn btn-outline-primary"
+                href="https://github.com/Jamal135/135Project/blob/main/functions/datatools/_imagetool_.py"
+                target="_blank" onclick="this.blur();">Source </a>
+        </div>
+    </div>
+    <br>
+    <form id="calculationform" action="imagetool/result">
+        <div class="card">
+            <div class="card-body">
+                <label for="alphainput" id="valuelabel" class="form-label">Alpha Value: 50</label>
+                <input type="range" class="form-range slider" value="50" min="1" max="999" class="form-range"
+                    id="alphainput"
+                    oninput="var str = document.getElementById('valuelabel').innerHTML = 'Alpha Value: ' + this.value">
+                <small id="alphainputhelp" class="form-text text-muted">Granularity of difference threshold.</small>
+                <br>
+                <div class="form-group">
+                    <label for="inputtext">Primary Image</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-outline-secondary btn-file">
+                                Browse… <input type="file" id="imageinput">
+                            </span>
+                        </span>
+                        <input type="text" class="form-control" readonly>
+                        <img id='img-upload' />
+                    </div>
+                    <div class="row">
+                        <small class="col-md-6 col-lg-6 form-text text-muted">The first image to compare.</small>
+                        <div class="col"></div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="float-right btn btn-light" type="button" value="Clear"
+                                onclick="javascript:removeImage(); this.blur();"><i class="bi bi-file-x"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputtext">Second Image</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-outline-secondary btn-file">
+                                Browse… <input type="file" id="imageinput">
+                            </span>
+                        </span>
+                        <input type="text" class="form-control" readonly>
+                        <img id='img-upload' />
+                    </div>
+                    <div class="row">
+                        <small class="col-md-6 col-lg-6 form-text text-muted">The other image to compare.</small>
+                        <div class="col"></div>
+                        <div class="col-md-3 col-lg-3">
+                            <button class="float-right btn btn-light" type="button" value="Clear"
+                                onclick="javascript:removeImage(); this.blur();"><i class="bi bi-file-x"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" name="process" class="btn-margin btn btn-primary" value="Process" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="card resultcard" style="display: none;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label for="outputtext">Output Image</label>
+                        <textarea class="form-control" id="outputimage" name="result" rows="6" readonly></textarea>
+                        <div class="row">
+                            <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output
+                                text.</small>
+                            <div class="col"></div>
+                            <div class="col-md-3 col-lg-3">
+                                <button class="float-right btn btn-light" type="button"
+                                    onclick="javascript:copyToClipboard(); this.blur();"><i
+                                        class="bi bi-clipboard"></i></button>
+                                <button class="float-right btn btn-light" type="button" value="Clear"
+                                    onclick="javascript:moveToInput(); this.blur();"><i
+                                        class="bi bi-box-arrow-up"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    </form>
+</div>
 {% endblock content %}
