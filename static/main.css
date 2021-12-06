@@ -272,6 +272,20 @@ footer {
   overflow: hidden;
 }
 
+.btn-block {
+  margin-top: 0rem !important;
+  padding-left: 0rem !important;
+  padding-right: 0rem !important;
+}
+
+.btn-link:hover,
+.btn-link:active,
+.btn-link:focus {
+  color: #fa4664 !important;
+  color: var(--primary) !important;
+  box-shadow: none !important;
+}
+
 .btn-primary {
   background-color: #fa4664;
   background-color: var(--primary);
@@ -326,7 +340,15 @@ footer {
   color: #cbd5db !important;
 }
 
-.header-padding{
+.text-grey {
+  color: #cbd5db;
+}
+
+.text-white {
+  color: white;
+}
+
+.header-padding {
   margin-top: 55px;
 }
 
