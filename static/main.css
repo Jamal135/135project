@@ -354,6 +354,7 @@ footer {
 
 .image-container {
   width: 100%;
+  background: #444444;
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;
