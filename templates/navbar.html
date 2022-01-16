@@ -1,18 +1,42 @@
 <nav class="navbar navbar-expand-md navbar-light navbar-dark nav-main-colour fixed-top">
-    <div class="container">
+    <div class="container" style="height: 56px;">
         <a class="navbar-brand mr-6" href="/">135Project</a>
-        <button class="navbar-toggler nav-item nav-link dropdown-toggle" type="button" id="dropdown-encryption"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 56px;">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdown-encryption">
-            <a class="dropdown-item" href="/home">Home</a>
-            <a class="dropdown-item" href="/about">About</a>
-            <a class="dropdown-item" href="/encryption/viewall">Encryption</a>
-            <a class="dropdown-item" href="/steganography/viewall">Steganography</a>
-            <a class="dropdown-item" href="/datatools/viewall">Data Tools</a>
-        </div>
-        <div class="collapse navbar-collapse">
+        <nav class="navbar d-md-none navbar-expand mr-auto">
+            <ul class="nav navbar-tabs navbar-nav" id="state">
+                {% if (request.endpoint=="home") or (request.endpoint=="disclaimer") or (request.endpoint=="privacy") or
+                (request.endpoint=="settings") %}
+                <li class="active">
+                    {% else %}
+                <li>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="/">Home</a>
+                </li>
+                {% if request.endpoint=="about" %}
+                <li class="active">
+                    {% else %}
+                <li>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="/about">About</a>
+                </li>
+                {% if ("/encryption" in request.url) or ("/steganography" in request.url) or ("/datatools" in
+                request.url) %}
+                <li class="active dropdown">
+                    {% else %}
+                <li class="dropdown">
+                    {% endif %}
+                    <a class="nav-item nav-link dropdown-toggle" type="button" id="dropdown-encryption"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tools
+                    </a>
+                    <div class="dropdown-menu nav-animation" aria-labelledby="dropdown-encryption">
+                        <a class="dropdown-item" href="/encryption/viewall">Encryption</a>
+                        <a class="dropdown-item" href="/steganography/viewall">Steganography</a>
+                        <a class="dropdown-item" href="/datatools/viewall">Data Tools</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <nav class="navbar d-none d-md-block mr-auto">
             <ul class="nav navbar-tabs navbar-nav" id="state">
                 {% if (request.endpoint=="home") or (request.endpoint=="disclaimer") or (request.endpoint=="privacy") or
                 (request.endpoint=="settings") %}
@@ -78,6 +102,6 @@
                     </div>
                 </li>
             </ul>
-        </div>
+        </nav>
     </div>
 </nav>
