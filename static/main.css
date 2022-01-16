@@ -1,7 +1,7 @@
 :root {
   --primary: #fa4664;
   --secondary: #bb0523;
-  --homeimage: url(images/home_pink.png);
+  --homeimage: url(images/home_pink.svg);
 }
 
 body {
@@ -360,26 +360,26 @@ footer {
 }
 
 .image-homepage {
-  background-image: url(images/home_pink.png);
+  background-image: url(images/home_pink.svg);
   background-image: var(--homeimage);
   height: 345px;
   margin-top: 55px;
 }
 
 .image-encryption-viewall {
-  background-image: url(images/viewall_encryption.png);
+  background-image: url(images/viewall_encryption.svg);
   height: 300px;
   margin-top: 45px;
 }
 
 .image-steganography-viewall {
-  background-image: url(images/viewall_steganography.png);
+  background-image: url(images/viewall_steganography.svg);
   height: 300px;
   margin-top: 45px;
 }
 
 .image-datatools-viewall {
-  background-image: url(images/viewall_datatools.png);
+  background-image: url(images/viewall_datatools.svg);
   height: 300px;
   margin-top: 45px;
 }
@@ -389,7 +389,7 @@ footer {
   opacity: .95;
   top: calc(50% - 35px);
   left: calc(50% - 185px);
-  width: 24rem;
+  width: 23rem;
 }
 
 .card-header {

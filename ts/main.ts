@@ -15,47 +15,47 @@ const themes = {
   purple: {
     primary: "#4c237e",
     secondary: "#2e154c",
-    homeimage: "url(images/home_purple.png)",
+    homeimage: "url(images/home_purple.svg)",
   },
   orange: {
     primary: "#d3671d",
     secondary: "#7f3e11",
-    homeimage: "url(images/home_orange.png)",
+    homeimage: "url(images/home_orange.svg)",
   },
   yellow: {
     primary: "#e0b12d",
     secondary: "#8d6d15",
-    homeimage: "url(images/home_yellow.png)",
+    homeimage: "url(images/home_yellow.svg)",
   },
   brown: {
     primary: "#a16b4c",
     secondary: "#61402e",
-    homeimage: "url(images/home_brown.png)",
+    homeimage: "url(images/home_brown.svg)",
   },
   black: {
     primary: "#3b363f",
     secondary: "#232026",
-    homeimage: "url(images/home_black.png)",
+    homeimage: "url(images/home_black.svg)",
   },
   green: {
     primary: "#249465",
     secondary: "#16593d",
-    homeimage: "url(images/home_green.png)",
+    homeimage: "url(images/home_green.svg)",
   },
   pink: {
     primary: "#fa4664",
     secondary: "#bb0523",
-    homeimage: "url(images/home_pink.png)",
+    homeimage: "url(images/home_pink.svg)",
   },
   blue: {
     primary: "#2575aa",
     secondary: "#164666",
-    homeimage: "url(images/home_blue.png)",
+    homeimage: "url(images/home_blue.svg)",
   },
   red: {
     primary: "#c95252",
     secondary: "#812828",
-    homeimage: "url(images/home_red.png)",
+    homeimage: "url(images/home_red.svg)",
   },
 };
 
@@ -126,6 +126,7 @@ $(document).ready(function () {
   let buttonpressed: string | undefined;
   const type = $(".actiontype");
   const form = document.getElementById("calculationform") as HTMLFormElement | null;
+  imageForm(document.getElementById("imageform") as unknown as HTMLFormElement);
   $(".submitbutton").click(function () {
     buttonpressed = $(this).attr("name");
   });
@@ -199,3 +200,36 @@ $(document).ready(function () {
     }
   }
 });
+
+/**
+ * @param file The file object that should be serialised
+ * @returns A promise of a base64 string
+ */
+const serialiseFile = async (file: File): Promise<string> => 
+  new Uint8Array(await file.arrayBuffer()).reduce((acc, curr) => 
+    acc.concat(String.fromCharCode(curr))
+  , "");
+
+/**
+ * Configures the submission of an imageform element
+ * @param form A selected image form element
+ */
+const imageForm = (form: HTMLFormElement) => {
+  form.onsubmit = (async submission => {
+    submission.preventDefault();
+    const target = submission.target as unknown as HTMLFormElement;
+    const inputs = Object.values(target.getElementsByClassName("sendableinput")) as unknown as HTMLInputElement[];
+    const selectedFiles: (File | null)[] = inputs.filter(input => input.className.includes("imageinput")).map(
+      imageInput => imageInput.files?.item(0) ?? null).flat(1);
+    const formData = {images: await Promise.all(selectedFiles.map(async file => file ? await serialiseFile(file) : null)),
+      alpha: inputs[0].value
+    }
+    const result = await fetch("", {method: "POST", body: JSON.stringify(formData)});
+    if (result.ok) {
+      
+    }
+    else {
+
+    }
+  });
+}
