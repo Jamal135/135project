@@ -126,7 +126,7 @@ $(document).ready(function () {
   let buttonpressed: string | undefined;
   const type = $(".actiontype");
   const form = document.getElementById("calculationform") as HTMLFormElement | null;
-  imageForm(document.getElementById("imageform") as unknown as HTMLFormElement);
+  // imageForm(document.getElementById("imageform") as unknown as HTMLFormElement); <-- Line Breaks Stuff Currently
   $(".submitbutton").click(function () {
     buttonpressed = $(this).attr("name");
   });
@@ -135,7 +135,7 @@ $(document).ready(function () {
 
     type.attr("name", buttonpressed ?? null);
     const url = form.attributes.getNamedItem("action")?.textContent;
-
+    
     if (!url) return;
     const targetFormInputElems = document.getElementsByClassName("form-control") as HTMLCollectionOf<Exclude<HTMLValuedElement, null>>;
     const targetFormInputs = Object.entries(targetFormInputElems).filter(([key, value]) => {
@@ -154,14 +154,14 @@ $(document).ready(function () {
     // Clear errors
     errorElem.attr("style", "display: none;");
     errorElem.toArray().forEach(elem => { elem.innerText = ""; });
-
+    
     const result = await fetch(url, {
       method: "POST", body: $("#calculationform").serialize(), headers: {
         "Content-Type":
           "application/x-www-form-urlencoded; charset=UTF-8"
       }
     });
-
+    
     if (result.ok) {
       const data = await result.json();
       if (typeof data == "object" && data.error) {

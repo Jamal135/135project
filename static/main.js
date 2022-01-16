@@ -168,7 +168,6 @@ $(document).ready(function () {
     var buttonpressed;
     var type = $(".actiontype");
     var form = document.getElementById("calculationform");
-    imageForm(document.getElementById("imageform"));
     $(".submitbutton").click(function () {
         buttonpressed = $(this).attr("name");
     });
