@@ -51,7 +51,8 @@ class BasetoolForm(FlaskForm):
     insequence = StringField('insequence', validators=[InputRequired(), length(
         max=99, message="Field cannot exceed 99 characters")])
     def validate_insequence(form, field):
-        if not len(set(field.data[:int(form.inbase.data)])) == len(field.data[:int(form.inbase.data)]):
+        if len(set(field.data[: int(form.inbase.data)])) != len(
+            field.data[: int(form.inbase.data)]):
             raise ValidationError("Sequence must be unique characters.")
         if len(form.insequence.data) < int(form.inbase.data):
             raise ValidationError("Must be in base or more unique characters.")
@@ -60,7 +61,8 @@ class BasetoolForm(FlaskForm):
     outsequence = StringField('outsequence', validators=[InputRequired(), length(
         max=99, message="Field cannot exceed 99 characters")])
     def validate_outsequence(form, field):
-        if not len(set(field.data[:int(form.outbase.data)])) == len(field.data[:int(form.outbase.data)]):
+        if len(set(field.data[: int(form.outbase.data)])) != len(
+            field.data[: int(form.outbase.data)]):
             raise ValidationError("Sequence must be unique characters.")
         if len(form.outsequence.data) < int(form.outbase.data):
             raise ValidationError("Must be out base or more unique characters.")

@@ -1,26 +1,21 @@
+'''Creation date: 16/08/2021'''
 
-# Some fancy description is definitely here
-
-# Creation date: 16/08/2021
-
-# Imported Tools.
 from os import path
 from PIL import Image, ImageColor
 from pixelmatch.contrib.PIL import pixelmatch
 
 LOCATION = path.dirname(path.abspath(__file__)) + "\\temp_files\\%s"
 
-# Function: load_image
+
 def load_image(image_name):
     ''' Returns: Loaded image and size. '''
     image_location = LOCATION % (image_name)
     try:
-        image = Image.open(image_location)
-        return image
+        return Image.open(image_location)
     except:
         raise ValueError("Image Read Failed")
 
-# Function: image_compare
+
 def image_compare(image_name_1, image_name_2, alpha:int = 0.1, colour: str = "#FF0000"):
     ''' Returns: Image showing difference between images. '''
     image_1 = load_image(image_name_1)

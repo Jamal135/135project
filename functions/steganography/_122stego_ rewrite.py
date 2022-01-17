@@ -1,6 +1,6 @@
-#
+'''Creation date: __/__/____'''
 
-# Imported Tools.
+
 from os import path
 from PIL import Image
 from math import ceil
@@ -33,7 +33,7 @@ def gen_coordinates(image, key, width, height, key_pixels):
     key_coords = shuffled_coords[:key_pixels]
     pixels = [image.getpixel((key_coords[point][0], key_coords[point][1]))
               for point in range(key_pixels - 1)]
-    pixel_key = sum([int(''.join(map(str, point))) for point in pixels])
+    pixel_key = sum(int(''.join(map(str, point))) for point in pixels)
     image_key = base_key + pixel_key
     data_coords = shuffle(image_key, shuffled_coords[key_pixels:])
     return data_coords, image_key
@@ -70,9 +70,7 @@ def binary_conversion(data, argument):
 
 def gen_header(method, colour_list, index_list):
     ''' Returns: Built binary header data specifying settings. '''
-    method_bool = "0"
-    if method == "random":
-        method_bool = "1"
+    method_bool = "1" if method == "random" else "0"
     colour_table = ["0", "0", "0"]
     for colour in colour_list:
         colour_table[colour] = "1"
@@ -84,10 +82,10 @@ def gen_header(method, colour_list, index_list):
 
 def calculate_pixel_capacity(method, colour_list, index_list):
     ''' Returns: Number of binary bits each pixel will hold. '''
-    if method == "random":
-        return len(index_list)
-    elif method == "all":
+    if method == "all":
         return len(colour_list) * len(index_list)
+    elif method == "random":
+        return len(index_list)
 
 
 def integer_conversion(input_integer, argument):
@@ -132,7 +130,7 @@ def attach_data(image, positions, colours, indexes, capacity, message):
             binary_data = list(integer_conversion(data, "binary").zfill(8))
             for bit in indexes[index]:
                 binary_data[bit] = message[position]
-                position = position + 1
+                position += 1
             new_value = integer_conversion("".join(binary_data), "integer")
             pixel_list[colour] = new_value
         pixels[index] = tuple(pixel_list)
