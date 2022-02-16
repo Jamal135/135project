@@ -139,10 +139,17 @@ def steganography_viewall():
     return render_template('steganography/viewall.html', title="Steganography")
 
 # 122Picture.
-@app.route("/steganography/122stego", methods=['GET', 'POST'])
+@app.route("/steganography/122stego", methods=['GET'])
 def stego122():
-    form = validation.Stego122Form()
     return render_template('steganography/122stego.html', title="122Stego", form=None)
+
+@app.route("/steganography/122stego/result", methods=['POST'])
+def stego122_result():
+    form = validation.Stego122Form()
+    if form.validate_on_submit():
+        pass
+    else:
+        pass
 
 @app.route("/steganography/122stego/about", methods=["GET"])
 def stego122_about():
@@ -213,6 +220,14 @@ def counttool_about():
 @app.route("/datatools/imagetool", methods=["GET"])
 def imagetool():
     return render_template('datatools/imagetool.html', title="Image Tool")
+
+@app.route("/datatools/imagetool/result", methods=["POST"])
+def imagetool_result():
+    form = validation.ImagetoolForm()
+    if form.validate_on_submit():
+        pass
+    else:
+        pass
 
 # --Other pages--
 @app.route("/disclaimer", methods=["GET"])

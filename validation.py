@@ -86,3 +86,7 @@ class CounttoolForm(FlaskForm):
                          InputRequired(), length(max=1000, message="Field cannot exceed 1000 characters.")])
     spaces = BooleanField('spaces')
     capitals = BooleanField('capitals')
+
+# Imagetool.
+class ImagetoolForm(FlaskForm):
+    x = 1
