@@ -168,11 +168,13 @@ def image_extract(image: str, key: int, key_pixels: int):
     length = len(positions)
 
 
-data = "Work!"
+# Revisit methods
+# Bit of a sus test text... was a joke when it produced a bug I now need to fix... =(
+data = "Hey Larry, the drugs will be at the end of Ann St under the door mat, 6pm"
 key = 11
 index = [0]
-colour = [0, 1, 2]
-print(image_attach("gate.png", key, data, "all", colour, index, 8, True))
+colour = [0,1,2]
+print(image_attach("gate.png", key, data, "all", colour, index, 8, False))
 
 
 def image_extract():

@@ -26,4 +26,4 @@ def image_compare(image_name_1, image_name_2, alpha:int = 0.1, colour: str = "#F
                    threshold=0.001, includeAA=True, alpha=alpha, diff_color=rgb_colour)
     image_difference.save(LOCATION % "difference.png")
 
-image_compare("1.png", "2.png", 0, "#FF0000")
+image_compare("gate.png", "new_gate.png", 0, "#FF0000")

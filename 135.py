@@ -59,7 +59,7 @@ def cipher135_result():
                     return jsonify(encrypt_135(key, text, random_input))
             elif form.decrypt.data:
                     return jsonify(decrypt_135(key, text))
-        except:
+        except Exception:
             return jsonify("Process Execution Failed")
     else:
         errors = form.errors
@@ -90,7 +90,7 @@ def cipher147_result():
                 return jsonify(encrypt_147(key, text, encoding, nonce))
             elif form.decrypt.data:
                 return jsonify(decrypt_147(key, text, encoding))
-        except:
+        except Exception:
             return jsonify("Process Execution Failed")
     else:
         errors = form.errors
@@ -119,7 +119,7 @@ def cipher101_result():
                 return jsonify(encrypt_101(key, number))
             elif form.decrypt.data:
                 return jsonify(decrypt_101(key, number))
-        except:
+        except Exception:
             return jsonify("Process Execution Failed")
     else:
         errors = form.errors
@@ -177,7 +177,7 @@ def basetool_result():
         outsequence = form.outsequence.data
         try:
             return jsonify(base_convert(number, inbase, outbase, insequence, outsequence))
-        except:
+        except Exception:
             return jsonify("Process Execution Failed")
     else:
         errors = form.errors
@@ -204,7 +204,7 @@ def counttool_result():
         capitals = form.capitals.data
         try:
             return jsonify(count_analysis(text, spaces, capitals))
-        except:
+        except Exception:
             return jsonify("Process Execution Failed")
     else:
         errors = form.errors
