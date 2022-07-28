@@ -151,9 +151,8 @@ def extract_data(image):
 
 def image_attach(image: str, key: int, data: str, method: str, colour_list: list, index_list: list, key_pixels: int, noise: bool):
     ''' Returns: Image file with data attached. '''
-    image_data, width, height = load_image(image)
-    positions, image_key = gen_coordinates(
-        image_data, key, width, height, key_pixels)
+    image, width, height = load_image(image)
+    positions, image_key = gen_coordinates(image, key, width, height, key_pixels)
     length = len(positions)
     colours = gen_colours(image_key + 122, method, colour_list, length)
     indexes = gen_indexes(image_key + 9, index_list, length)
@@ -161,7 +160,7 @@ def image_attach(image: str, key: int, data: str, method: str, colour_list: list
     binary_data = binary_conversion(data, "binary")
     message = gen_message(width, height, binary_data, positions,
                           method, colour_list, index_list, capacity, noise)
-    steg_image = attach_data(image_data, positions,
+    steg_image = attach_data(image, positions,
                              colours, indexes, capacity, message)
     steg_image.save(LOCATION % "122Steg.png")
 
