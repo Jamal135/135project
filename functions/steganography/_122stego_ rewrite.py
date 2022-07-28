@@ -68,7 +68,15 @@ def binary_conversion(data, argument):
         return byte_list.decode('utf-8')
 
 
-def gen_header(method, colour_list, index_list):
+def integer_conversion(input_integer, argument):
+    ''' Returns: Input number converted to or from binary. '''
+    if argument == "binary":
+        return bin(input_integer).replace("0b", "")
+    elif argument == "integer":
+        return int(input_integer, 2)
+
+
+def gen_header(method, colour_list, index_list, padding_length):
     ''' Returns: Built binary header data specifying settings. '''
     method_bool = "1" if method == "random" else "0"
     colour_table = ["0", "0", "0"]
@@ -77,7 +85,8 @@ def gen_header(method, colour_list, index_list):
     index_table = ["0", "0", "0", "0", "0", "0", "0", "0"]
     for index in index_list:
         index_table[index] = "1"
-    return method_bool + "".join(colour_table) + "".join(index_table)
+    padding_bool = integer_conversion(padding_length, "binary").zfill(5)
+    return method_bool + "".join(colour_table) + "".join(index_table) + padding_bool
 
 
 def calculate_pixel_capacity(method, colour_list, index_list):
@@ -86,14 +95,6 @@ def calculate_pixel_capacity(method, colour_list, index_list):
         return len(colour_list) * len(index_list)
     elif method == "random":
         return len(index_list)
-
-
-def integer_conversion(input_integer, argument):
-    ''' Returns: Input number converted to or from binary. '''
-    if argument == "binary":
-        return bin(input_integer).replace("0b", "")
-    elif argument == "integer":
-        return int(input_integer, 2)
 
 
 def gen_numbers(min_value, max_value, number_values):
@@ -106,15 +107,20 @@ def gen_message(width, height, data, positions, method, colours, indexes, capaci
     ''' Returns: Built message to attach to image. '''
     binary_width = len(integer_conversion(width, "binary"))
     binary_height = len(integer_conversion(height, "binary"))
-    header = gen_header(method, colours, indexes)
-    message_length = binary_width + binary_height + len(header) + len(data)
+    message_length = binary_width + binary_height + \
+        len(data) + 17  # Header Length
+    padding_length = 0 if message_length % capacity == 0 else capacity - \
+        (message_length % capacity)
+    padding = "0" * padding_length
+    total_length = message_length + padding_length
+    header = gen_header(method, colours, indexes, padding_length)
     noise = ""
     if noise_setting:
-        noise = gen_numbers(0, 1, (len(positions) * capacity) - message_length)
+        noise = gen_numbers(0, 1, (len(positions) * capacity) - total_length)
     last_pixel = positions[message_length % capacity]
     width = integer_conversion(last_pixel[0], "binary").zfill(binary_width)
     height = integer_conversion(last_pixel[1], "binary").zfill(binary_height)
-    return width + height + header + data + noise
+    return width + height + header + data + padding + noise
 
 
 def attach_data(image, positions, colours, indexes, capacity, message):
@@ -171,10 +177,10 @@ def image_extract(image: str, key: int, key_pixels: int):
 # Revisit methods
 # Bit of a sus test text... was a joke when it produced a bug I now need to fix... =(
 data = "Hey Larry, the drugs will be at the end of Ann St under the door mat, 6pm"
-key = 11
-index = [0]
-colour = [0,1,2]
-print(image_attach("gate.png", key, data, "all", colour, index, 8, False))
+key = 15
+index = [6,7]
+colour = [0, 1, 2]
+image_attach("gate.png", key, data, "random", colour, index, 8, True)
 
 
 def image_extract():
