@@ -6,7 +6,7 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 env:
-  IMAGE_NAME: 135project
+  IMAGE_NAME: portfolio
 
 jobs:
   ci:
@@ -19,6 +19,14 @@ jobs:
         id: extract-version
         run: echo ::set-output name=version::${GITHUB_REF/refs\/tags\/v/}
 
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_SECRET: ${{ secrets.SECRET }}
+          envkey_ACCOUNT: ${{ secrets.ACCOUNT }}
+          envkey_APPPASSWORD: ${{ secrets.APPPASSWORD }}
+          envkey_RECEIVER: ${{ secrets.RECEIVER }}
+      
       - name: Docker build
         run: docker build -t $IMAGE_NAME .
 

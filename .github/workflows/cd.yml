@@ -8,8 +8,8 @@ on:
         required: true
 
 env:
-  CONTAINER_NAME: 135project
-  IMAGE_NAME: 135project
+  CONTAINER_NAME: portfolio
+  IMAGE_NAME: portfolio
   REGISTRY_HOST: ${{ secrets.REGISTRY_HOST }}
   REGISTRY_USERNAME: ${{ secrets.REGISTRY_USER }}
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
