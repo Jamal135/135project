@@ -5,6 +5,7 @@ from functions.encryption._135cipher_ import encrypt_135, decrypt_135
 from functions.encryption._101cipher_ import encrypt_101, decrypt_101
 from functions.datatools._basetool_ import base_convert
 from functions.datatools._counttool_ import count_analysis
+from functions.datatools._imagetool_ import image_compare
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask_wtf.csrf import CSRFProtect
 from os import path, urandom
@@ -28,9 +29,9 @@ def favicon():
 def home():
     return render_template('other/home.html', title='Home')
 
-@app.route("/about", methods=["GET"])
-def about():
-    return render_template('other/about.html', title="About")
+# @app.route("/about", methods=["GET"])
+# def about():
+#     return render_template('other/about.html', title="About")
 
 # --Encryption pages--
 @app.route("/encryption", methods=["GET"])
@@ -132,28 +133,28 @@ def cipher101_result():
 def cipher101_about():
     return render_template('encryption/101cipher-about.html', title="101Cipher")
 
-# --Steganography pages--
-@app.route("/steganography", methods=["GET"])
-@app.route("/steganography/viewall", methods=["GET"])
-def steganography_viewall():
-    return render_template('steganography/viewall.html', title="Steganography")
+# # --Steganography pages--
+# @app.route("/steganography", methods=["GET"])
+# @app.route("/steganography/viewall", methods=["GET"])
+# def steganography_viewall():
+#     return render_template('steganography/viewall.html', title="Steganography")
 
-# 122Picture.
-@app.route("/steganography/122stego", methods=['GET'])
-def stego122():
-    return render_template('steganography/122stego.html', title="122Stego", form=None)
+# # 122Picture.
+# @app.route("/steganography/122stego", methods=['GET'])
+# def stego122():
+#     return render_template('steganography/122stego.html', title="122Stego", form=None)
 
-@app.route("/steganography/122stego/result", methods=['POST'])
-def stego122_result():
-    form = validation.Stego122Form()
-    if form.validate_on_submit():
-        pass
-    else:
-        pass
+# @app.route("/steganography/122stego/result", methods=['POST'])
+# def stego122_result():
+#     form = validation.Stego122Form()
+#     if form.validate_on_submit():
+#         pass
+#     else:
+#         pass
 
-@app.route("/steganography/122stego/about", methods=["GET"])
-def stego122_about():
-    return render_template('steganography/122stego-about.html', title="122Stego")
+# @app.route("/steganography/122stego/about", methods=["GET"])
+# def stego122_about():
+#     return render_template('steganography/122stego-about.html', title="122Stego")
 
 # --Tool pages--
 @app.route("/datatools", methods=["GET"])
@@ -217,17 +218,27 @@ def counttool_result():
 def counttool_about():
     return render_template('datatools/counttool-about.html', title="Count Tool")
 
-@app.route("/datatools/imagetool", methods=["GET"])
-def imagetool():
-    return render_template('datatools/imagetool.html', title="Image Tool")
+# @app.route("/datatools/imagetool", methods=["GET"])
+# def imagetool():
+#     return render_template('datatools/imagetool.html', title="Image Tool")
 
-@app.route("/datatools/imagetool/result", methods=["POST"])
-def imagetool_result():
-    form = validation.ImagetoolForm()
-    if form.validate_on_submit():
-        pass
-    else:
-        pass
+# @app.route("/datatools/imagetool/result", methods=["POST"])
+# def imagetool_result():
+#     form = validation.ImagetoolForm()
+#     if form.validate_on_submit():
+#         alpha = form.alpha.data
+#         image1 = form.image1.data
+#         image2 = form.image2.data
+#         try:
+#             return jsonify(image_compare(image1, image2, alpha))
+#         except:
+#             return jsonify("Process Execution Failed")
+#     else:
+#         errors = form.errors
+#         for form_value in errors:
+#             errors[form_value] = errors[form_value][0]
+#         errors["error"] = True
+#         return jsonify(errors)
 
 # --Other pages--
 @app.route("/disclaimer", methods=["GET"])

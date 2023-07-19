@@ -29,17 +29,6 @@ B64 = {
     "gap": 4
 }
 
-# Base 32 Character Set.
-B32 = {
-    "size": 32,
-    "set": "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
-    "encode": b32encode,
-    "decode": b32decode,
-    "padding": True,
-    "pad": "=",
-    "gap": 4
-}
-
 # Base 16 Character Set.
 B16 = {
     "size": 16,
@@ -60,7 +49,6 @@ B10 = {
 # Define Acceptable Encoding Formats.
 FORMATS = {
     "base16": B16,
-    "base32": B32,
     "base64": B64,
     "base85": B85
 }

@@ -17,10 +17,10 @@
     <form id="imageform" action="imagetool/result">
         <div class="card">
             <div class="card-body">
-                <label for="alphainput" id="valuelabel" class="form-label">Alpha Value: 50</label>
+                <label for="alpha" id="alpha" class="form-label">Alpha Value: 50</label>
                 <input type="range" class="form-range slider sendableinput" value="50" min="1" max="999"
                     oninput="var str = document.getElementById('valuelabel').innerHTML = 'Alpha Value: ' + this.value">
-                <small id="alphainputhelp" class="form-text text-muted">Granularity of difference threshold.</small>
+                <small id="alphahelp" class="form-text text-muted">Granularity of difference threshold.</small>
                 <br>
                 <div class="form-group">
                     <label for="inputtext">Primary Image</label>

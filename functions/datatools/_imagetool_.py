@@ -16,14 +16,13 @@ def load_image(image_name):
         raise ValueError("Image Read Failed")
 
 
-def image_compare(image_name_1, image_name_2, alpha:int = 0.1, colour: str = "#FF0000"):
+def image_compare(image1, image2, alpha:int = 0.1, colour: str = "#FF0000"):
     ''' Returns: Image showing difference between images. '''
-    image_1 = load_image(image_name_1)
-    image_2 = load_image(image_name_2)
+    #image_1 = load_image(image_name_1)
+    #image_2 = load_image(image_name_2)
     rgb_colour = ImageColor.getcolor(colour, "RGB")
-    image_difference = Image.new("RGBA", image_1.size)
-    _ = pixelmatch(image_1, image_2, image_difference,
+    image_difference = Image.new("RGBA", image1.size)
+    _ = pixelmatch(image1, image2, image_difference,
                    threshold=0.001, includeAA=True, alpha=alpha, diff_color=rgb_colour)
-    image_difference.save(LOCATION % "difference.png")
-
-image_compare("1.png", "2.png", 0, "#FF0000")
+    #image_difference.save(LOCATION % "difference.png")
+    return image_difference
