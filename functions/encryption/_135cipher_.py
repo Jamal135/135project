@@ -97,8 +97,7 @@ def transpose(input_list):
 def flatten(input_list):
     output_list = []
     for sublist in input_list:
-        for val in sublist:
-            output_list.append(val)
+        output_list.extend(iter(sublist))
     output_list.append('\a')
     return output_list
 
@@ -190,8 +189,7 @@ def key_insert(encode_list):
     key = list(str(key))
     length = (len(key))
     key_out = ['=']
-    for val in range(length):
-        key_out.append(key[val])
+    key_out.extend(key[val] for val in range(length))
     return key_out
 
 

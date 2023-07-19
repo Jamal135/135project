@@ -11,7 +11,7 @@ from random import seed, sample, randint
 LOCATION = path.dirname(path.abspath(__file__)) + "\\temp_files\\%s"
 
 
-def load_image(image_name):
+def load_image(image_name: str):
     ''' Returns: Loaded image and size. '''
     image_location = LOCATION % (image_name)
     image = Image.open(image_location)
@@ -19,13 +19,13 @@ def load_image(image_name):
     return image, width, height
 
 
-def shuffle(key, data):
+def shuffle(key: int, data: str):
     ''' Returns: Shuffled data. '''
     seed(key)
     return sample(data, len(data))
 
 
-def gen_coordinates(image, key, width, height, key_pixels):
+def gen_coordinates(image, key: int, width: int, height: int, key_pixels: int):
     ''' Returns: Key derived pixel order. '''
     base_key = key + (abs(width + height) * abs(width - height))
     coords = [*product(range(width), range(height))]
@@ -53,22 +53,29 @@ def gen_colours(key, method, colours, length):
         return random_sample(key, colours, length, len(colours))
 
 
-def gen_indexes(key, indexes, length):
+def gen_indexes(key: int, indexes, length):
     ''' Returns: List indexes for each pixel. '''
     return random_sample(key, indexes, length, len(indexes))
 
 
-def binary_conversion(data, argument):
+def binary_conversion(data: str, argument: str):
     ''' Returns: Input data converted to or from binary. '''
     if argument == "binary":
-        byte_array = bytearray(data, "utf-8")
-        return "".join([bin(byte)[2:].zfill(8) for byte in byte_array])
+        return "".join([bin(byte)[2:].zfill(8) for byte in bytearray(data, "utf-8")])
     elif argument == "text":
         byte_list = int(data, 2).to_bytes(len(data) // 8, byteorder="big")
         return byte_list.decode('utf-8')
 
 
-def gen_header(method, colour_list, index_list):
+def integer_conversion(input_integer: int, argument: str):
+    ''' Returns: Input number converted to or from binary. '''
+    if argument == "binary":
+        return bin(input_integer).replace("0b", "")
+    elif argument == "integer":
+        return int(input_integer, 2)
+
+
+def gen_header(method: str, colour_list: list, index_list: list, padding_length: int):
     ''' Returns: Built binary header data specifying settings. '''
     method_bool = "1" if method == "random" else "0"
     colour_table = ["0", "0", "0"]
@@ -77,10 +84,11 @@ def gen_header(method, colour_list, index_list):
     index_table = ["0", "0", "0", "0", "0", "0", "0", "0"]
     for index in index_list:
         index_table[index] = "1"
-    return method_bool + "".join(colour_table) + "".join(index_table)
+    padding_bool = integer_conversion(padding_length, "binary").zfill(5)
+    return method_bool + "".join(colour_table) + "".join(index_table) + padding_bool
 
 
-def calculate_pixel_capacity(method, colour_list, index_list):
+def calculate_pixel_capacity(method: str, colour_list: list, index_list: list):
     ''' Returns: Number of binary bits each pixel will hold. '''
     if method == "all":
         return len(colour_list) * len(index_list)
@@ -88,15 +96,7 @@ def calculate_pixel_capacity(method, colour_list, index_list):
         return len(index_list)
 
 
-def integer_conversion(input_integer, argument):
-    ''' Returns: Input number converted to or from binary. '''
-    if argument == "binary":
-        return bin(input_integer).replace("0b", "")
-    elif argument == "integer":
-        return int(input_integer, 2)
-
-
-def gen_numbers(min_value, max_value, number_values):
+def gen_numbers(min_value: int, max_value: int, number_values: int):
     """ Returns: Variable length string of random numbers in range. """
     seed(token_hex(64))
     return "".join([str(randint(min_value, max_value)) for _ in range(number_values)])
@@ -106,15 +106,20 @@ def gen_message(width, height, data, positions, method, colours, indexes, capaci
     ''' Returns: Built message to attach to image. '''
     binary_width = len(integer_conversion(width, "binary"))
     binary_height = len(integer_conversion(height, "binary"))
-    header = gen_header(method, colours, indexes)
-    message_length = binary_width + binary_height + len(header) + len(data)
+    message_length = binary_width + binary_height + \
+        len(data) + 17  # Header Length
+    padding_length = 0 if message_length % capacity == 0 else capacity - \
+        (message_length % capacity)
+    padding = "0" * padding_length
+    total_length = message_length + padding_length
+    header = gen_header(method, colours, indexes, padding_length)
     noise = ""
     if noise_setting:
-        noise = gen_numbers(0, 1, (len(positions) * capacity) - message_length)
+        noise = gen_numbers(0, 1, (len(positions) * capacity) - total_length)
     last_pixel = positions[message_length % capacity]
     width = integer_conversion(last_pixel[0], "binary").zfill(binary_width)
     height = integer_conversion(last_pixel[1], "binary").zfill(binary_height)
-    return width + height + header + data + noise
+    return width + height + header + data + padding + noise
 
 
 def attach_data(image, positions, colours, indexes, capacity, message):
@@ -143,11 +148,16 @@ def extract_data(image):
     pass
 
 
-def image_attach(image: str, key: int, data: str, method: str, colour_list: list, index_list: list, key_pixels: int, noise: bool):
+def image_attach(image: str, key: int, data: str, method: str = "random", 
+                 colour_list: list = None, index_list: list = None, 
+                 key_pixels: int = 8, noise: bool = False):
     ''' Returns: Image file with data attached. '''
-    image_data, width, height = load_image(image)
-    positions, image_key = gen_coordinates(
-        image_data, key, width, height, key_pixels)
+    if colour_list is None:
+        colour_list = [0,1,2]
+    if index_list is None:
+        index_list = [7]
+    image, width, height = load_image(image)
+    positions, image_key = gen_coordinates(image, key, width, height, key_pixels)
     length = len(positions)
     colours = gen_colours(image_key + 122, method, colour_list, length)
     indexes = gen_indexes(image_key + 9, index_list, length)
@@ -155,7 +165,7 @@ def image_attach(image: str, key: int, data: str, method: str, colour_list: list
     binary_data = binary_conversion(data, "binary")
     message = gen_message(width, height, binary_data, positions,
                           method, colour_list, index_list, capacity, noise)
-    steg_image = attach_data(image_data, positions,
+    steg_image = attach_data(image, positions,
                              colours, indexes, capacity, message)
     steg_image.save(LOCATION % "122Steg.png")
 
@@ -168,11 +178,12 @@ def image_extract(image: str, key: int, key_pixels: int):
     length = len(positions)
 
 
-data = "Work!"
-key = 11
-index = [0]
+# Need to revise header data attaching such that it can be extracted.
+data = "Yo 1.0 the drugs are at the usual place at 6pm!"
+key = 15
+index = [7]
 colour = [0, 1, 2]
-print(image_attach("gate.png", key, data, "all", colour, index, 8, True))
+image_attach("gate.png", key, data, "random", colour, index, 8, True)
 
 
 def image_extract():
