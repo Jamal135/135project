@@ -1,6 +1,5 @@
 from wtforms import StringField, TextAreaField, SelectField, SubmitField, BooleanField, ValidationError
 from wtforms.validators import InputRequired, Optional, Regexp, length
-from flask_wtf.file import FileField, FileAllowed
 from flask_wtf import FlaskForm
 
 # Encryption
@@ -40,11 +39,6 @@ class Cipher101Form(FlaskForm):
     number = StringField('number', validators=[InputRequired(), Regexp('^[0-9]\d*$',
                                                                        message="Field must be a positive integer."),
                                                length(max=135, message="Field cannot exceed 135 digits.")])
-
-# Steganography.
-# 122Stego.
-class Stego122Form(FlaskForm):
-    x = 1
 
 # Datatools.
 # Basetool.
@@ -87,11 +81,3 @@ class CounttoolForm(FlaskForm):
                          InputRequired(), length(max=1000, message="Field cannot exceed 1000 characters.")])
     spaces = BooleanField('spaces')
     capitals = BooleanField('capitals')
-
-# Imagetool.
-class ImagetoolForm(FlaskForm): 
-    alpha = StringField('alpha', validators=[InputRequired(), Regexp('^[0-9]\d*$',
-                                         message="Field must be a positive integer."),
-                                         length(max=135, message="Field cannot exceed 135 digits.")])
-    image1 = FileField('image1', validators=[FileAllowed(['jpg', 'png'])])
-    image2 = FileField('image2', validators=[FileAllowed(['jpg', 'png'])])
