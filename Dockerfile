@@ -19,6 +19,5 @@ RUN npm i
 EXPOSE 80
 
 COPY nginx.conf /etc/nginx
-RUN npx tsc
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]
