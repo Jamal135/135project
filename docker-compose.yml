@@ -3,6 +3,7 @@ version: '3.8'
 services:
   135project:
     container_name: 135project
+    read_only: true
     build: 
       context: .
     deploy:
