@@ -21,4 +21,5 @@ services:
 
 networks:
   web:
+    name: infrastructure_web
     external: true
