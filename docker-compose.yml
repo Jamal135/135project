@@ -2,11 +2,17 @@ version: '3.8'
 
 services:
   135project:
+    container_name: 135project
     build: 
       context: .
-    cpu_shares: 512
-    restart: always
-    container_name: 135project
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 750M
     networks:
       - web
     labels:
