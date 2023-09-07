@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  deployer:
+    build: 
+      context: .
+    ports: 
+      - "80:80"
+    restart: always
+    container_name: 135project
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.135code.rule=Host(`135code.com`)"
+      - "traefik.http.routers.135code.entrypoints=web"
+      - "traefik.http.routers.135code.middlewares=redirect@file"
+      - "traefik.http.routers.135code-secured.rule=Host(`135code.com`)"
+      - "traefik.http.routers.135code-secured.entrypoints=web-secured"
+      - "traefik.http.routers.135code-secured.tls.certresolver=myhttpchallenge"
+      - "traefik.http.services.deployer.loadbalancer.server.port=80"
