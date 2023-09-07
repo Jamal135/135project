@@ -24,6 +24,9 @@ COPY --from=builder /srv/flask_app /srv/flask_app
 # Copy the Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Specify intended port
+EXPOSE 80
+
 # Start command
 WORKDIR /srv/flask_app
 RUN chmod +x ./start.sh
