@@ -1,20 +1,30 @@
-FROM python:3.8-slim-buster
+# --- First Stage: Python/uWSGI setup ---
+
+FROM python:3.8-slim-buster as builder
 
 COPY . /srv/flask_app
 WORKDIR /srv/flask_app
 
 RUN apt-get clean \
-    && apt-get -y update
-
-RUN apt-get -y install nginx \
-    && apt-get -y install python3-dev \
-    && apt-get -y install build-essential
+    && apt-get -y update \
+    && apt-get -y install python3-dev build-essential \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip install -r requirements.txt --src /usr/local/src
 RUN pip install -Iv uWSGI==2.0.17.1 --src /usr/local/src
 
-EXPOSE 80
+# --- Second Stage: Nginx setup ---
 
-COPY nginx.conf /etc/nginx
+FROM nginx:stable
+
+# Copy uWSGI app from the previous stage
+COPY --from=builder /srv/flask_app /srv/flask_app
+
+# Copy the Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Start command
+WORKDIR /srv/flask_app
 RUN chmod +x ./start.sh
 CMD ["./start.sh"]
