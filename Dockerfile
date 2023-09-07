@@ -8,6 +8,7 @@ WORKDIR /srv/flask_app
 # Only update and clean up, no need to install build tools
 RUN apt-get clean \
     && apt-get -y update \
+    && apt-get -y install gcc python3-dev build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
