@@ -13,7 +13,7 @@ RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install -r requirements.txt --src /usr/local/src
-RUN pip install -Iv uWSGI==2.0.17.1 --src /usr/local/src
+RUN pip install -Iv uWSGI==2.0.22 --src /usr/local/src
 
 # --- Second Stage: Nginx setup ---
 
