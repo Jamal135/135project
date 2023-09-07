@@ -1,11 +1,9 @@
 version: '3'
 
 services:
-  deployer:
+  135code:
     build: 
       context: .
-    ports: 
-      - "80:80"
     restart: always
     container_name: 135project
     networks:
@@ -18,4 +16,8 @@ services:
       - "traefik.http.routers.135code-secured.rule=Host(`135code.com`)"
       - "traefik.http.routers.135code-secured.entrypoints=web-secured"
       - "traefik.http.routers.135code-secured.tls.certresolver=myhttpchallenge"
-      - "traefik.http.services.deployer.loadbalancer.server.port=80"
+      - "traefik.http.services.135code.loadbalancer.server.port=80"
+
+networks:
+  web:
+    external: true
