@@ -1,7 +1,7 @@
 '''Creation Date: 05/04/2021'''
 
 
-from base64 import b32encode, b32decode, b16encode, b16decode, b64encode, b64decode, b85encode, b85decode
+from base64 import b16encode, b16decode, b64encode, b64decode, b85encode, b85decode
 from secrets import choice as secret_choice
 from random import seed, sample, randint
 from time import time as epochtime

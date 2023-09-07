@@ -1,13 +1,13 @@
 # --- First Stage: Python/uWSGI setup ---
 
-FROM python:3.8-slim-buster as builder
+FROM python:3.10.2-slim-buster as builder
 
 COPY . /srv/flask_app
 WORKDIR /srv/flask_app
 
+# Only update and clean up, no need to install build tools
 RUN apt-get clean \
     && apt-get -y update \
-    && apt-get -y install python3-dev build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
