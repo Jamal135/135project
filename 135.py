@@ -1,10 +1,10 @@
 # python 135.py
 import validation
-from functions.encryption._147cipher_ import encrypt_147, decrypt_147
-from functions.encryption._135cipher_ import encrypt_135, decrypt_135
-from functions.encryption._101cipher_ import encrypt_101, decrypt_101
-from functions.datatools._basetool_ import base_convert
-from functions.datatools._counttool_ import count_analysis
+from functions.cipher_147 import encrypt_147, decrypt_147
+from functions.cipher_135 import encrypt_135, decrypt_135
+from functions.cipher_101 import encrypt_101, decrypt_101
+from functions.basetool import base_convert
+from functions.counttool import count_analysis
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask_wtf.csrf import CSRFProtect
 from os import path, urandom
