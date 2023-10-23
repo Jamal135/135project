@@ -60,47 +60,47 @@ var themes = {
     purple: {
         primary: "#4c237e",
         secondary: "#2e154c",
-        homeimage: "url(images/home_purple.svg)"
+        homeimage: "url(images/home_purple.webp)"
     },
     orange: {
         primary: "#d3671d",
         secondary: "#7f3e11",
-        homeimage: "url(images/home_orange.svg)"
+        homeimage: "url(images/home_orange.webp)"
     },
     yellow: {
         primary: "#e0b12d",
         secondary: "#8d6d15",
-        homeimage: "url(images/home_yellow.svg)"
+        homeimage: "url(images/home_yellow.webp)"
     },
     brown: {
         primary: "#a16b4c",
         secondary: "#61402e",
-        homeimage: "url(images/home_brown.svg)"
+        homeimage: "url(images/home_brown.webp)"
     },
     black: {
         primary: "#3b363f",
         secondary: "#232026",
-        homeimage: "url(images/home_black.svg)"
+        homeimage: "url(images/home_black.webp)"
     },
     green: {
         primary: "#249465",
         secondary: "#16593d",
-        homeimage: "url(images/home_green.svg)"
+        homeimage: "url(images/home_green.webp)"
     },
     pink: {
         primary: "#fa4664",
         secondary: "#bb0523",
-        homeimage: "url(images/home_pink.svg)"
+        homeimage: "url(images/home_pink.webp)"
     },
     blue: {
         primary: "#2575aa",
         secondary: "#164666",
-        homeimage: "url(images/home_blue.svg)"
+        homeimage: "url(images/home_blue.webp)"
     },
     red: {
         primary: "#c95252",
         secondary: "#812828",
-        homeimage: "url(images/home_red.svg)"
+        homeimage: "url(images/home_red.webp)"
     }
 };
 $(document).on("change", "#theme", function () {

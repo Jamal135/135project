@@ -1,7 +1,7 @@
 :root {
   --primary: #fa4664;
   --secondary: #bb0523;
-  --homeimage: url(images/home_pink.svg);
+  --homeimage: url(images/home_pink.webp);
 }
 
 .hidden {
@@ -389,7 +389,7 @@ footer {
 }
 
 .image-homepage {
-  background-image: url(images/home_pink.svg);
+  background-image: url(images/home_pink.webp);
   background-image: var(--homeimage);
   height: 345px;
   margin-top: 55px;
@@ -405,7 +405,7 @@ footer {
 }
 
 .image-encryption-viewall {
-  background-image: url(images/viewall_encryption.svg);
+  background-image: url(images/viewall_encryption.webp);
   height: 300px;
 }
 
@@ -428,7 +428,7 @@ footer {
 }
 
 .image-datatools-viewall {
-  background-image: url(images/viewall_datatools.svg);
+  background-image: url(images/viewall_datatools.webp);
   height: 300px;
 }
 
