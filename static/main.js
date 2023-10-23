@@ -257,12 +257,13 @@ $(document).ready(function () {
                         data_1 = _b.sent();
                         if (typeof data_1 == "object" && data_1.error) {
                             errorElem.toArray().forEach(function (element) {
-                                var _a, _b;
-                                var fieldName = (_b = (_a = /.*(?=error)/.exec(element.id)) === null || _a === void 0 ? void 0 : _a[0]) !== null && _b !== void 0 ? _b : "";
-                                if (typeof data_1[fieldName] === "string") {
-                                    element.innerText = data_1[fieldName];
+                                var baseId = element.id.replace('error', '');
+                                if (typeof data_1[baseId] === "string") {
+                                    element.innerText = data_1[baseId];
                                     $(element).removeClass("hidden");
-                                    $("#"+fieldName+"help").addClass("hidden");
+                                    $("#" + baseId + "help").addClass("hidden");
+                                } else {
+                                    $("#" + baseId + "help").removeClass("hidden");
                                 }
                             });
                             return [2 /*return*/];
@@ -298,65 +299,3 @@ $(document).ready(function () {
             });
         }); };
 });
-/**
- * @param file The file object that should be serialised
- * @returns A promise of a base64 string
- */
-var serialiseFile = function (file) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = Uint8Array.bind;
-                return [4 /*yield*/, file.arrayBuffer()];
-            case 1: return [2 /*return*/, new (_a.apply(Uint8Array, [void 0, _b.sent()]))().reduce(function (acc, curr) {
-                    return acc.concat(String.fromCharCode(curr));
-                }, "")];
-        }
-    });
-}); };
-/**
- * Configures the submission of an imageform element
- * @param form A selected image form element
- */
-var imageForm = function (form) {
-    form.onsubmit = (function (submission) { return __awaiter(void 0, void 0, void 0, function () {
-        var target, inputs, selectedFiles, formData, result;
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    submission.preventDefault();
-                    target = submission.target;
-                    inputs = Object.values(target.getElementsByClassName("sendableinput"));
-                    selectedFiles = inputs.filter(function (input) { return input.className.includes("imageinput"); }).map(function (imageInput) { var _a, _b; return (_b = (_a = imageInput.files) === null || _a === void 0 ? void 0 : _a.item(0)) !== null && _b !== void 0 ? _b : null; }).flat(1);
-                    _a = {};
-                    return [4 /*yield*/, Promise.all(selectedFiles.map(function (file) { return __awaiter(void 0, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
-                            switch (_b.label) {
-                                case 0:
-                                    if (!file) return [3 /*break*/, 2];
-                                    return [4 /*yield*/, serialiseFile(file)];
-                                case 1:
-                                    _a = _b.sent();
-                                    return [3 /*break*/, 3];
-                                case 2:
-                                    _a = null;
-                                    _b.label = 3;
-                                case 3: return [2 /*return*/, _a];
-                            }
-                        }); }); }))];
-                case 1:
-                    formData = (_a.images = _b.sent(), _a.alpha = inputs[0].value, _a);
-                    return [4 /*yield*/, fetch("", { method: "POST", body: JSON.stringify(formData) })];
-                case 2:
-                    result = _b.sent();
-                    if (result.ok) {
-                    }
-                    else {
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-};
-//# sourceMappingURL=main.js.map
