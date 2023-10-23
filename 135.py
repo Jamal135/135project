@@ -208,6 +208,16 @@ def privacy():
 def page_not_found(e):
     return render_template('other/home.html', title='Home'), 404
 
+# Security Headers
+@app.after_request
+def add_header(response):
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    response.headers['Content-Security-Policy'] = "default-src 'self'; font-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net; img-src 'self' data: https://www.w3.org; object-src 'none';"
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    return response
+
 # Debug mode.
 if __name__ == "__main__":
     app.run(debug=True)

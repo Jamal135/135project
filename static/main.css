@@ -4,6 +4,23 @@
   --homeimage: url(images/home_pink.svg);
 }
 
+.hidden {
+  display: none;
+}
+
+.navbar-container {
+  height: 56px;
+}
+
+.sequence-box {
+  font-size: 12px;
+  height: 38px;
+}
+
+.button-box {
+  margin-right: 15px;
+}
+
 body {
   display: flex;
   flex-direction: column;

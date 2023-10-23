@@ -162,6 +162,47 @@ function switchInputFields(setA, setB) {
         fieldb.value = oldFieldAValue;
     }
 }
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Blur button event
+    var blurOnClickButtons = document.querySelectorAll('.blur-on-click');
+    blurOnClickButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            this.blur();
+        });
+    })
+    // Erase input text event
+    var eraseButtons = document.querySelectorAll(".erase-button");
+    eraseButtons.forEach(eraseButton => {
+        eraseButton.addEventListener('click', () => {
+            var targetElementId = eraseButton.getAttribute('data-target') || 'inputtext';
+            eraseInputText(targetElementId);
+        });
+    });
+    // Switch input texts event
+    var switchButtons = document.querySelectorAll(".switch-button");
+    switchButtons.forEach(switchButton => {
+        switchButton.addEventListener('click', () => {
+            var sets = switchButton.getAttribute('data-sets').split(';');
+            var setA = sets[0].split(',');
+            var setB = sets[1].split(',');
+            switchInputFields(setA, setB);
+        });
+    });
+    // Move to input event
+    var moveToInputButton = document.querySelector(".move-to-input-button");
+    if (moveToInputButton) {
+        moveToInputButton.addEventListener('click', () => {
+            moveToInput();
+        });
+    }
+    // Copy to clipboard event
+    var copyButton = document.querySelector(".copy-button");
+    if (copyButton) {
+        copyButton.addEventListener('click', () => {
+            copyToClipboard();
+        });
+    }
+});
 // Form Result Control
 $(document).ready(function () {
     var _this = this;
@@ -201,7 +242,7 @@ $(document).ready(function () {
                         errorElem = $("[id*='error']");
                         helpElem = $("[id*='help']");
                         // Clear errors
-                        errorElem.attr("style", "display: none;");
+                        errorElem.addClass("hidden");
                         errorElem.toArray().forEach(function (elem) { elem.innerText = ""; });
                         return [4 /*yield*/, fetch(url, {
                                 method: "POST", body: $("#calculationform").serialize(), headers: {
@@ -215,16 +256,15 @@ $(document).ready(function () {
                     case 2:
                         data_1 = _b.sent();
                         if (typeof data_1 == "object" && data_1.error) {
-                            delete data_1.error;
-                            // Assign each error to the appropriate field
                             errorElem.toArray().forEach(function (element) {
                                 var _a, _b;
                                 var fieldName = (_b = (_a = /.*(?=error)/.exec(element.id)) === null || _a === void 0 ? void 0 : _a[0]) !== null && _b !== void 0 ? _b : "";
-                                if (typeof data_1[fieldName] === "string")
+                                if (typeof data_1[fieldName] === "string") {
                                     element.innerText = data_1[fieldName];
+                                    $(element).removeClass("hidden");
+                                    $("#"+fieldName+"help").addClass("hidden");
+                                }
                             });
-                            errorElem.removeAttr("style");
-                            helpElem.attr("style", "display: none;");
                             return [2 /*return*/];
                         }
                         outputtext = $("#outputtext");
@@ -243,14 +283,14 @@ $(document).ready(function () {
                         else {
                             outputtext.val("".concat(data_1));
                         }
-                        $("[id*='help']").removeAttr("style");
+                        $("[id*='help']").removeClass("hidden");
                         resultcard = $(".resultcard");
-                        resultcard.removeAttr("style");
+                        resultcard.removeClass("hidden");
                         if (data_1 !== "Process Execution Failed")
                             outputtext.removeClass("text-danger");
                         else {
                             outputtext.addClass("text-danger");
-                            errorElem.removeAttr("style");
+                            errorElem.removeClass("hidden");
                         }
                         _b.label = 3;
                     case 3: return [2 /*return*/];

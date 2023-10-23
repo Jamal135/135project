@@ -1,18 +1,16 @@
 <nav class="navbar navbar-expand-md navbar-light navbar-dark nav-main-colour fixed-top">
-    <div class="container" style="height: 56px;">
+    <div class="container navbar-container">
         <a class="navbar-brand mr-6 custom-navbar-brand" href="/">135Project</a>
         <nav class="navbar d-md-none navbar-expand mr-auto">
             <ul class="nav navbar-tabs navbar-nav" id="state">
-                {% if (request.endpoint=="home") or (request.endpoint=="disclaimer") or (request.endpoint=="privacy") or
-                (request.endpoint=="settings") %}
+                {% if (request.endpoint=="home") or (request.endpoint=="disclaimer") or (request.endpoint=="privacy") or (request.endpoint=="settings") %}
                 <li class="active">
                     {% else %}
                 <li>
                     {% endif %}
                     <a class="nav-item nav-link" href="/">Home</a>
                 </li>
-                {% if ("/encryption" in request.url) or ("/steganography" in request.url) or ("/datatools" in
-                request.url) %}
+                {% if ("/encryption" in request.url) or ("/steganography" in request.url) or ("/datatools" in request.url) %}
                 <li class="active dropdown">
                     {% else %}
                 <li class="dropdown">

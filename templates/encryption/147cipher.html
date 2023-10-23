@@ -7,9 +7,9 @@
             <h4>147Cipher</h4>
         </div>
         <div class="btn-group float-right col-auto header-btn">
-            <a class="btn btn-outline-primary"
+            <a class="btn btn-outline-primary blur-on-click"
                 href="https://github.com/Jamal135/135project/blob/main/functions/cipher_147.py"
-                target="_blank" onclick="this.blur();">Source</a>
+                target="_blank">Source</a>
         </div>
     </div>
     <br />
@@ -19,30 +19,29 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-12">
                         <label for="key">Input Key</label>
-                        <input type="text" class="form-control" name="key" placeholder="Key Input" />
+                        <input type="text" class="form-control" name="key" id="key" placeholder="Key Input" />
                         <small id="keyhelp" class="form-text text-muted">Password for encryption and decryption.</small>
-                        <small id="keyerror" class="form-text text-danger" style="display: none;"></small>
+                        <small id="keyerror" class="form-text text-danger hidden"></small>
                     </div>
                     <div class="col">
                         <label for="encoding">Encoding</label>
                         <select class="selectpicker border rounded form-control" id="encoding" name="encoding">
                             <option value="base85">Base85</option>
                             <option value="base64" selected>Base64</option>
-                            <!-- <option value="base32">Base32</option> -->
                             <option value="base16">Base16</option>
                         </select>
                         <small id="encodinghelp" class="form-text text-muted">Character Set.</small>
-                        <small id="encodingerror" class="form-text text-danger" style="display: none;"></small>
+                        <small id="encodingerror" class="form-text text-danger hidden"></small>
                     </div>
                     <div class="col">
-                        <label for="nounce">Nonce</label>
+                        <label for="nonce">Nonce</label>
                         <select class="selectpicker border rounded form-control" id="nonce" name="nonce">
                             <option value="hybrid" selected>Hybrid</option>
                             <option value="random">Random</option>
                             <option value="time">Time</option>
                         </select>
                         <small id="noncehelp" class="form-text text-muted">Creation method.</small>
-                        <small id="nonceerror" class="form-text text-danger" style="display: none;"></small>
+                        <small id="nonceerror" class="form-text text-danger hidden"></small>
                     </div>
                 </div>
                 <br />
@@ -50,45 +49,41 @@
                     <label for="inputtext">Input Text</label>
                     <textarea class="form-control" id="inputtext" name="text" rows="6"></textarea>
                     <div class="row">
-                        <small id="texthelp" class="col form-text text-muted">The input text to be
-                            encrypted or decrypted.</small>
-                        <small id="texterror" class="col form-text text-danger" style="display: none;"></small>
+                        <small id="texthelp" class="col form-text text-muted">The input text to be encrypted or decrypted.</small>
+                        <small id="texterror" class="col form-text text-danger hidden"></small>
                         <div class="col-auto">
-                            <button class="float-right btn btn-light" type="button" value="Clear"
-                                onclick="javascript:eraseInputText('inputtext'); this.blur();"><i
-                                    class="bi bi-eraser"></i></button>
+                            <button class="float-right btn btn-light erase-button blur-on-click" type="button" value="Clear">
+                                <i class="bi bi-eraser"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="hidden" name="secret" class="actiontype" value="secret" />
-                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary submitbutton"
-                            value="Encrypt" onclick="this.blur();" />
-                        <input type="submit" name="decrypt" class="btn btn-primary submitbutton" value="Decrypt"
-                            onclick="this.blur();" />
+                        <input type="hidden" name="secret" class="actiontype" value="secret"/>
+                        <input type="submit" name="encrypt" class="btn-margin btn btn-primary submitbutton blur-on-click" value="Encrypt"/>
+                        <input type="submit" name="decrypt" class="btn btn-primary submitbutton blur-on-click" value="Decrypt"/>
                     </div>
                 </div>
             </div>
         </div>
         <br />
-        <div class="card resultcard" style="display: none;">
+        <div class="card resultcard hidden">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
                         <label for="outputtext">Output Text</label>
                         <textarea class="form-control" id="outputtext" name="result" rows="6" readonly></textarea>
                         <div class="row">
-                            <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output
-                                text.</small>
+                            <small class="col-md-6 col-lg-6 form-text text-muted">The encrypted or decrypted output text.</small>
                             <div class="col"></div>
                             <div class="col-md-3 col-lg-3">
-                                <button class="float-right btn btn-light" type="button"
-                                    onclick="javascript:copyToClipboard(); this.blur();"><i
-                                        class="bi bi-clipboard"></i></button>
-                                <button class="float-right btn btn-light" type="button" value="Clear"
-                                    onclick="javascript:moveToInput(); this.blur();"><i
-                                        class="bi bi-box-arrow-up"></i></button>
+                                <button class="float-right btn btn-light copy-button blur-on-click" type="button">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                                <button class="float-right btn btn-light move-to-input-button blur-on-click" type="button" value="Clear">
+                                    <i class="bi bi-box-arrow-up"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
