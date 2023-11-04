@@ -18,9 +18,8 @@ RUN apt-get remove -y python3-dev build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY nginx.conf /etc/nginx
-RUN chown -R user:user /usr/share/nginx/html
-RUN chown -R user:user /tmp
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN chown -R user:user /usr/share/nginx/html /srv/flask_app /tmp
 
 RUN chmod +x ./start.sh \
     && chown -R user:user /srv/flask_app
