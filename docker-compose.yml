@@ -6,8 +6,11 @@ services:
     build: 
       context: .
     restart: on-failure
-    cpus: '0.5'
-    mem_limit: 750M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 750M
     networks:
       - web
     labels:
